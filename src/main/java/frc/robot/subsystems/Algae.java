@@ -17,8 +17,8 @@ import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 
 
 public class Algae extends SubsystemBase {
-  private TalonFX algaeGripperOne = new TalonFX(Constants.AlgaeConstants.GripperOne_ID);//CHECK IF ID IS CORRECT
-  private TalonFX algaeGripperTwo = new TalonFX(Constants.AlgaeConstants.GripperTwo_ID); //CHECK IF ID IS CORRECT
+  private TalonFX vertical = new TalonFX(Constants.AlgaeConstants.VERTICAL_ID);//CHECK IF ID IS CORRECT
+  private TalonFX intake = new TalonFX(Constants.AlgaeConstants.INTAKE_ID); //CHECK IF ID IS CORRECT
 
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
@@ -37,8 +37,8 @@ public class Algae extends SubsystemBase {
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-    algaeGripperOne.getConfigurator().apply(config);
-  
+    vertical.getConfigurator().apply(config);
+    intake.getConfigurator().apply(config);
 
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
     motionMagicConfigs.MotionMagicCruiseVelocity = 80; // 80 rps cruise velocity
@@ -50,35 +50,36 @@ public class Algae extends SubsystemBase {
   }
 
 
-  public void GripAlgae() {
-    algaeGripperOne.set(Constants.AlgaeConstants.gripSpeedOne);
+  public void intake() {
+    intake.set(Constants.AlgaeConstants.intakeSpeed);
   }
-  public void DropAlgae() {
-    algaeGripperOne.set(Constants.AlgaeConstants.dropSpeedOne);
-  }
-  public void StopAlgae() {
-    algaeGripperOne.set(0);
+  public void outtake() {
+    intake.set(Constants.AlgaeConstants.outtakeSpeed);
   }
 
-  public void gripperLower() {
+  public void gripperUp() {
     //algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
-    algaeGripperTwo.set(0.2);
+    vertical.set(0.2);
   }
-  public void gripperRaise() {
+  public void gripperDown() {
     //algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
-    algaeGripperTwo.set(-0.2);
+    vertical.set(-0.2);
   }
 
 
   public void gripperLowerToPos() {
-    algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
+    intake.setControl(m_motmag.withPosition(0.5));
   }
   public void gripperRaiseToPos() {
-    algaeGripperTwo.setControl(m_motmag.withPosition(0));
+    intake.setControl(m_motmag.withPosition(0));
   }
 
-  
-
+  public void stop() {
+    vertical.set(0);
+    intake.set(0);
+    vertical.stopMotor();
+    intake.stopMotor();
+  }
 
 
   @Override

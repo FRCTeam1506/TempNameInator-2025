@@ -38,8 +38,7 @@ public class Elevator extends SubsystemBase {
   private TalonFX elevator1 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
   private TalonFX elevator2 = new TalonFX(Constants.ElevatorConstants.ELEVATOR2_ID);
   public boolean isClicked = false;
-  public boolean hasBeenClickedYet = false;
-  DigitalInput input = Constants.ElevatorConstants.LimitSwitchDIO;
+  DigitalInput input = new DigitalInput(0);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 
@@ -72,7 +71,6 @@ public class Elevator extends SubsystemBase {
 
   public void elevatorUp() {
     //Put In Position Limit
-    
     elevator1.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     elevator2.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     
@@ -114,12 +112,10 @@ public class Elevator extends SubsystemBase {
 
   public void testSwitch(){
 
-    System.out.println(input.get());
     if(!input.get()){
       elevator1.setPosition(0);
       elevator2.setPosition(0);
       isClicked = true;
-      hasBeenClickedYet = true;
     }
     else{
       isClicked = false;
@@ -131,12 +127,9 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println("elevator1 position" + elevator1.getRotorPosition());
-    System.out.println("elevator2 position" + elevator1.getRotorPosition());
-    SmartDashboard.putNumber("elevator1 position", elevator1.getRotorPosition().getValueAsDouble());
-    SmartDashboard.putNumber("elevator2 position", elevator2.getRotorPosition().getValueAsDouble());
-
+    // SmartDashboard.putNumber("elevator1 position", elevator1.getRotorPosition().getValueAsDouble());
+    // SmartDashboard.putNumber("elevator2 position", elevator2.getRotorPosition().getValueAsDouble());
+    SmartDashboard.putBoolean("limit switch elevator", input.get()); // false when touching elevator, true when elevator is elevated
     testSwitch();
-
   }
 }

@@ -24,15 +24,12 @@ public class Constants {
         public static final int L3Pos = 30;
         public static final int L4Pos = 40;
 
-        public static final double ELEVATOR_SPEED = 0.5;
-        public static final DigitalInput LimitSwitchDIO = new DigitalInput(0);
-
-
+        public static final double ELEVATOR_SPEED = 0.2;
     }
 
     public class CoralConstants {
         public static final int MOTOR_ID = 58;
-        public static final int irInput = 1;
+        public static final int irInput = 3;
         public static final int irOutput = 2;
 
         public static final double forwardSpeed = .5;
@@ -42,12 +39,12 @@ public class Constants {
 
 
     public class AlgaeConstants {
-        public static final int GripperOne_ID = 60;//May Change
-        public static final int GripperTwo_ID = 61;//May Change
+        public static final int VERTICAL_ID = 60;//May Change
+        public static final int INTAKE_ID = 61;//May Change
 
 
-        public static final double gripSpeedOne = 0.3;
-        public static final double dropSpeedOne = -1;
+        public static final double intakeSpeed = 0.3;
+        public static final double outtakeSpeed = -1;
 
 
         public static final double gripSpeedTwo = 0.3;

@@ -19,14 +19,9 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 
 public class Coral extends SubsystemBase {
-  private TalonFX motor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
-  private DigitalInput irNine = new DigitalInput(CoralConstants.irInput);
-  private DigitalInput irOne = new DigitalInput(CoralConstants.irOutput);
-
-
-  public boolean isClicked = false;
-  public boolean hasBeenClickedYet = false;
-  DigitalInput input = Constants.ElevatorConstants.LimitSwitchDIO;
+  private TalonFX motor = new TalonFX(Constants.CoralConstants.MOTOR_ID);
+  private DigitalInput irOne = new DigitalInput(CoralConstants.irInput);
+  private DigitalInput irTwo = new DigitalInput(CoralConstants.irOutput);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 
@@ -50,7 +45,7 @@ public class Coral extends SubsystemBase {
   }
   
   public void intake() {
-    if(!irNine.get()){
+    if(!irOne.get()){
       stop();
     }
     else{
@@ -75,8 +70,10 @@ public class Coral extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putBoolean("ir 1", irOne.get());
-    SmartDashboard.putBoolean("ir 2", irNine.get());
+    SmartDashboard.putBoolean("ir 1", irTwo.get());
+    SmartDashboard.putBoolean("ir 2", irOne.get());
+
+    System.out.println("1: " + irOne.get() + ", 2: " + irTwo.get());
 
   }
 }

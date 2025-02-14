@@ -93,38 +93,48 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         j.dB.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+
+        //ROBOT-SPECIFIC COMMANDS
+
+        //climber commands
         j.oRB.whileTrue(new InstantCommand( () -> climber.up()));
         j.oLB.whileTrue(new InstantCommand( () -> climber.down()));
         j.oRB.whileFalse(new InstantCommand(() -> climber.stop()));
         j.oLB.whileFalse(new InstantCommand(() -> climber.stop()));
 
-        // j.oY.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
-        // j.oA.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
-        // j.oY.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
-        // j.oA.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        //manual elevator commands
+        j.oB.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
+        j.oA.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
+        j.oB.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oA.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
-        j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
-        j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
-        j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
-        j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorL1()));
+        //elevator setpoints
+        // j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
+        // j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
+        // j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+        // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorL1()));
 
-        j.oB.whileTrue(new InstantCommand( () -> algae.GripAlgae()));
-        j.oX.whileTrue(new InstantCommand( () -> algae.DropAlgae()));
-        j.oB.whileFalse(new InstantCommand(() -> algae.StopAlgae()));
-        j.oX.whileFalse(new InstantCommand(() -> algae.StopAlgae()));
+        //algae gripper
+        j.oY.whileTrue(new InstantCommand( () -> algae.intake()));
+        j.oX.whileTrue(new InstantCommand( () -> algae.outtake()));
+        j.oY.whileFalse(new InstantCommand(() -> algae.stop()));
+        j.oX.whileFalse(new InstantCommand(() -> algae.stop()));
 
-        j.oY.whileTrue(new InstantCommand( () -> coral.intake()));
-        j.oA.whileTrue(new InstantCommand( () -> coral.reverse()));
-        j.oA.whileFalse(new InstantCommand(() -> coral.stop()));
-        j.oY.whileFalse(new InstantCommand(() -> coral.stop()));
+        j.oRT.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stop()));
+        j.oLT.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stop()));
+
+        j.oR3.whileTrue(new InstantCommand( () -> coral.intake()));
+        j.oL3.whileTrue(new InstantCommand( () -> coral.reverse()));
+        j.oR3.whileFalse(new InstantCommand(() -> coral.stop()));
+        j.oL3.whileFalse(new InstantCommand(() -> coral.stop()));
     
 
-        if (j.oLT.equals(1)) {
-            new InstantCommand(() -> algae.gripperLower());
-        }
-        if (j.oRT.equals(1)) {
-            new InstantCommand(() -> algae.gripperRaise());
-        }
+        // if (j.oLT.equals(1)) {
+        //     new InstantCommand(() -> algae.gripperLower());
+        // }
+        // if (j.oRT.equals(1)) {
+        //     new InstantCommand(() -> algae.gripperRaise());
+        // }
         
 
 
