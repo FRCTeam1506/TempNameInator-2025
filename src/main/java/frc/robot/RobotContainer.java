@@ -23,7 +23,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Outtake;
+import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
@@ -47,7 +47,7 @@ public class RobotContainer {
     public final Climber climber = new Climber();
     public final Elevator elevator = new Elevator();
     public final Algae algae = new Algae();
-    public final Outtake outtake = new Outtake();
+    public final Coral coral = new Coral();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -113,10 +113,10 @@ public class RobotContainer {
         j.oB.whileFalse(new InstantCommand(() -> algae.StopAlgae()));
         j.oX.whileFalse(new InstantCommand(() -> algae.StopAlgae()));
 
-        j.oY.whileTrue(new InstantCommand( () -> outtake.ScoreCoral()));
-        j.oA.whileTrue(new InstantCommand( () -> outtake.PrepCoral()));
-        j.oR3.whileTrue(new InstantCommand(() -> outtake.Stop()));
-        j.oL3.whileTrue(new InstantCommand(() -> outtake.RejectCoral()));
+        j.oY.whileTrue(new InstantCommand( () -> coral.intake()));
+        j.oA.whileTrue(new InstantCommand( () -> coral.reverse()));
+        j.oA.whileFalse(new InstantCommand(() -> coral.stop()));
+        j.oY.whileFalse(new InstantCommand(() -> coral.stop()));
     
 
         if (j.oLT.equals(1)) {

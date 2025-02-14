@@ -30,14 +30,14 @@ public class Constants {
 
     }
 
-    public class OuttakeConstants {
-        public static final int OUTTAKE_ID = 58;//May Change
+    public class CoralConstants {
+        public static final int MOTOR_ID = 58;
+        public static final int irInput = 1;
+        public static final int irOutput = 2;
 
-
-        public static final double ScoreSpeed = 1;
+        public static final double forwardSpeed = .5;
         public static final double PrepSpeed = 0.2;
         public static final double RejectSpeed = -0.8;
-
     }
 
 

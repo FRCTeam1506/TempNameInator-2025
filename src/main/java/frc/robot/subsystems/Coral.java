@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.CoralConstants;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 
-public class Outtake extends SubsystemBase {
-  private TalonFX outtakeMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
+public class Coral extends SubsystemBase {
+  private TalonFX motor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
+  private DigitalInput irNine = new DigitalInput(CoralConstants.irInput);
+  private DigitalInput irOne = new DigitalInput(CoralConstants.irOutput);
+
 
   public boolean isClicked = false;
   public boolean hasBeenClickedYet = false;
@@ -27,32 +32,39 @@ public class Outtake extends SubsystemBase {
 
   
 
-
-  /** Creates a new Elevator. */
-  public Outtake() {
+  public Coral() {
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.StatorCurrentLimit = 80;
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-    outtakeMotor.getConfigurator().apply(config);
+    motor.getConfigurator().apply(config);
 
 
   }
 
 
-  public void PrepCoral() {
-    outtakeMotor.set(Constants.OuttakeConstants.PrepSpeed);
+  public void prepCoral() {
+    motor.set(CoralConstants.PrepSpeed);
   }
-  public void RejectCoral() {
-    outtakeMotor.set(Constants.OuttakeConstants.RejectSpeed);
+  
+  public void intake() {
+    if(!irNine.get()){
+      stop();
+    }
+    else{
+      motor.set(CoralConstants.forwardSpeed);
+    }
   }
-  public void ScoreCoral() {
-    outtakeMotor.set(Constants.OuttakeConstants.ScoreSpeed);
+
+  public void reverse() {
+    motor.set(CoralConstants.RejectSpeed);
   }
-  public void Stop() {
-    outtakeMotor.set(0);
+
+  public void stop() {
+    motor.set(0);
+    motor.stopMotor();
   }
 
   
@@ -62,5 +74,9 @@ public class Outtake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putBoolean("ir 1", irOne.get());
+    SmartDashboard.putBoolean("ir 2", irNine.get());
+
   }
 }
