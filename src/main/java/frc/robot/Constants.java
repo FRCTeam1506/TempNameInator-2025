@@ -39,4 +39,19 @@ public class Constants {
         public static final double RejectSpeed = -0.8;
 
     }
+
+
+    public class AlgaeConstants {
+        public static final int GripperOne_ID = 60;//May Change
+        public static final int GripperTwo_ID = 61;//May Change
+
+
+        public static final double gripSpeedOne = 0.3;
+        public static final double dropSpeedOne = -1;
+
+
+        public static final double gripSpeedTwo = 0.3;
+        public static final double dropSpeedTwo = -1;
+
+    }
 }

@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Outtake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
@@ -44,6 +46,8 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Climber climber = new Climber();
     public final Elevator elevator = new Elevator();
+    public final Algae algae = new Algae();
+    public final Outtake outtake = new Outtake();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -94,22 +98,40 @@ public class RobotContainer {
         j.oRB.whileFalse(new InstantCommand(() -> climber.stop()));
         j.oLB.whileFalse(new InstantCommand(() -> climber.stop()));
 
-        j.oY.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
-        j.oA.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
-        j.oY.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
-        j.oA.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        // j.oY.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
+        // j.oA.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
+        // j.oY.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        // j.oA.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
         j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
         j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
         j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorL1()));
+
+        j.oB.whileTrue(new InstantCommand( () -> algae.GripAlgae()));
+        j.oX.whileTrue(new InstantCommand( () -> algae.DropAlgae()));
+        j.oB.whileFalse(new InstantCommand(() -> algae.StopAlgae()));
+        j.oX.whileFalse(new InstantCommand(() -> algae.StopAlgae()));
+
+        j.oY.whileTrue(new InstantCommand( () -> outtake.ScoreCoral()));
+        j.oA.whileTrue(new InstantCommand( () -> outtake.PrepCoral()));
+        j.oR3.whileTrue(new InstantCommand(() -> outtake.Stop()));
+        j.oL3.whileTrue(new InstantCommand(() -> outtake.RejectCoral()));
+    
+
+        if (j.oLT.equals(1)) {
+            new InstantCommand(() -> algae.gripperLower());
+        }
+        if (j.oRT.equals(1)) {
+            new InstantCommand(() -> algae.gripperRaise());
+        }
         
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    public Command getAutonomousCommand() {
+    public Command getAutonomousCommand() { 
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
     }

@@ -51,6 +51,9 @@ public class Outtake extends SubsystemBase {
   public void ScoreCoral() {
     outtakeMotor.set(Constants.OuttakeConstants.ScoreSpeed);
   }
+  public void Stop() {
+    outtakeMotor.set(0);
+  }
 
   
 
