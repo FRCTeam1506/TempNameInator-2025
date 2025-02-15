@@ -44,6 +44,8 @@ public class Coral extends SubsystemBase {
     motor.set(CoralConstants.PrepSpeed);
   }
   
+  //if ir1 is true -- no note
+  //if ir1 is false -- coral
   public void intake() {
     if(!irOne.get()){
       stop();
@@ -73,7 +75,7 @@ public class Coral extends SubsystemBase {
     SmartDashboard.putBoolean("ir 1", irTwo.get());
     SmartDashboard.putBoolean("ir 2", irOne.get());
 
-    System.out.println("1: " + irOne.get() + ", 2: " + irTwo.get());
+    // System.out.println("1: " + irOne.get() + ", 2: " + irTwo.get());
 
   }
 }

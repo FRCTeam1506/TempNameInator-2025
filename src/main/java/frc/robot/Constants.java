@@ -19,10 +19,10 @@ public class Constants {
         public static final int ELEVATOR_ID = 55;
         public static final int ELEVATOR2_ID = 56;
 
-        public static final int L1Pos = 10;
-        public static final int L2Pos = 20;
-        public static final int L3Pos = 30;
-        public static final int L4Pos = 40;
+        // public static final int L4Pos = 10;
+        public static final int L2Pos = 30;
+        public static final int L3Pos = 53;
+        public static final int L4Pos = 87;
 
         public static final double ELEVATOR_SPEED = 0.2;
     }

@@ -65,9 +65,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed * (j.dLT.getAsBoolean() ? 0.25 : 1.0)) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed * (j.dLT.getAsBoolean() ? 0.25 : 1.0)) // Drive left with negative X (left)
+                    .withRotationalRate(-driver.getRightX() * MaxAngularRate * (j.dLT.getAsBoolean() ? 0.5 : 1.0)) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -109,10 +109,14 @@ public class RobotContainer {
         j.oA.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
         //elevator setpoints
-        // j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
-        // j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
-        // j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+        j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
+        j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
+        j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorL1()));
+        j.oUp.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oRight.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oLeft.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+
 
         //algae gripper
         j.oY.whileTrue(new InstantCommand( () -> algae.intake()));
