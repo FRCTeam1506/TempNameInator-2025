@@ -37,6 +37,14 @@ public class Constants {
         public static final double RejectSpeed = -0.8;
     }
 
+    public class GroundIntakeConstants {
+        public static final int VERTICAL_ID = 53;
+        public static final int INTAKE_ID = 54;
+
+        public static final double lowerPosition = 0;
+        public static final double upperPosition = 0;
+    }
+
 
     public class AlgaeConstants {
         public static final int VERTICAL_ID = 60;//May Change

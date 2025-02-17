@@ -63,7 +63,7 @@ public class Elevator extends SubsystemBase {
     elevator2.getConfigurator().apply(config);
 
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 80; // 80 rps cruise velocity
+    motionMagicConfigs.MotionMagicCruiseVelocity = 60; // 80 rps cruise velocity
     motionMagicConfigs.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
 
@@ -107,10 +107,10 @@ public class Elevator extends SubsystemBase {
 
 
 
-  // public void elevatorL1() {
-  //   elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
-  //   elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
-  // }
+  public void elevatorGround() {
+    elevator1.setControl(m_motmag.withPosition(0));
+    elevator2.setControl(m_motmag.withPosition(0));
+  }
   public void elevatorL2() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));

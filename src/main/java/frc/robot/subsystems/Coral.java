@@ -55,6 +55,17 @@ public class Coral extends SubsystemBase {
     }
   }
 
+  public void intakeBeta(){
+    boolean starting = irOne.get();
+
+    if(starting == irOne.get()){
+      motor.set(CoralConstants.forwardSpeed);
+    }
+    else{
+      stop();
+    }
+  }
+
   public void reverse() {
     motor.set(CoralConstants.RejectSpeed);
   }

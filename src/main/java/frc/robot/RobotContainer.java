@@ -23,6 +23,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -48,6 +49,7 @@ public class RobotContainer {
     public final Elevator elevator = new Elevator();
     public final Algae algae = new Algae();
     public final Coral coral = new Coral();
+    public final Intake intake = new Intake();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -102,20 +104,21 @@ public class RobotContainer {
         j.oRB.whileFalse(new InstantCommand(() -> climber.stop()));
         j.oLB.whileFalse(new InstantCommand(() -> climber.stop()));
 
-        //manual elevator commands
-        j.oB.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
-        j.oA.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
-        j.oB.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
-        j.oA.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        //manual elevator commands -- a up, b down
+        // j.oB.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
+        j.oTouchpad.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
+        // j.oB.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oTouchpad.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
         //elevator setpoints
         j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
         j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
         j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
-        // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorL1()));
-        j.oUp.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
-        j.oRight.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
-        j.oLeft.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        // j.oUp.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        // j.oRight.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        // j.oLeft.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oDown.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
 
         //algae gripper
@@ -127,19 +130,17 @@ public class RobotContainer {
         j.oRT.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stop()));
         j.oLT.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stop()));
 
-        j.oR3.whileTrue(new InstantCommand( () -> coral.intake()));
+        j.oR3.whileTrue(new InstantCommand( () -> coral.intakeBeta()));
         j.oL3.whileTrue(new InstantCommand( () -> coral.reverse()));
         j.oR3.whileFalse(new InstantCommand(() -> coral.stop()));
         j.oL3.whileFalse(new InstantCommand(() -> coral.stop()));
-    
-
-        // if (j.oLT.equals(1)) {
-        //     new InstantCommand(() -> algae.gripperLower());
-        // }
-        // if (j.oRT.equals(1)) {
-        //     new InstantCommand(() -> algae.gripperRaise());
-        // }
         
+        //floor intake
+        j.oA.whileTrue(new InstantCommand(() -> intake.down()));
+        j.oB.whileTrue(new InstantCommand(() -> intake.up()));
+        j.oA.whileFalse(new InstantCommand(() -> intake.stop()));
+        j.oB.whileFalse(new InstantCommand(() -> intake.stop()));
+
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
