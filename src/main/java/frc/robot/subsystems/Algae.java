@@ -37,16 +37,13 @@ public class Algae extends SubsystemBase {
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
+    config.MotionMagic.MotionMagicCruiseVelocity = 80; // 80 rps cruise velocity
+    config.MotionMagic.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
+    config.MotionMagic.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
+    config.Slot0 = Constants.slot0Configs;
+  
     vertical.getConfigurator().apply(config);
     intake.getConfigurator().apply(config);
-
-    var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 80; // 80 rps cruise velocity
-    motionMagicConfigs.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
-    motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
-  
-
-
   }
 
 
@@ -67,11 +64,11 @@ public class Algae extends SubsystemBase {
   }
 
 
-  public void gripperLowerToPos() {
-    intake.setControl(m_motmag.withPosition(0.5));
+  public void verticalScore() {
+    vertical.setControl(m_motmag.withPosition(-2.5));
   }
-  public void gripperRaiseToPos() {
-    intake.setControl(m_motmag.withPosition(0));
+  public void verticalHome() {
+    vertical.setControl(m_motmag.withPosition(0));
   }
 
   public void stop() {
@@ -81,9 +78,23 @@ public class Algae extends SubsystemBase {
     intake.stopMotor();
   }
 
+  public void stopVertical(){
+    vertical.set(0);
+    vertical.stopMotor();
+  }
+
+  public void zeroVertical(){
+    vertical.setPosition(0);
+    System.out.println("Algae Motor Zeroed!");
+  }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    if(Math.abs(vertical.getPosition().getValueAsDouble()) < 0.5 && vertical.getTorqueCurrent().getValueAsDouble() > 20){
+      vertical.setPosition(0);
+    }
   }
 }

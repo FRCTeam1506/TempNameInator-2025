@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
@@ -73,17 +74,18 @@ public class RobotContainer {
             )
         );
 
+
         j.dA.whileTrue(drivetrain.applyRequest(() -> brake));
         j.dB.whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
         ));
 
-        driver.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        driver.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+        // driver.pov(0).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        // );
+        // driver.pov(180).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        // );
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -99,10 +101,10 @@ public class RobotContainer {
         //ROBOT-SPECIFIC COMMANDS
 
         //climber commands
-        j.oRB.whileTrue(new InstantCommand( () -> climber.up()));
-        j.oLB.whileTrue(new InstantCommand( () -> climber.down()));
-        j.oRB.whileFalse(new InstantCommand(() -> climber.stop()));
-        j.oLB.whileFalse(new InstantCommand(() -> climber.stop()));
+        j.dRB.whileTrue(new InstantCommand( () -> climber.up()));
+        j.dLB.whileTrue(new InstantCommand( () -> climber.down()));
+        j.dRB.whileFalse(new InstantCommand(() -> climber.stop()));
+        j.dLB.whileFalse(new InstantCommand(() -> climber.stop()));
 
         //manual elevator commands -- a up, b down
         // j.oB.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
@@ -127,19 +129,45 @@ public class RobotContainer {
         j.oY.whileFalse(new InstantCommand(() -> algae.stop()));
         j.oX.whileFalse(new InstantCommand(() -> algae.stop()));
 
-        j.oRT.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stop()));
-        j.oLT.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stop()));
+        j.oRT.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stopVertical()));
+        j.oLT.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stopVertical()));
 
-        j.oR3.whileTrue(new InstantCommand( () -> coral.intakeBeta()));
-        j.oL3.whileTrue(new InstantCommand( () -> coral.reverse()));
+        j.dR3.onTrue(new InstantCommand(() -> algae.verticalScore()));
+        j.dL3.onTrue(new InstantCommand(() -> algae.verticalHome()));
+
+        // j.oR3.whileTrue(new RepeatCommand(new InstantCommand( () -> coral.intakeBeta(coral.irOne.get()))));
+        j.oR3.whileTrue(new InstantCommand(() -> coral.switchIntake()));
+        j.oL3.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
         j.oR3.whileFalse(new InstantCommand(() -> coral.stop()));
         j.oL3.whileFalse(new InstantCommand(() -> coral.stop()));
         
         //floor intake
-        j.oA.whileTrue(new InstantCommand(() -> intake.down()));
-        j.oB.whileTrue(new InstantCommand(() -> intake.up()));
-        j.oA.whileFalse(new InstantCommand(() -> intake.stop()));
-        j.oB.whileFalse(new InstantCommand(() -> intake.stop()));
+        j.dDown.whileTrue(new InstantCommand(() -> intake.down()));
+        j.dUp.whileTrue(new InstantCommand(() -> intake.up()));
+        // j.oOptions.whileTrue(new InstantCommand(() -> intake.intake()));
+        // j.oShare.whileTrue(new InstantCommand(() -> intake.outtake()));
+        // j.oOptions.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
+        // j.oShare.whileTrue(new InstantCommand(() -> intake.raiseIntake()));
+        j.dUp.whileFalse(new InstantCommand(() -> intake.stop()));
+        j.dDown.whileFalse(new InstantCommand(() -> intake.stop()));
+        // j.oShare.whileFalse(new InstantCommand(() -> intake.stopIntake()));
+        // j.oOptions.whileFalse(new InstantCommand(() -> intake.stopIntake()));
+        j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
+        j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
+
+        //driver floor intake
+        j.oRB.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
+        j.oRB.whileTrue(new InstantCommand(() -> intake.intake()));
+        // j.dUp.whileTrue(new InstantCommand(() -> intake.raiseIntake()));
+        j.oRB.whileFalse(new InstantCommand(() -> intake.stopIntake()));
+        j.oRB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
+
+        j.oLB.whileTrue(new InstantCommand(() -> intake.scoreIntake()));
+        j.oLB.whileTrue(new InstantCommand(() -> intake.outtake()));
+        j.oLB.whileFalse(new InstantCommand(() -> intake.stopIntake()));
+        j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
+        
+
 
 
 

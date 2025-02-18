@@ -5,16 +5,22 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
 
-  private TalonFX climber = new TalonFX(Constants.ClimberConstants.CLIMBER_ID);
+  private TalonFX motor = new TalonFX(Constants.ClimberConstants.CLIMBER_ID);
+  DigitalInput ls = new DigitalInput(ClimberConstants.LS_CLIMBER);
+
+  final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 
   /** Creates a new Climb. */
   public Climber() {
@@ -24,21 +30,32 @@ public class Climber extends SubsystemBase {
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-    climber.getConfigurator().apply(config);
-    climber.setPosition(0);
+    config.MotionMagic.MotionMagicCruiseVelocity = 60; // 80 rps cruise velocity
+    config.MotionMagic.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
+    config.MotionMagic.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
+
+    config.Slot0 = Constants.slot0Configs;
+
+    motor.getConfigurator().apply(config);
+    motor.setPosition(0);
   }
 
   public void up() {
-    climber.set(-ClimberConstants.CLIMB_SPEED*1.5);
+    motor.set(-ClimberConstants.CLIMB_SPEED*1.5);
   }
 
   public void down() {
-    climber.set(ClimberConstants.CLIMB_SPEED*1.5);
+    motor.set(ClimberConstants.CLIMB_SPEED*1.5);
   }
 
   public void stop(){
-    climber.set(0);
-    climber.stopMotor();
+    motor.set(0);
+    motor.stopMotor();
+  }
+
+  public void switchClicked(){
+    motor.setPosition(0);
+    motor.setControl(m_motmag.withPosition(2));
   }
 
 
@@ -47,5 +64,11 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Climber ls", ls.get());
+
+    if(ls.get()){
+      stop();
+      // switchClicked();
+    }
   }
 }
