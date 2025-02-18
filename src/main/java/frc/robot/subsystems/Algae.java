@@ -17,13 +17,11 @@ import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 
 
 public class Algae extends SubsystemBase {
-  private TalonFX vertical = new TalonFX(Constants.AlgaeConstants.VERTICAL_ID);//CHECK IF ID IS CORRECT
-  private TalonFX intake = new TalonFX(Constants.AlgaeConstants.INTAKE_ID); //CHECK IF ID IS CORRECT
+  private TalonFX vertical = new TalonFX(Constants.AlgaeConstants.VERTICAL_ID);
+  private TalonFX intake = new TalonFX(Constants.AlgaeConstants.INTAKE_ID);
 
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
-
-  
 
 
   /** Creates a new Elevator. */

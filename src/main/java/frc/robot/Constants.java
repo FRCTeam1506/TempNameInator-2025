@@ -77,4 +77,14 @@ public class Constants {
         public static final double dropSpeedTwo = -1;
 
     }
+
+    public class VisionConstants {
+
+        public static final String LL_FRONT = "limelight-front";
+        public static final String LL_BACK = "limelight-back";
+
+        public static final double coralStationLeftHeading = 235;
+        public static final double coralStationRightHeading = 125;
+    
+    }
 }
