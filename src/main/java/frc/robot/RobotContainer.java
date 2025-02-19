@@ -52,10 +52,15 @@ public class RobotContainer {
     public final Coral coral = new Coral();
     public final Intake intake = new Intake();
 
+    Autos autos = new Autos(drivetrain, algae, coral, elevator, intake);
+
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+
+        autos.makeNamedCommands();
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -87,7 +92,8 @@ public class RobotContainer {
         //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         // );
 
-        // Run SysId routines when holding back/start and X/Y.
+        // Run SysId routines when holding 
+        //ack/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         j.dShare.and(j.dY).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         j.dShare.and(j.dX).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
@@ -155,11 +161,11 @@ public class RobotContainer {
         j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
         j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
-        //driver floor intake
+        //operator floor intake
         j.oRB.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
         j.oRB.whileTrue(new InstantCommand(() -> intake.intake()));
         // j.dUp.whileTrue(new InstantCommand(() -> intake.raiseIntake()));
-        j.oRB.whileFalse(new InstantCommand(() -> intake.stopIntake()));
+        j.oRB.whileFalse(new InstantCommand(() -> intake.intakeIdle()));
         j.oRB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         j.oLB.whileTrue(new InstantCommand(() -> intake.scoreIntake()));

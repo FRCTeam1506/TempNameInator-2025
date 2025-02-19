@@ -1,0 +1,80 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MainRedLeftAuto1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorGround"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MainRedLeftAuto2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "mainRedLeftAuto3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorGround"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MainRedLeftAuto4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MainRedLeftAuto5"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorL4"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

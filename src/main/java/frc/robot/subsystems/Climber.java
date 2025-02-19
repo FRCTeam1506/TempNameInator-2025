@@ -66,7 +66,7 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Climber ls", ls.get());
 
-    if(ls.get()){
+    if(!ls.get()){
       stop();
       // switchClicked();
     }

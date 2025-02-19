@@ -79,6 +79,10 @@ public class Coral extends SubsystemBase {
     }
   }
 
+  public void justScore(){
+    motor.set(CoralConstants.forwardSpeed);
+  }
+
   public void moveCoralDown(){
     motor.setControl(m_motmag.withPosition(2)); //6 //7.6 before adding 2nd ir
   }

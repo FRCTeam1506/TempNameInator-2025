@@ -51,6 +51,10 @@ public class Intake extends SubsystemBase {
     intake.set(-GroundIntakeConstants.outtakeSpeed);
   }
 
+  public void intakeIdle(){
+    intake.set(0.25);
+  }
+
   public void up() {
     vertical.set(GroundIntakeConstants.upSpeed);
   }
