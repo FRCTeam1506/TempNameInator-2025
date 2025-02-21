@@ -12,6 +12,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,7 +20,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.vision.DriveToPose;
+import frc.robot.commands.vision.StopDrivetrain;
+import frc.robot.commands.vision.align3d;
+import frc.robot.commands.vision.align3dproper;
+import frc.robot.commands.vision.driveToTagHolonomic;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
@@ -172,6 +178,16 @@ public class RobotContainer {
         j.oLB.whileTrue(new InstantCommand(() -> intake.outtake()));
         j.oLB.whileFalse(new InstantCommand(() -> intake.stopIntake()));
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
+
+
+        //vision commands
+        j.dRight.onTrue(new align3d(drivetrain));
+        j.dLeft.onTrue(new align3dproper(drivetrain));
+        // j.dRight.onFalse(new StopDrivetrain(drivetrain));
+        // j.dLeft.onFalse(new StopDrivetrain(drivetrain));
+
+        j.dX.whileTrue(new driveToTagHolonomic(drivetrain));
+        j.dOptions.whileTrue(new DriveToPose(drivetrain, () -> LimelightHelpers.getBotPose2d_wpiBlue(VisionConstants.LL_BACK), new Transform2d(0.01, 0.01, new Rotation2d(Math.toRadians(4)))));
         
 
 
