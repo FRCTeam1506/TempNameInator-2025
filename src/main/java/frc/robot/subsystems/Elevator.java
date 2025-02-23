@@ -17,8 +17,7 @@ import frc.robot.Constants.ElevatorConstants;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
-
-
+import java.lang.annotation.ElementType;
 import java.util.Map;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -81,7 +80,7 @@ public class Elevator extends SubsystemBase {
     elevator1.getConfigurator().apply(motionMagicConfigs);
     elevator2.getConfigurator().apply(motionMagicConfigs);
     elevator1.getConfigurator().apply(slot0Configs);
-    elevator2.getConfigurator().apply(slot0Configs);    
+    elevator2.getConfigurator().apply(slot0Configs); 
   }
 
 

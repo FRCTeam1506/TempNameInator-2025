@@ -90,18 +90,18 @@ public class Constants {
 
     public class SwerveConstants {
 
-        public static final double driveKP = 4;
+        public static final double driveKP = 1.5;
         public static final double driveKI = 0;
-        public static final double driveKD = 0.1;
+        public static final double driveKD = 0.01;
 
-        public static final double alignKP = 4;
+        public static final double alignKP = 4; //1.5
         public static final double alignKI = 0;
-        public static final double alignKD = 0.1;
+        public static final double alignKD = 0.05;
 
-        public static final double dMaxVelocity = .5;
+        public static final double dMaxVelocity = 1;
         public static final double dMaxAccel = 2;
 
-        public static final double tMaxVelocity = 2; //rad/s
+        public static final double tMaxVelocity = 4; //rad/s
         public static final double tMaxAccel = 1;
 
     }

@@ -4,7 +4,10 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.vision.DriveToPoseBeta;
+import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -38,6 +41,7 @@ public class Autos {
     public void makeNamedCommands(){
         NamedCommands.registerCommand("ZeroGyro", drivetrain.runOnce(() -> drivetrain.seedFieldCentric()).withTimeout(0.05));
         NamedCommands.registerCommand("HoldIntake", new InstantCommand(() -> intake.zeroVertical()).withTimeout(0.05).andThen(new InstantCommand(() -> intake.raiseIntake())));
+        NamedCommands.registerCommand("DTPBeta", new DriveToPoseBetaAutonomous(drivetrain));
 
         NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.elevatorL4()));
         NamedCommands.registerCommand("ElevatorL4Delayed", new WaitCommand(2).andThen(new InstantCommand(() -> elevator.elevatorL4())));
@@ -45,7 +49,9 @@ public class Autos {
         NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.elevatorL2()));
         NamedCommands.registerCommand("ElevatorGround", new InstantCommand(() -> elevator.elevatorGround()));
 
-        NamedCommands.registerCommand("ShootCoral", new InstantCommand(() -> coral.justScore()));
+        NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.4), new InstantCommand(() -> coral.switchIntake())).andThen(new InstantCommand(() -> coral.stop())));
+        NamedCommands.registerCommand("StopShooting", new InstantCommand(() -> coral.stop()));
+        NamedCommands.registerCommand("IntakeHP", new InstantCommand(() -> coral.stop()).withTimeout(0.02).andThen(new InstantCommand(() -> coral.switchIntake())));
 
         
 

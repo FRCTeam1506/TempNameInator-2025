@@ -1,0 +1,168 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HoldIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TestAuto1_OG"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DTPBeta"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCoral"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorGround"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeHP"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DTPBeta"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorGround"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeHP"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorL2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DTPBeta"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootCoral"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

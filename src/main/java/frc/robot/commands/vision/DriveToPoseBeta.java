@@ -14,6 +14,7 @@ import static frc.robot.Constants.*;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -26,6 +27,7 @@ import frc.robot.LimelightHelpers;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Vision;
 
 //import frc.lib.team3061.RobotConfig;
 //import frc.lib.team3061.drivetrain.Drivetrain;
@@ -48,11 +50,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
  *
  * <p>At End: stops the drivetrain
  */
-public class DriveToPose extends Command {
+public class DriveToPoseBeta extends Command {
   private final CommandSwerveDrivetrain drivetrain;
-  private final Supplier<Pose2d> poseSupplier;
   private Pose2d targetPose;
-  private Transform2d targetTolerance;
 
   SwerveRequest.ApplyRobotSpeeds request;
 
@@ -75,13 +75,13 @@ public class DriveToPose extends Command {
           SwerveConstants.driveKD,
           new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
           0.02);
-  private final ProfiledPIDController thetaController =
+
+  private final ProfiledPIDController thetaController = 
       new ProfiledPIDController(
-          SwerveConstants.alignKP,
-          SwerveConstants.alignKI,
-          SwerveConstants.alignKD,
-          new TrapezoidProfile.Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel),
-          0.02);
+        SwerveConstants.alignKP, 
+        SwerveConstants.alignKI, 
+        SwerveConstants.alignKD, 
+        new TrapezoidProfile.Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 
   /**
    * Constructs a new DriveToPose command that drives the robot in a straight line to the specified
@@ -91,10 +91,8 @@ public class DriveToPose extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param poseSupplier a supplier that returns the pose to drive to
    */
-  public DriveToPose(CommandSwerveDrivetrain drivetrain, Supplier<Pose2d> poseSupplier, Transform2d tolerance) {
+  public DriveToPoseBeta(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
-    this.poseSupplier = poseSupplier;
-    this.targetTolerance = tolerance;
     this.timer = new Timer();
     addRequirements(drivetrain);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -113,12 +111,20 @@ public class DriveToPose extends Command {
   public void initialize() {
     // Reset all controllers
     // Pose2d currentPose = drivetrain.getState().Pose;
-    Pose2d currentPose = new Pose2d(0, 0, drivetrain.getRotation3d().toRotation2d());
+    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_BACK))));
 
-    xController.reset(currentPose.getX());
-    yController.reset(currentPose.getY());
-    thetaController.reset(currentPose.getRotation().getRadians());
-    this.targetPose = poseSupplier.get();
+    // xController.reset(currentPose.getX());
+    // yController.reset(currentPose.getY());
+
+    xController.reset(0);
+    yController.reset(0);
+
+    thetaController.setGoal(0);
+
+    thetaController.setTolerance(Math.toRadians(1.5));
+
+    // thetaController.reset(currentPose.getRotation().getRadians());
+    this.targetPose = new Pose2d(-0.3, 0, new Rotation2d(0));
 
     this.timer.restart();
   }
@@ -137,32 +143,19 @@ public class DriveToPose extends Command {
 
 
     // Pose2d currentPose = drivetrain.getState().Pose;
-    Pose2d currentPose = new Pose2d(0, 0, drivetrain.getRotation3d().toRotation2d());
-
-    // Transform2d difference = currentPose.minus(targetPose);
-    // double highVelocityDistanceThresholdMeters = 1.0; // arbitrary 1 meters away right now
-    // double straightLineHighVelocityMPS = 2.0; // arbitrary 2 m/s right now
+    // Pose2d currentPose = new Pose2d(0, 0, drivetrain.getRotation3d().toRotation2d());
+    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_BACK))));
 
     // use last values of filter
     double xVelocity = xController.calculate(currentPose.getX(), this.targetPose.getX());
     double yVelocity = yController.calculate(currentPose.getY(), this.targetPose.getY());
-    double thetaVelocity =
-        thetaController.calculate(
-            currentPose.getRotation().getRadians(), this.targetPose.getRotation().getRadians());
 
-    Transform2d difference = drivetrain.getState().Pose.minus(targetPose);
-    if (Math.abs(difference.getX()) < 0.0762) {
-      if (difference.getY() < 0.05 && difference.getY() > 0) {
-        yVelocity -= closeVelocityBoost;
-      } else if (difference.getY() > -0.05 && difference.getY() < 0) {
-        yVelocity += closeVelocityBoost;
-      }
-    }
+    double theta = LimelightHelpers.getTX(VisionConstants.LL_BACK);     
+    double rotationOutput = thetaController.calculate(Math.toRadians(theta));   
 
-    int allianceMultiplier = DriverStation.getAlliance().get() == Alliance.Blue ? 1 : -1;
 
     //thetaVelocity add it back
-    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity, -yVelocity,0)));
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity,yVelocity,rotationOutput)));
   }
 
   /**
@@ -178,10 +171,10 @@ public class DriveToPose extends Command {
     Transform2d difference = drivetrain.getState().Pose.minus(targetPose);
 
     boolean atGoal =
-        Math.abs(difference.getX()) < targetTolerance.getX()
-            && Math.abs(difference.getY()) < targetTolerance.getY()
+        Math.abs(difference.getX()) < 0.01
+            && Math.abs(difference.getY()) < 0.01
             && Math.abs(difference.getRotation().getRadians())
-                < targetTolerance.getRotation().getRadians();
+                < Math.toRadians(3);
 
     // check that running is true (i.e., the calculate method has been invoked on the PID
     // controllers) and that each of the controllers is at their goal. This is important since these

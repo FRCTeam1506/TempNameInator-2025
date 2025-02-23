@@ -22,15 +22,18 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.vision.DriveToPose;
+import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.StopDrivetrain;
 import frc.robot.commands.vision.align3d;
 import frc.robot.commands.vision.align3dproper;
+import frc.robot.commands.vision.alignRotationOnly;
 import frc.robot.commands.vision.driveToTagHolonomic;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -57,6 +60,7 @@ public class RobotContainer {
     public final Algae algae = new Algae();
     public final Coral coral = new Coral();
     public final Intake intake = new Intake();
+    public final Vision vision = new Vision();
 
     Autos autos = new Autos(drivetrain, algae, coral, elevator, intake);
 
@@ -119,9 +123,9 @@ public class RobotContainer {
         j.dLB.whileFalse(new InstantCommand(() -> climber.stop()));
 
         //manual elevator commands -- a up, b down
-        // j.oB.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
+        j.oOptions.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
         j.oTouchpad.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));
-        // j.oB.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oOptions.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         j.oTouchpad.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
         //elevator setpoints
@@ -132,7 +136,7 @@ public class RobotContainer {
         // j.oUp.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         // j.oRight.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         // j.oLeft.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
-        j.oDown.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        // j.oDown.whileFalse(new InstantCommand(() -> elevator.elevatorStop())); //uncomment if we want to hold down
 
 
         //algae gripper
@@ -179,19 +183,8 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.stopIntake()));
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
-
-        //vision commands
-        j.dRight.onTrue(new align3d(drivetrain));
-        j.dLeft.onTrue(new align3dproper(drivetrain));
-        // j.dRight.onFalse(new StopDrivetrain(drivetrain));
-        // j.dLeft.onFalse(new StopDrivetrain(drivetrain));
-
-        j.dX.whileTrue(new driveToTagHolonomic(drivetrain));
-        j.dOptions.whileTrue(new DriveToPose(drivetrain, () -> LimelightHelpers.getBotPose2d_wpiBlue(VisionConstants.LL_BACK), new Transform2d(0.01, 0.01, new Rotation2d(Math.toRadians(4)))));
-        
-
-
-
+        //alignment to apriltag
+        j.dX.whileTrue(new DriveToPoseBeta(drivetrain));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

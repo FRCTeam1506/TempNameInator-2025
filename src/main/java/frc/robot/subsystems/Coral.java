@@ -30,6 +30,7 @@ public class Coral extends SubsystemBase {
     INTAKE,
     OUTTAKE,
     MOVE_CORAL_DOWN,
+    INTAKE_AUTO,
     STOP
   }
 
@@ -106,6 +107,10 @@ public class Coral extends SubsystemBase {
     currentPosition = Position.OUTTAKE;
   }
 
+  public void switchIntakeAuto(){
+    currentPosition = Position.INTAKE_AUTO;
+  }
+
   
 
 
@@ -128,6 +133,9 @@ public class Coral extends SubsystemBase {
     }
     else if(currentPosition == Position.MOVE_CORAL_DOWN){
       moveCoralDown();
+    }
+    else if(currentPosition == Position.INTAKE_AUTO){
+      justScore();
     }
     else{
       stop();
