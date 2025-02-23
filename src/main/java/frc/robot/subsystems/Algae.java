@@ -31,7 +31,7 @@ public class Algae extends SubsystemBase {
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits.StatorCurrentLimitEnable = true;
-    config.CurrentLimits.StatorCurrentLimit = 80;
+    config.CurrentLimits.StatorCurrentLimit = 110;
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 

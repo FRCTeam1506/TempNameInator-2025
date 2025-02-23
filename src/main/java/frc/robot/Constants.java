@@ -105,4 +105,13 @@ public class Constants {
         public static final double tMaxAccel = 1;
 
     }
+
+    public class CandleConstants {
+        public static final int CANDLE_ID = 55;
+        // public static final boolean 
+    }
+
+    public class XYZConstants{
+        public static final int CANDLE_ID = 56;
+    }
 }

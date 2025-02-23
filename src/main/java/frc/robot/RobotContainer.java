@@ -151,30 +151,25 @@ public class RobotContainer {
         j.dR3.onTrue(new InstantCommand(() -> algae.verticalScore()));
         j.dL3.onTrue(new InstantCommand(() -> algae.verticalHome()));
 
-        // j.oR3.whileTrue(new RepeatCommand(new InstantCommand( () -> coral.intakeBeta(coral.irOne.get()))));
-        j.oR3.whileTrue(new InstantCommand(() -> coral.switchIntake()));
-        j.oL3.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
-        j.oR3.whileFalse(new InstantCommand(() -> coral.stop()));
-        j.oL3.whileFalse(new InstantCommand(() -> coral.stop()));
+        //normal coral intake
+        j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake()));
+        j.oB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
+        j.oA.whileFalse(new InstantCommand(() -> coral.stop()));
+        j.oB.whileFalse(new InstantCommand(() -> coral.stop()));
         
         //floor intake
-        j.dDown.whileTrue(new InstantCommand(() -> intake.down()));
         j.dUp.whileTrue(new InstantCommand(() -> intake.up()));
-        // j.oOptions.whileTrue(new InstantCommand(() -> intake.intake()));
-        // j.oShare.whileTrue(new InstantCommand(() -> intake.outtake()));
-        // j.oOptions.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
-        // j.oShare.whileTrue(new InstantCommand(() -> intake.raiseIntake()));
+        j.dDown.whileTrue(new InstantCommand(() -> intake.down()));
         j.dUp.whileFalse(new InstantCommand(() -> intake.stop()));
         j.dDown.whileFalse(new InstantCommand(() -> intake.stop()));
-        // j.oShare.whileFalse(new InstantCommand(() -> intake.stopIntake()));
-        // j.oOptions.whileFalse(new InstantCommand(() -> intake.stopIntake()));
+
+        //zeroing things --- driver for side intake, operator for algae gripper
         j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
         j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
-        //operator floor intake
+        //operator floor intake macros
         j.oRB.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
         j.oRB.whileTrue(new InstantCommand(() -> intake.intake()));
-        // j.dUp.whileTrue(new InstantCommand(() -> intake.raiseIntake()));
         j.oRB.whileFalse(new InstantCommand(() -> intake.intakeIdle()));
         j.oRB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 

@@ -38,7 +38,7 @@
     {
       "name": "ElevatorToGround",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.2533422459893042,
+      "maxWaypointRelativePos": 0.05548128342246347,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 0.5,

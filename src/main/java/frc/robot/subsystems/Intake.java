@@ -31,8 +31,8 @@ public class Intake extends SubsystemBase {
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-    config.MotionMagic.MotionMagicCruiseVelocity = 60; // 80 rps cruise velocity
-    config.MotionMagic.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
+    config.MotionMagic.MotionMagicCruiseVelocity = 20; // 80 rps cruise velocity
+    config.MotionMagic.MotionMagicAcceleration = 40; // 160 rps/s acceleration (0.5 seconds)
     config.MotionMagic.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
 
     config.Slot0 = Constants.slot0Configs;
@@ -103,5 +103,9 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("torque current vertical", vertical.getTorqueCurrent().getValueAsDouble());
     SmartDashboard.putBoolean("intake button", button.get());
+
+    if(! button.get()){
+      vertical.setPosition(0);
+    }
   }
 }
