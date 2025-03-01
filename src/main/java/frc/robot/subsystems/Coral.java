@@ -19,8 +19,8 @@ import frc.robot.Constants.CoralConstants;
 
 public class Coral extends SubsystemBase {
   private TalonFX motor = new TalonFX(Constants.CoralConstants.MOTOR_ID);
-  public DigitalInput irTwo = new DigitalInput(CoralConstants.irInput);
-  private DigitalInput irOne = new DigitalInput(CoralConstants.irOutput);
+  public static DigitalInput irTwo = new DigitalInput(CoralConstants.irInput);
+  public static DigitalInput irOne = new DigitalInput(CoralConstants.irOutput);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 

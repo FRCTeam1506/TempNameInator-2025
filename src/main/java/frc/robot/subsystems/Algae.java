@@ -63,7 +63,7 @@ public class Algae extends SubsystemBase {
 
 
   public void verticalScore() {
-    vertical.setControl(m_motmag.withPosition(-2.5));
+    vertical.setControl(m_motmag.withPosition(-2.05));
   }
   public void verticalHome() {
     vertical.setControl(m_motmag.withPosition(0));
@@ -77,6 +77,11 @@ public class Algae extends SubsystemBase {
   }
 
   public void stopVertical(){
+    vertical.set(0);
+    vertical.stopMotor();
+  }
+
+  public void stopIntake(){
     vertical.set(0);
     vertical.stopMotor();
   }

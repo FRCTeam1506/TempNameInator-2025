@@ -1,0 +1,22 @@
+What are all these vision commands?
+
+Align3d --- og drive to apriltag command that we got from testing from Bobert in early stages of season.
+this is the "improper" way of doing it, just setting the robot to a direct multiple of the ll camera feed values
+
+Align3d proper --- "proper" drive to apriltag command, also derived from bobert, but never worked (afaik)
+proper meaning that it used a ProfiledPIDController --- we later got this to work in DriveToPoseBeta and its derivatives
+
+alignRotationOnly --- basically it's name -- we used it to test ChassisSpeeds control to a certain angle.
+
+DriveToPose --- we got this code from Naperville IL team who themselves got it from mechanical advantage
+most importantly it uses ProfiledPIDControllers, but we never really got it to work until the beta version
+
+DriveToPoseBeta --- the first time we got DriveToPose to work!!! With ProfiledPIDControllers -- will drive to an apriltag!
+
+DriveToPoseBetaAutonomous -- used in Autonomous because it kills the command faster, vs driver control where we rely on the driver to release the button when the robot is at its target
+
+DriveToPosebetaAutoNO --- AutoNO because it is not auto but this is the teleop command (and the next letters in autonomous are NO after auto), haha, but not sure what this does yet because I haven't programmed it
+
+driveToTagHolonomic -- tried to use holonomicPID to align to apriltag but didn't work -- I think its more intended for moving target?
+
+StopDrivetrain --- it's name.

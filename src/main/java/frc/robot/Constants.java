@@ -69,7 +69,7 @@ public class Constants {
         public static final int INTAKE_ID = 61;//May Change
 
 
-        public static final double intakeSpeed = 0.6;
+        public static final double intakeSpeed = 1;
         public static final double outtakeSpeed = -1;
 
 
@@ -107,11 +107,7 @@ public class Constants {
     }
 
     public class CandleConstants {
-        public static final int CANDLE_ID = 55;
-        // public static final boolean 
-    }
-
-    public class XYZConstants{
-        public static final int CANDLE_ID = 56;
+        public static final int CANDLE_ID = 62;
+        public static boolean noah = false;
     }
 }

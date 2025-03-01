@@ -62,8 +62,8 @@ public class Elevator extends SubsystemBase {
     elevator2.getConfigurator().apply(config);
 
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 100; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100
-    motionMagicConfigs.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
+    motionMagicConfigs.MotionMagicCruiseVelocity = 160; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100
+    motionMagicConfigs.MotionMagicAcceleration = 220; // 160 rps/s acceleration (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
 
     // set slot 0 gains
@@ -71,7 +71,7 @@ public class Elevator extends SubsystemBase {
     slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
     slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
     // PID runs on position
-    slot0Configs.kP = 4.8;
+    slot0Configs.kP = 2.5; //4.8
     slot0Configs.kI = 0;
     slot0Configs.kD = 0.1;
 
@@ -121,6 +121,24 @@ public class Elevator extends SubsystemBase {
   public void elevatorL4() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
+  }
+
+
+
+
+
+  public void raiseToPower(double power) {
+    elevator1.set(power);
+    elevator2.set(power);
+  }
+  public void lowerToPower(double power) {
+    if (!input.get()) {
+      elevator1.set(0);
+      elevator2.set(0);
+    } else {
+      elevator1.set(power);
+      elevator2.set(power);
+    }
   }
 
 
