@@ -45,7 +45,9 @@ public class Climber extends SubsystemBase {
   }
 
   public void down() {
-    motor.set(ClimberConstants.CLIMB_SPEED*1.5);
+    if(ls.get()){
+      motor.set(ClimberConstants.CLIMB_SPEED*1.5);
+    }
   }
 
   public void stop(){

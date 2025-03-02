@@ -111,7 +111,7 @@ public class DriveToPoseBeta extends Command {
   public void initialize() {
     // Reset all controllers
     // Pose2d currentPose = drivetrain.getState().Pose;
-    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_BACK))));
+    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_CENTER))));
 
     // xController.reset(currentPose.getX());
     // yController.reset(currentPose.getY());
@@ -144,13 +144,13 @@ public class DriveToPoseBeta extends Command {
 
     // Pose2d currentPose = drivetrain.getState().Pose;
     // Pose2d currentPose = new Pose2d(0, 0, drivetrain.getRotation3d().toRotation2d());
-    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_BACK))));
+    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_CENTER))));
 
     // use last values of filter
     double xVelocity = xController.calculate(currentPose.getX(), this.targetPose.getX());
     double yVelocity = yController.calculate(currentPose.getY(), this.targetPose.getY());
 
-    double theta = LimelightHelpers.getTX(VisionConstants.LL_BACK);     
+    double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);     
     double rotationOutput = thetaController.calculate(Math.toRadians(theta));   
 
 
@@ -179,7 +179,7 @@ public class DriveToPoseBeta extends Command {
     // check that running is true (i.e., the calculate method has been invoked on the PID
     // controllers) and that each of the controllers is at their goal. This is important since these
     // controllers will return true for atGoal if the calculate method has not yet been invoked.
-    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_BACK);
+    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_CENTER);
   }
 
   /**

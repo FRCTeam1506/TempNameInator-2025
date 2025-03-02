@@ -26,7 +26,7 @@ public class Candle extends SubsystemBase {
 
   public Candle() {
     CANdleConfiguration config = new CANdleConfiguration();
-    config.stripType = LEDStripType.RGB; // set the strip type to RGB
+    config.stripType = LEDStripType.BRG; // set the strip type to RGB
     config.brightnessScalar = 1; // dim the LEDs to half brightness
     candle.configAllSettings(config);
   }

@@ -17,7 +17,7 @@ public class systemTest extends SubsystemBase {
     public final Algae algae = new Algae();
     public final Coral coral = new Coral();
     public final Intake intake = new Intake();
-    public final Vision vision = new Vision();
+    public final Vision vision = new Vision(); 
   
   
   public systemTest() {

@@ -73,17 +73,17 @@ public class align3dproper extends Command {
 
     @Override
     public void initialize() {
-        LimelightHelpers.setPipelineIndex(VisionConstants.LL_BACK, 0);
+        LimelightHelpers.setPipelineIndex(VisionConstants.LL_CENTER, 0);
         
         // aimController.reset(LimelightHelpers.getTX(Constants.LIMELIGHT_NAME));
         // rangeController.reset(LimelightHelpers.getDistance(this.pipelineID,Constants.REEF_APRILTAG_HEIGHT)); //Init dist
 
-        boolean tagExist = LimelightHelpers.getTV(VisionConstants.LL_BACK);
+        boolean tagExist = LimelightHelpers.getTV(VisionConstants.LL_CENTER);
         if(tagExist) {
-        double theta = LimelightHelpers.getTX(VisionConstants.LL_BACK);        
+        double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);        
         
-        double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[0];
-        double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[2];
+        double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
+        double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
 
         // xController.reset(x);
         // yController.reset(y);
@@ -106,12 +106,12 @@ public class align3dproper extends Command {
 
     @Override
     public void execute() {
-        boolean tagExist = LimelightHelpers.getTV(VisionConstants.LL_BACK);
+        boolean tagExist = LimelightHelpers.getTV(VisionConstants.LL_CENTER);
         if(tagExist) {
-        double theta = LimelightHelpers.getTX(VisionConstants.LL_BACK);        
+        double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);        
         
-        double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[0];
-        double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[2];
+        double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
+        double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
 
         // double currentDistance = Constants.pythagoreanTheorem(llvalue_x, llvalue_y);
 
@@ -152,7 +152,7 @@ public class align3dproper extends Command {
 
     @Override
     public boolean isFinished() {
-        return !LimelightHelpers.getTV(VisionConstants.LL_BACK); //aimController.atGoal();
+        return !LimelightHelpers.getTV(VisionConstants.LL_CENTER); //aimController.atGoal();
     }
 
     // public align withTolerance(double aimToleranceDeg, double rangeToleranceMeters) {

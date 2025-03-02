@@ -67,11 +67,16 @@ public class Coral extends SubsystemBase {
   //if ir1 is false -- coral
   public void intake(boolean starting){
 
+    double speed = CoralConstants.forwardSpeed;
+    if(!starting){
+      speed*=2;
+    }
+
     if(starting == irOne.get()){
-      motor.set(CoralConstants.forwardSpeed);
+      motor.set(speed);
     }
     else if(starting == irTwo.get()){
-      motor.set(CoralConstants.forwardSpeed/3);
+      motor.set(speed/3);
     }
     else{
       motor.setPosition(0);
@@ -81,7 +86,7 @@ public class Coral extends SubsystemBase {
   }
 
   public void justScore(){
-    motor.set(CoralConstants.forwardSpeed);
+    motor.set(0.85);
   }
 
   public void moveCoralDown(){

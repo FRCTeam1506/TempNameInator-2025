@@ -18,25 +18,31 @@ public class Vision extends SubsystemBase {
   public static double align3d_x;
   public static double align3d_y;
 
+  public static double align3d_x_left;
+  public static double align3d_y_left;
+
+
   public Vision() {}
 
   @Override
   public void periodic() {
-    if(LimelightHelpers.getTV(VisionConstants.LL_BACK)){
+    if(LimelightHelpers.getTV(VisionConstants.LL_CENTER)){
 
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("WPI_BPB (x)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_BACK).getX());
-    SmartDashboard.putNumber("WPI_BPB (y)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_BACK).getY());
-    SmartDashboard.putNumber("WPI_BPB (theta)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_BACK).getRotation().getAngle());
+    SmartDashboard.putNumber("WPI_BPB (x)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getX());
+    SmartDashboard.putNumber("WPI_BPB (y)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getY());
+    SmartDashboard.putNumber("WPI_BPB (theta)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getRotation().getAngle());
 
-    SmartDashboard.putNumber("align3d_x", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[0]);
-    SmartDashboard.putNumber("align3d_y", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[2]);
-    align3d_x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[2];
-    align3d_y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[0];
+    SmartDashboard.putNumber("align3d_x", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0]);
+    SmartDashboard.putNumber("align3d_y", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2]);
 
-    double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[3];
-    double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[4];
-    double z = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[5];
+    align3d_x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
+    align3d_y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
+
+
+    double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[3];
+    double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[4];
+    double z = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[5];
     SmartDashboard.putNumber("Bot (x)", x - (x%0.1));
     SmartDashboard.putNumber("Bot (y)", y - (y%0.1));
     SmartDashboard.putNumber("Bot (z)", z - (z%0.1));
@@ -44,13 +50,37 @@ public class Vision extends SubsystemBase {
     tagX = x;
     tagY = y;
 
-    double tpRS_x = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_BACK)[3];
-    double tpRS_y = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_BACK)[4];
-    double tpRS_z = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_BACK)[5];
+    double tpRS_x = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[3];
+    double tpRS_y = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[4];
+    double tpRS_z = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[5];
     SmartDashboard.putNumber("TPRS (x)", tpRS_x - (tpRS_x%0.1));
     SmartDashboard.putNumber("TPRS (y)", tpRS_y - (tpRS_y%0.1));
     SmartDashboard.putNumber("TPRS (z)", tpRS_z - (tpRS_z%0.1));
 
+
+    }
+
+    if(LimelightHelpers.getTV(VisionConstants.LL_LEFT)){
+
+      SmartDashboard.putNumber("align3d_x_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0]);
+      SmartDashboard.putNumber("align3d_y_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2]);  
+
+      align3d_x_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2];
+      align3d_y_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0];
+  
+    }
+    else{
+      System.out.println("Left: " + LimelightHelpers.getTV(VisionConstants.LL_LEFT));
+    }
+
+
+    try {
+      SmartDashboard.putNumber("align3d_x_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0]);
+      SmartDashboard.putNumber("align3d_y_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2]);  
+
+    } catch (Exception e) {
+      // TODO: handle exception
+      System.out.println("Vision periodic failed");
 
     }
 

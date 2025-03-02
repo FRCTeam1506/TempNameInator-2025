@@ -82,8 +82,8 @@ public class Algae extends SubsystemBase {
   }
 
   public void stopIntake(){
-    vertical.set(0);
-    vertical.stopMotor();
+    intake.set(0);
+    intake.stopMotor();
   }
 
   public void zeroVertical(){

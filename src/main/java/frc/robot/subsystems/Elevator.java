@@ -102,6 +102,8 @@ public class Elevator extends SubsystemBase {
   public void elevatorStop() {
     elevator1.set(0);
     elevator2.set(0);
+    elevator1.stopMotor();
+    elevator2.stopMotor();
   }
 
 
@@ -155,6 +157,10 @@ public class Elevator extends SubsystemBase {
     }
   }
 
+  public double getAvgTorqueCurrent(){
+    return (elevator1.getTorqueCurrent().getValueAsDouble() + elevator2.getTorqueCurrent().getValueAsDouble())/2;
+  }
+
 
 
   @Override
@@ -164,5 +170,9 @@ public class Elevator extends SubsystemBase {
     // SmartDashboard.putNumber("elevator2 position", elevator2.getRotorPosition().getValueAsDouble());
     SmartDashboard.putBoolean("limit switch elevator", input.get()); // false when touching elevator, true when elevator is elevated
     testSwitch();
+
+    if(Math.abs(getAvgTorqueCurrent()) > 50){
+      elevatorStop();
+    }
   }
 }

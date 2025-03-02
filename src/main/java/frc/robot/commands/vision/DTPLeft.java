@@ -1,11 +1,4 @@
-// Copyright (c) 2023 FRC 6328
-// http://github.com/Mechanical-Advantage
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file at
-// the root directory of this project.
-
-// originally from https://github.com/Mechanical-Advantage/RobotCode2023
+//derived from drivetoposebeta
 
 package frc.robot.commands.vision;
 
@@ -50,7 +43,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
  *
  * <p>At End: stops the drivetrain
  */
-public class DriveToPoseBetaAutonomous extends Command {
+public class DTPLeft extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private Pose2d targetPose;
 
@@ -59,7 +52,7 @@ public class DriveToPoseBetaAutonomous extends Command {
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 2;
+  double timeout = 10;
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(
@@ -70,9 +63,9 @@ public class DriveToPoseBetaAutonomous extends Command {
           0.02);
   private final ProfiledPIDController yController =
       new ProfiledPIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP * 3,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD,
+          SwerveConstants.driveKD * 5,
           new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
           0.02);
 
@@ -91,7 +84,7 @@ public class DriveToPoseBetaAutonomous extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param poseSupplier a supplier that returns the pose to drive to
    */
-  public DriveToPoseBetaAutonomous(CommandSwerveDrivetrain drivetrain) {
+  public DTPLeft(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
@@ -111,9 +104,7 @@ public class DriveToPoseBetaAutonomous extends Command {
   public void initialize() {
     // Reset all controllers
     // Pose2d currentPose = drivetrain.getState().Pose;
-    //Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_BACK))));
-    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_CENTER))));
-    this.targetPose = new Pose2d(-0.3, 0, new Rotation2d(0));
+    Pose2d currentPose = new Pose2d(Vision.align3d_x_left, Vision.align3d_y_left, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_LEFT))));
 
     // xController.reset(currentPose.getX());
     // yController.reset(currentPose.getY());
@@ -121,17 +112,13 @@ public class DriveToPoseBetaAutonomous extends Command {
     xController.reset(0);
     yController.reset(0);
 
-    xController.setGoal(targetPose.getX());
-    yController.setGoal(targetPose.getY());
-
     thetaController.setGoal(0);
-
     thetaController.setTolerance(Math.toRadians(1.5));
 
-    xController.setTolerance(0.02);
-    yController.setTolerance(0.08);
+    double targetYaw = drivetrain.getPigeon2().getYaw().getValueAsDouble() - LimelightHelpers.getTA(VisionConstants.LL_LEFT);
 
     // thetaController.reset(currentPose.getRotation().getRadians());
+    this.targetPose = new Pose2d(-0.3, 0.05, new Rotation2d(Math.toRadians(targetYaw)));
 
     this.timer.restart();
   }
@@ -143,26 +130,20 @@ public class DriveToPoseBetaAutonomous extends Command {
    */
   @Override
   public void execute() {
-    // set running to true in this method to capture that the calculate method has been invoked on
-    // the PID controllers. This is important since these controllers will return true for atGoal if
-    // the calculate method has not yet been invoked.
     running = true;
 
-
-    // Pose2d currentPose = drivetrain.getState().Pose;
-    // Pose2d currentPose = new Pose2d(0, 0, drivetrain.getRotation3d().toRotation2d());
-    Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_CENTER))));
+    Pose2d currentPose = new Pose2d(Vision.align3d_x_left, Vision.align3d_y_left, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_LEFT))));
 
     // use last values of filter
     double xVelocity = xController.calculate(currentPose.getX(), this.targetPose.getX());
     double yVelocity = yController.calculate(currentPose.getY(), this.targetPose.getY());
 
-    double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);     
-    double rotationOutput = thetaController.calculate(Math.toRadians(theta));   
-
+    // double theta = LimelightHelpers.getTX(VisionConstants.LL_LEFT);     
+    double theta = drivetrain.getPigeon2().getYaw().getValueAsDouble();
+    double rotationOutput = thetaController.calculate(Math.toRadians(theta));
 
     //thetaVelocity add it back
-    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity,yVelocity,rotationOutput)));
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity,yVelocity,0)));
   }
 
   /**
@@ -186,7 +167,7 @@ public class DriveToPoseBetaAutonomous extends Command {
     // check that running is true (i.e., the calculate method has been invoked on the PID
     // controllers) and that each of the controllers is at their goal. This is important since these
     // controllers will return true for atGoal if the calculate method has not yet been invoked.
-    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_CENTER) || (xController.atGoal() && yController.atGoal() && thetaController.atGoal());
+    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_LEFT);
   }
 
   /**

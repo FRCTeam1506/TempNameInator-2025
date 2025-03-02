@@ -28,8 +28,8 @@ public class Constants {
 
         // public static final int L4Pos = 10;
         public static final int L2Pos = 30;
-        public static final int L3Pos = 53;
-        public static final int L4Pos = 87;
+        public static final double L3Pos = 54.5; //53 slightly low FRCC
+        public static final double L4Pos = 87.5; //87 prev
 
         public static final double ELEVATOR_SPEED = 0.2;
     }
@@ -80,8 +80,8 @@ public class Constants {
 
     public class VisionConstants {
 
-        public static final String LL_FRONT = "limelight-front";
-        public static final String LL_BACK = "limelight-back";
+        public static final String LL_LEFT = "limelight-left";
+        public static final String LL_CENTER = "limelight-center";
 
         public static final double coralStationLeftHeading = 235;
         public static final double coralStationRightHeading = 125;

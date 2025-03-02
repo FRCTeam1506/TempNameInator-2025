@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.vision.DTPLeft;
+import frc.robot.commands.vision.DTPoseTest;
 import frc.robot.commands.vision.DriveToPose;
 import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
@@ -155,17 +157,13 @@ public class RobotContainer {
         // j.oR3.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stopVertical()));
         // j.oL3.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stopVertical()));
 
-        j.oR3.onTrue(new InstantCommand(() -> algae.moveToPos(Constants.AlgaeConstants.groundPickPos)));
-        j.oL3.onTrue(new InstantCommand(() -> algae.moveToPos(Constants.AlgaeConstants.reefGrabPos)));
-        j.oR3.onTrue(new InstantCommand(() -> algae.intake()));
-        j.oR3.onFalse(new InstantCommand(() -> algae.moveToPos(Constants.AlgaeConstants.restPos)));
-        j.oL3.onFalse(new InstantCommand(() -> algae.moveToPos(Constants.AlgaeConstants.restPos)));
+        j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake())));
+        j.oRT.whileTrue(new InstantCommand(() -> algae.verticalHome()).alongWith(new InstantCommand(() -> algae.stopIntake())));
+        j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+        j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
 
-        j.oLT.onTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake())));
-        j.oRT.onTrue(new InstantCommand(() -> algae.verticalHome()).alongWith(new InstantCommand(() -> algae.stopIntake())));
-        j.oLT.onFalse(new InstantCommand(() -> algae.stop()));
-        j.oRT.onFalse(new InstantCommand(() -> algae.stop()));
-
+        j.oL3.whileTrue(new InstantCommand(() -> algae.gripperUp()));
+        j.oL3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
 
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake()));
@@ -197,7 +195,9 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         //alignment to apriltag
-        j.dX.whileTrue(new DriveToPoseBetaAutoNO(drivetrain));
+        j.dX.whileTrue(new DTPLeft(drivetrain));
+        j.dLeft.whileTrue(new DTPoseTest(drivetrain));
+
         j.dR3.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 
 

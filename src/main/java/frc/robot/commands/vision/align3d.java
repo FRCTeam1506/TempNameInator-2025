@@ -74,11 +74,11 @@ public class align3d extends Command {
 
     @Override
     public void execute() {
-        double theta = LimelightHelpers.getTX(VisionConstants.LL_BACK);        
+        double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);        
     
         
-        double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[0];
-        double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[2];
+        double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
+        double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
 
         System.out.println("x: " + x + ", y: " + y);
 

@@ -53,7 +53,7 @@ public class alignRotationOnly extends Command {
 
     @Override
     public void execute() {
-        double theta = LimelightHelpers.getTX(VisionConstants.LL_BACK);        
+        double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);        
     
         double rotationOutput = thetaController.calculate(Math.toRadians(theta));
 
