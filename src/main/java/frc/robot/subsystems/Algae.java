@@ -11,7 +11,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 
 
@@ -22,6 +26,7 @@ public class Algae extends SubsystemBase {
 
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
+  final DutyCycleOut m_dutyCycle = new DutyCycleOut(0.0);
 
 
   /** Creates a new Elevator. */
@@ -39,9 +44,13 @@ public class Algae extends SubsystemBase {
     config.MotionMagic.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
     config.MotionMagic.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
     config.Slot0 = Constants.slot0Configs;
+
+    m_motmag.EnableFOC = true;
   
     vertical.getConfigurator().apply(config);
     intake.getConfigurator().apply(config);
+
+
   }
 
 
@@ -79,6 +88,17 @@ public class Algae extends SubsystemBase {
   public void stopVertical(){
     vertical.set(0);
     vertical.stopMotor();
+  }
+
+  public void dutyCycleTest(){
+
+    //https://v6.docs.ctr-electronics.com/en/2024/docs/api-reference/api-usage/actuator-limits.html
+
+    boolean forwardLimit = Math.abs(vertical.getTorqueCurrent().getValueAsDouble()) > 50;
+
+    vertical.setControl(m_dutyCycle.withOutput(0.5)
+      .withLimitForwardMotion(forwardLimit));
+      // .withLimitReverseMotion(m_reverseLimit.get()));
   }
 
   public void stopIntake(){

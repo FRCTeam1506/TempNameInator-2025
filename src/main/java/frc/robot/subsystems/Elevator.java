@@ -77,6 +77,9 @@ public class Elevator extends SubsystemBase {
 
     config.Slot0 = slot0Configs;
 
+    //TODO: ADD PRO LICENSE TO MOTORS
+    m_motmag.EnableFOC = true; //will the elevator go faster?
+
     elevator1.getConfigurator().apply(motionMagicConfigs);
     elevator2.getConfigurator().apply(motionMagicConfigs);
     elevator1.getConfigurator().apply(slot0Configs);
