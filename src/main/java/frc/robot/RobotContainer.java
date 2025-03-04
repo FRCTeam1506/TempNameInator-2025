@@ -117,7 +117,7 @@ public class RobotContainer {
         j.dOptions.and(j.dX).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        j.dB.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        j.dRight.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
         //ROBOT-SPECIFIC COMMANDS
@@ -196,6 +196,7 @@ public class RobotContainer {
 
         //alignment to apriltag
         j.dX.whileTrue(new DTPLeft(drivetrain));
+        j.dB.whileTrue(new DriveToPoseBeta(drivetrain));
         j.dLeft.whileTrue(new DTPoseTest(drivetrain));
 
         j.dR3.whileTrue(new InstantCommand(() -> candle.toggleNoah()));

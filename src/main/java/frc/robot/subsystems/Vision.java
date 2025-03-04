@@ -33,8 +33,8 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("WPI_BPB (y)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getY());
     SmartDashboard.putNumber("WPI_BPB (theta)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getRotation().getAngle());
 
-    SmartDashboard.putNumber("align3d_x", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0]);
-    SmartDashboard.putNumber("align3d_y", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2]);
+    SmartDashboard.putNumber("align3d_x", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2]);
+    SmartDashboard.putNumber("align3d_y", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0]);
 
     align3d_x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
     align3d_y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
@@ -62,21 +62,25 @@ public class Vision extends SubsystemBase {
 
     if(LimelightHelpers.getTV(VisionConstants.LL_LEFT)){
 
-      SmartDashboard.putNumber("align3d_x_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0]);
-      SmartDashboard.putNumber("align3d_y_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2]);  
+      // SmartDashboard.putNumber("align3d_x_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2]);
+      // SmartDashboard.putNumber("align3d_y_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0]);  
 
-      align3d_x_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2];
-      align3d_y_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0];
+      // align3d_x_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2];
+      // align3d_y_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0];
   
     }
     else{
-      System.out.println("Left: " + LimelightHelpers.getTV(VisionConstants.LL_LEFT));
+      // System.out.println("Left: " + LimelightHelpers.getTV(VisionConstants.LL_LEFT));
     }
 
 
     try {
-      SmartDashboard.putNumber("align3d_x_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0]);
-      SmartDashboard.putNumber("align3d_y_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2]);  
+      SmartDashboard.putNumber("align3d_x_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2]);
+      SmartDashboard.putNumber("align3d_y_left", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0]);  
+
+      align3d_x_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[2];
+      align3d_y_left = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_LEFT)[0];
+
 
     } catch (Exception e) {
       // TODO: handle exception

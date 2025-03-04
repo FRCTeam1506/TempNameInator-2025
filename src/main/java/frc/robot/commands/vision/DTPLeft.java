@@ -63,7 +63,7 @@ public class DTPLeft extends Command {
           0.02);
   private final ProfiledPIDController yController =
       new ProfiledPIDController(
-          SwerveConstants.driveKP * 3,
+          SwerveConstants.driveKP * 1.5,
           SwerveConstants.driveKI,
           SwerveConstants.driveKD * 5,
           new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
@@ -103,22 +103,17 @@ public class DTPLeft extends Command {
   @Override
   public void initialize() {
     // Reset all controllers
-    // Pose2d currentPose = drivetrain.getState().Pose;
-    Pose2d currentPose = new Pose2d(Vision.align3d_x_left, Vision.align3d_y_left, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_LEFT))));
+    this.targetPose = new Pose2d(-0.20, -0.04, new Rotation2d(Math.toRadians(19)));
 
-    // xController.reset(currentPose.getX());
-    // yController.reset(currentPose.getY());
+    thetaController.setGoal(targetPose.getRotation().getRadians());
+    thetaController.setTolerance(Math.toRadians(1.5));
+
+    xController.setTolerance(0.02);
+    yController.setTolerance(0.018);
 
     xController.reset(0);
     yController.reset(0);
-
-    thetaController.setGoal(0);
-    thetaController.setTolerance(Math.toRadians(1.5));
-
-    double targetYaw = drivetrain.getPigeon2().getYaw().getValueAsDouble() - LimelightHelpers.getTA(VisionConstants.LL_LEFT);
-
-    // thetaController.reset(currentPose.getRotation().getRadians());
-    this.targetPose = new Pose2d(-0.3, 0.05, new Rotation2d(Math.toRadians(targetYaw)));
+    thetaController.reset(0);
 
     this.timer.restart();
   }
@@ -138,22 +133,16 @@ public class DTPLeft extends Command {
     double xVelocity = xController.calculate(currentPose.getX(), this.targetPose.getX());
     double yVelocity = yController.calculate(currentPose.getY(), this.targetPose.getY());
 
-    // double theta = LimelightHelpers.getTX(VisionConstants.LL_LEFT);     
-    double theta = drivetrain.getPigeon2().getYaw().getValueAsDouble();
+    double theta = LimelightHelpers.getTX(VisionConstants.LL_LEFT);     
+    // double theta = drivetrain.getPigeon2().getYaw().getValueAsDouble();
     double rotationOutput = thetaController.calculate(Math.toRadians(theta));
+    // System.out.println("Theta: " + theta + "\nSpeedset: " + rotationOutput);
 
     //thetaVelocity add it back
-    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity,yVelocity,0)));
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity,yVelocity,rotationOutput)));
   }
 
-  /**
-   * This method returns true if the command has finished. It is invoked periodically while this
-   * command is scheduled (after execute is invoked). This command is considered finished if the
-   * move-to-pose feature is disabled on the drivetrain subsystem or if the timeout has elapsed or
-   * if all the PID controllers are at their goal.
-   *
-   * @return true if the command has finished
-   */
+
   @Override
   public boolean isFinished() {
     Transform2d difference = drivetrain.getState().Pose.minus(targetPose);
@@ -167,7 +156,7 @@ public class DTPLeft extends Command {
     // check that running is true (i.e., the calculate method has been invoked on the PID
     // controllers) and that each of the controllers is at their goal. This is important since these
     // controllers will return true for atGoal if the calculate method has not yet been invoked.
-    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_LEFT);
+    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_LEFT) || (xController.atGoal() && yController.atGoal() && thetaController.atGoal());
   }
 
   /**
