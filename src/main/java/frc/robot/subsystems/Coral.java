@@ -86,7 +86,7 @@ public class Coral extends SubsystemBase {
   }
 
   public void justScore(){
-    motor.set(0.85);
+    motor.set(0.65); //.85
   }
 
   public void moveCoralDown(){
