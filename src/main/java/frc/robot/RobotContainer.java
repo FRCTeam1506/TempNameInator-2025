@@ -205,7 +205,18 @@ public class RobotContainer {
         // j.dOptions.onTrue(new InstantCommand(() -> test.runTest(10))); //10 Is always start.
         // j.dOptions.onFalse(new InstantCommand(() -> test.runTest(0))); //10 Is always start.
 
-
+        // RAM Function: L3 to RAM forward at full speed
+        j.dL3.whileTrue(
+            drivetrain.applyRequest(() ->
+                forwardStraight.withVelocityX(MaxSpeed) // Full speed to RAM
+                                .withVelocityY(0) // No lateral movement
+                                .withRotationalRate(0) // No rotation
+                )
+            );
+        // Stop when the button is released
+        j.dL3.whileFalse(
+            drivetrain.applyRequest(() -> brake) // Apply breaks when released
+        );
     
 
         drivetrain.registerTelemetry(logger::telemeterize);
