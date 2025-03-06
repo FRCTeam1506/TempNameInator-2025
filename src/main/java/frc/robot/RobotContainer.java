@@ -72,13 +72,18 @@ public class RobotContainer {
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
+    private SendableChooser<Command> autoChooserManual;
 
     public RobotContainer() {
 
         autos.makeNamedCommands();
 
+        autoChooserManual = new SendableChooser<Command>();
+        autoChooserManual = autos.configureChooser(autoChooserManual);
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+        SmartDashboard.putData("Auto Mode 2000", autoChooserManual);
 
         configureBindings();
     }
@@ -213,6 +218,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        return autoChooserManual.getSelected();
     }
 }

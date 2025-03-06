@@ -1,8 +1,11 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.events.EventTrigger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -59,6 +62,15 @@ public class Autos {
         
 
         new EventTrigger("ElevatorL4").whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
+    }
+
+    public SendableChooser<Command> configureChooser(SendableChooser<Command> chooser){
+        chooser.addOption("Left", new PathPlannerAuto("Left"));
+        chooser.addOption("Right", new PathPlannerAuto("Left", true));
+        chooser.addOption("Center", new PathPlannerAuto("Center"));
+        chooser.addOption("Nothing", new WaitCommand(15));
+
+        return chooser;
     }
 
 
