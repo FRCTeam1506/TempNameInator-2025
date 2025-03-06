@@ -108,6 +108,9 @@ public class DTPLeftAuto extends Command {
     thetaController.setGoal(targetPose.getRotation().getRadians());
     thetaController.setTolerance(Math.toRadians(1.5));
 
+    xController.setTolerance(0.02);
+    yController.setTolerance(0.08);
+
     xController.reset(0);
     yController.reset(0);
     thetaController.reset(0);
@@ -153,7 +156,7 @@ public class DTPLeftAuto extends Command {
     // check that running is true (i.e., the calculate method has been invoked on the PID
     // controllers) and that each of the controllers is at their goal. This is important since these
     // controllers will return true for atGoal if the calculate method has not yet been invoked.
-    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_LEFT);
+    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_LEFT) || (xController.atGoal() && yController.atGoal() && thetaController.atGoal());
   }
 
   /**

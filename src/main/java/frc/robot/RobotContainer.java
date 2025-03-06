@@ -111,22 +111,22 @@ public class RobotContainer {
         // Run SysId routines when holding 
         //ack/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        j.dShare.and(j.dY).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        j.dShare.and(j.dA).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         j.dShare.and(j.dX).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        j.dOptions.and(j.dY).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        j.dOptions.and(j.dA).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         j.dOptions.and(j.dX).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        j.dRight.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        j.dB.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
         //ROBOT-SPECIFIC COMMANDS
 
         //climber commands
-        j.dRB.whileTrue(new InstantCommand( () -> climber.down()));
-        j.dLB.whileTrue(new InstantCommand( () -> climber.up()));
-        j.dRB.whileFalse(new InstantCommand(() -> climber.stop()));
-        j.dLB.whileFalse(new InstantCommand(() -> climber.stop()));
+        j.dA.whileTrue(new InstantCommand( () -> climber.climb()));
+        j.dY.whileTrue(new InstantCommand( () -> climber.unclimb()));
+        j.dA.whileFalse(new InstantCommand(() -> climber.stop()));
+        j.dY.whileFalse(new InstantCommand(() -> climber.stop()));
 
         //manual elevator commands -- a up, b down
         j.oOptions.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
@@ -151,8 +151,8 @@ public class RobotContainer {
         j.oY.whileFalse(new InstantCommand(() -> algae.stop()));
         j.oX.whileFalse(new InstantCommand(() -> algae.stop()));
 
-        j.dY.whileTrue(new InstantCommand(() -> algae.outtake()));
-        j.dY.whileFalse(new InstantCommand(() -> algae.stopIntake()));
+        // j.dA.whileTrue(new InstantCommand(() -> algae.outtake()));
+        // j.dA.whileFalse(new InstantCommand(() -> algae.stopIntake()));
 
         // j.oR3.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stopVertical()));
         // j.oL3.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stopVertical()));
@@ -195,11 +195,11 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         //alignment to apriltag
-        j.dX.whileTrue(new DTPLeft(drivetrain));
-        j.dB.whileTrue(new DriveToPoseBeta(drivetrain));
-        j.dLeft.whileTrue(new DTPoseTest(drivetrain));
+        j.dLB.whileTrue(new DTPLeft(drivetrain));
+        j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
+        // j.dLeft.whileTrue(new DTPoseTest(drivetrain));
 
-        j.dR3.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
+        j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 
 
         // j.dOptions.onTrue(new InstantCommand(() -> test.runTest(10))); //10 Is always start.

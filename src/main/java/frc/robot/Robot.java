@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -21,6 +22,11 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+  }
+
+  @Override
+  public void robotInit(){
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   @Override

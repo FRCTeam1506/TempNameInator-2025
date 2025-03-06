@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.vision.DTPLeft;
+import frc.robot.commands.vision.DTPLeftAuto;
 import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
 import frc.robot.generated.TunerConstants;
@@ -43,7 +44,7 @@ public class Autos {
         NamedCommands.registerCommand("ZeroGyro", drivetrain.runOnce(() -> drivetrain.seedFieldCentric()).withTimeout(0.05));
         NamedCommands.registerCommand("HoldIntake", new InstantCommand(() -> intake.zeroVertical()).withTimeout(0.05).andThen(new InstantCommand(() -> intake.raiseIntake())));
         NamedCommands.registerCommand("DTPBeta", new DriveToPoseBetaAutonomous(drivetrain));
-        NamedCommands.registerCommand("DTPLeft", new DTPLeft(drivetrain));
+        NamedCommands.registerCommand("DTPLeft", new DTPLeftAuto(drivetrain));
 
         NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.elevatorL4()));
         NamedCommands.registerCommand("ElevatorL4Delayed", new WaitCommand(2).andThen(new InstantCommand(() -> elevator.elevatorL4())));
