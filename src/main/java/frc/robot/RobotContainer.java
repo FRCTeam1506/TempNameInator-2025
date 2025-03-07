@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.vision.DTPLeft;
@@ -26,6 +27,7 @@ import frc.robot.commands.vision.DTPoseTest;
 import frc.robot.commands.vision.DriveToPose;
 import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
+import frc.robot.commands.vision.Jalign;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
 import frc.robot.commands.vision.align3d;
@@ -162,8 +164,11 @@ public class RobotContainer {
         // j.oR3.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stopVertical()));
         // j.oL3.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stopVertical()));
 
+        Trigger oRTNew = new Trigger(() -> j.operator.getRawAxis(4) > 0.1);
+
         j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake())));
-        j.oRT.whileTrue(new InstantCommand(() -> algae.verticalHome()).alongWith(new InstantCommand(() -> algae.stopIntake())));
+        // j.oRT.whileTrue(new InstantCommand(() -> algae.verticalHome()).alongWith(new InstantCommand(() -> algae.stopIntake())));
+        oRTNew.whileTrue(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.5)));
         j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
         j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
 
@@ -202,7 +207,7 @@ public class RobotContainer {
         //alignment to apriltag
         j.dLB.whileTrue(new DTPLeft(drivetrain));
         j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
-        // j.dLeft.whileTrue(new DTPoseTest(drivetrain));
+        j.dLeft.whileTrue(new Jalign(drivetrain));
 
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 
@@ -218,6 +223,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         /* Run the path selected from the auto chooser */
-        return autoChooserManual.getSelected();
+        return autoChooser.getSelected();
     }
 }

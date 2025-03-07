@@ -65,6 +65,11 @@ public class Algae extends SubsystemBase {
     //algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
     vertical.set(0.2);
   }
+
+  public void gripperUp(double speed){
+    vertical.set(0.8 * speed);
+  }
+
   public void gripperDown() {
     //algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
     vertical.set(-0.2);

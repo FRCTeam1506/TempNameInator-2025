@@ -21,8 +21,30 @@ public class Vision extends SubsystemBase {
   public static double align3d_x_left;
   public static double align3d_y_left;
 
+  public static int[] angles;
 
-  public Vision() {}
+
+  public Vision() {
+    angles = new int[23];
+
+    for(int i = 0; i<angles.length; i++){
+      angles[i] = 0;
+    }
+
+    angles[21] = 0;
+    angles[10] = 0;
+    angles[20] = 60;
+    angles[11] = 60;
+    angles[19] = 120;
+    angles[6] = 120;
+
+    angles[18] = 180;
+    angles[7] = 180;
+    angles[17] = -120;
+    angles[8] = -120;
+    angles[22] = -60;
+    angles[9] = -60;
+  }
 
   @Override
   public void periodic() {

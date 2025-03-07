@@ -124,7 +124,7 @@ public class DriveToPoseBetaAutonomous extends Command {
     xController.setGoal(targetPose.getX());
     yController.setGoal(targetPose.getY());
 
-    thetaController.setGoal(0);
+    thetaController.setGoal(Math.toRadians(-15)); //0
 
     thetaController.setTolerance(Math.toRadians(1.5));
 

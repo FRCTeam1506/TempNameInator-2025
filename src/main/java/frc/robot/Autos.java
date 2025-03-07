@@ -68,6 +68,7 @@ public class Autos {
         chooser.addOption("Left", new PathPlannerAuto("Left"));
         chooser.addOption("Right", new PathPlannerAuto("Left", true));
         chooser.addOption("Center", new PathPlannerAuto("Center"));
+        chooser.addOption("C10", new PathPlannerAuto("C10"));
         chooser.addOption("Nothing", new WaitCommand(15));
 
         return chooser;

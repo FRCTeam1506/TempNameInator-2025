@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "StartRight"
+            "pathName": "Right1"
           }
         },
         {
@@ -46,46 +46,9 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "RightPickSecond"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ElevatorGround"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeHP"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RightScoreSecond"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DTPBeta"
+                  "waitTime": 0.2
                 }
               },
               {
@@ -104,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightPickThird"
+                  "pathName": "Right2"
                 }
               },
               {
@@ -125,7 +88,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.4
+            "waitTime": 1.0
           }
         },
         {
@@ -135,13 +98,75 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightScoreLast"
+                  "pathName": "Right3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ElevatorL2"
+                  "name": "DTPBeta"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootCoral"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorGround"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeHP"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right5"
                 }
               },
               {
