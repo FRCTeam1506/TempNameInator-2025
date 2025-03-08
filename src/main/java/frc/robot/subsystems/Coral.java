@@ -69,7 +69,8 @@ public class Coral extends SubsystemBase {
 
     double speed = CoralConstants.forwardSpeed;
     if(!starting){
-      speed*=2;
+      // speed*=2;
+      speed = 0.65;
     }
 
     if(starting == irOne.get()){

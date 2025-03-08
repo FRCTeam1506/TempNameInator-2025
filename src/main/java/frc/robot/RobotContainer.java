@@ -28,6 +28,7 @@ import frc.robot.commands.vision.DriveToPose;
 import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
 import frc.robot.commands.vision.Jalign;
+import frc.robot.commands.vision.OnlyTurn;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
 import frc.robot.commands.vision.align3d;
@@ -85,7 +86,7 @@ public class RobotContainer {
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
-        SmartDashboard.putData("Auto Mode 2000", autoChooserManual);
+        // SmartDashboard.putData("Auto Mode 2000", autoChooserManual);
 
         configureBindings();
     }
@@ -103,7 +104,7 @@ public class RobotContainer {
         );
 
 
-        j.dA.whileTrue(drivetrain.applyRequest(() -> brake));
+        j.dX.whileTrue(drivetrain.applyRequest(() -> brake));
         // j.dB.whileTrue(drivetrain.applyRequest(() ->
         //     point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
         // ));
@@ -210,6 +211,7 @@ public class RobotContainer {
         j.dLB.whileTrue(new DTPLeft(drivetrain));
         j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
         j.dLeft.whileTrue(new Jalign(drivetrain));
+        j.dRight.whileTrue(new OnlyTurn(drivetrain));
 
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 
