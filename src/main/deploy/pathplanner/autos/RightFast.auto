@@ -26,19 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestAuto1_OG"
+            "pathName": "Right1"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "DTPBeta"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.3
           }
         },
         {
@@ -73,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left2"
+                  "pathName": "Right2"
                 }
               },
               {
@@ -94,7 +88,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.6
+            "waitTime": 0.4
           }
         },
         {
@@ -104,7 +98,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left3"
+                  "pathName": "Right3"
                 }
               },
               {
@@ -116,13 +110,19 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 0.15
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "ShootCoral"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.2
                 }
               }
             ]
@@ -135,7 +135,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left4"
+                  "pathName": "Right4"
                 }
               },
               {
@@ -156,7 +156,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.6
+            "waitTime": 0.45
           }
         },
         {
@@ -166,7 +166,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left5"
+                  "pathName": "Right5"
                 }
               },
               {

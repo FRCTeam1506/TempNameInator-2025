@@ -77,7 +77,10 @@ public class Algae extends SubsystemBase {
 
 
   public void verticalScore() {
-    vertical.setControl(m_motmag.withPosition(-2.05));
+    vertical.setControl(m_motmag.withPosition(-2.25)); //-2.25
+  }
+  public void verticalBarge(){
+    vertical.setControl(m_motmag.withPosition(-0.43));
   }
   public void verticalHome() {
     vertical.setControl(m_motmag.withPosition(0));
@@ -121,8 +124,11 @@ public class Algae extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    if(Math.abs(vertical.getPosition().getValueAsDouble()) < 0.5 && vertical.getTorqueCurrent().getValueAsDouble() > 20){
-      vertical.setPosition(0);
+    // if(Math.abs(vertical.getPosition().getValueAsDouble()) < 0.5 && vertical.getTorqueCurrent().getValueAsDouble() > 20){
+    //   vertical.setPosition(0);
+    // }
+    if(vertical.getTorqueCurrent().getValueAsDouble() > 30 && vertical.getPosition().getValueAsDouble() > 0.5){
+      vertical.setPosition(-2.25);
     }
   }
 }

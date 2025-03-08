@@ -166,14 +166,16 @@ public class RobotContainer {
 
         Trigger oRTNew = new Trigger(() -> j.operator.getRawAxis(4) > 0.1);
 
-        j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake())));
-        // j.oRT.whileTrue(new InstantCommand(() -> algae.verticalHome()).alongWith(new InstantCommand(() -> algae.stopIntake())));
-        oRTNew.whileTrue(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.5)));
-        j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+        j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake()))).whileFalse(new InstantCommand(() -> algae.verticalHome()).andThen(new InstantCommand(() -> algae.stopIntake())));
+        j.oRT.whileTrue(new InstantCommand(() -> algae.verticalBarge())).onFalse(new InstantCommand(() -> algae.outtake()));
+        // oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.2))));
+        // j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
         j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
 
         j.oL3.whileTrue(new InstantCommand(() -> algae.gripperUp()));
+        j.oR3.whileTrue(new InstantCommand(() -> algae.gripperDown()));
         j.oL3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
+        j.oR3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
 
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake()));

@@ -86,7 +86,7 @@ public class Jalign extends Command {
     xController.reset(0);
     yController.reset(0);
 
-    thetaController.reset(drivetrain.getState().Pose.getRotation().getRadians());
+    // thetaController.reset(drivetrain.getState().Pose.getRotation().getRadians());
     thetaController.setGoal(goalAngle);
     thetaController.setTolerance(Math.toRadians(1.5));
 
@@ -113,21 +113,7 @@ public class Jalign extends Command {
     double yVelocity = yController.calculate(currentPose.getY(), this.targetPose.getY());
 
     // double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER); 
-    double currentAngle = currentPose.getRotation().getDegrees();
-
-    if(currentAngle > 360){
-      do{
-        currentAngle -= 360;
-      }
-      while(currentAngle>360);
-    }
-    else if(currentAngle < 0){
-      do{
-        currentAngle +=360;
-      }
-      while(currentAngle < 0); 
-    }
-    double rotationOutput = thetaController.calculate(Math.toRadians(currentAngle), goalAngle);   
+    double rotationOutput = thetaController.calculate(Math.toRadians(findCoterminalAngle(currentPose.getRotation().getDegrees())), goalAngle);   
 
 
     //thetaVelocity add it back
@@ -152,4 +138,18 @@ public class Jalign extends Command {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
   }
+
+  //chatgpt
+  public static double findCoterminalAngle(double angle) {
+    // Normalize the angle by subtracting or adding multiples of 360
+    double normalizedAngle = angle % 360;
+    
+    // If the normalized angle is negative, add 360 to make it positive
+    if (normalizedAngle < 0) {
+        normalizedAngle += 360;
+    }
+    
+    return normalizedAngle;
+}
+
 }

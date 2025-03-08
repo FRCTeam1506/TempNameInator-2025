@@ -38,7 +38,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.3
+            "waitTime": 0.18
           }
         },
         {
@@ -54,7 +54,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.2
+                  "waitTime": 0.1
                 }
               },
               {
@@ -156,7 +156,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.6
+            "waitTime": 0.45
           }
         },
         {
@@ -166,13 +166,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DTPLeft"
+                  "pathName": "Left5Fast"
                 }
               },
               {

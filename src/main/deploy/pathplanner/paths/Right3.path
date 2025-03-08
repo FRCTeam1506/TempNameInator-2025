@@ -34,14 +34,14 @@
   "eventMarkers": [
     {
       "name": "ElevatorL4",
-      "waypointRelativePos": 0.5902406417112299,
+      "waypointRelativePos": 0.7032301480484565,
       "endWaypointRelativePos": null,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.6,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -57,5 +57,5 @@
     "velocity": 0,
     "rotation": -127.23483398157462
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
