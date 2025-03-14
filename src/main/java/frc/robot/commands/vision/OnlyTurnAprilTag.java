@@ -24,7 +24,7 @@ import frc.robot.subsystems.Vision;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 
-public class Jalign extends Command {
+public class OnlyTurnAprilTag extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private Pose2d targetPose;
 
@@ -52,15 +52,15 @@ public class Jalign extends Command {
 
   private final ProfiledPIDController thetaController = 
       new ProfiledPIDController(
-        SwerveConstants.alignKP, // p/8.8 
+        SwerveConstants.alignKP, 
         SwerveConstants.alignKI, 
-        SwerveConstants.alignKD, //d/0.05 
+        SwerveConstants.alignKD, 
         new TrapezoidProfile.Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 
         double goalAngle;
 
 
-  public Jalign(CommandSwerveDrivetrain drivetrain) {
+  public OnlyTurnAprilTag(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
@@ -84,22 +84,19 @@ public class Jalign extends Command {
     }
 
     goalAngle = Math.toRadians(Vision.angles[tagId]) + Math.PI;
+    System.out.println(goalAngle);
 
-    // xController.setTolerance(0.02);
-    // yController.setTolerance(0.018);
-
-    // xController.reset(0);
-    // yController.reset(0); //added this code
+    xController.reset(0);
+    yController.reset(0);
 
     // thetaController.reset(drivetrain.getState().Pose.getRotation().getRadians());
     thetaController.setGoal(goalAngle);
     thetaController.setTolerance(Math.toRadians(1.5));
 
     // thetaController.reset(currentPose.getRotation().getRadians());
-    this.targetPose = new Pose2d(0.3, 0.1, new Rotation2d(goalAngle)); //-0.3 for x
+    this.targetPose = new Pose2d(-0.3, 0.1, new Rotation2d(goalAngle));
 
     this.timer.restart();
-
   }
 
   @Override
@@ -123,7 +120,7 @@ public class Jalign extends Command {
 
 
     //thetaVelocity add it back
-    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-xVelocity,yVelocity,rotationOutput)));
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-0,0,rotationOutput)));
   }
 
   @Override
@@ -136,7 +133,7 @@ public class Jalign extends Command {
             && Math.abs(difference.getRotation().getRadians())
                 < Math.toRadians(3);
 
-    return this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_CENTER);
+    return false; //this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_CENTER);
   }
 
   @Override

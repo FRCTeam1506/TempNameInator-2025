@@ -29,6 +29,7 @@ import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
 import frc.robot.commands.vision.Jalign;
 import frc.robot.commands.vision.OnlyTurn;
+import frc.robot.commands.vision.OnlyTurnAprilTag;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
 import frc.robot.commands.vision.align3d;
@@ -211,7 +212,7 @@ public class RobotContainer {
         j.dLB.whileTrue(new DTPLeft(drivetrain));
         j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
         j.dLeft.whileTrue(new Jalign(drivetrain));
-        j.dRight.whileTrue(new OnlyTurn(drivetrain));
+        j.dRight.whileTrue(new OnlyTurnAprilTag(drivetrain));
 
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 

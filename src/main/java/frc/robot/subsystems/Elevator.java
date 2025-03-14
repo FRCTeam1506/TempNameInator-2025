@@ -17,6 +17,8 @@ import frc.robot.Constants.ElevatorConstants;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
+import static frc.robot.Constants.scoreSpeed;
+
 import java.lang.annotation.ElementType;
 import java.util.Map;
 
@@ -114,18 +116,22 @@ public class Elevator extends SubsystemBase {
   public void elevatorGround() {
     elevator1.setControl(m_motmag.withPosition(0));
     elevator2.setControl(m_motmag.withPosition(0));
+    Constants.scoreSpeed = 0.65;
   }
   public void elevatorL2() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
+    Constants.scoreSpeed = 0.4; //TUNE THIS
   }
   public void elevatorL3() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
+    Constants.scoreSpeed = 0.5; //TUNE THIS
   }
   public void elevatorL4() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
+    Constants.scoreSpeed = 0.65; 
   }
 
 

@@ -67,23 +67,34 @@ public class Coral extends SubsystemBase {
   //if ir1 is false -- coral
   public void intake(boolean starting){
 
-    double speed = CoralConstants.forwardSpeed;
-    if(!starting){
-      // speed*=2;
-      speed = 0.65;
-    }
+    //double speed = CoralConstants.forwardSpeed;
+    // if(!starting){
+    //   // speed*=2;
+    //   speed = 0.65;
+    // }
 
     if(starting == irOne.get()){
-      motor.set(speed);
+      motor.set(Constants.scoreSpeed); //was set to "speed"
     }
     else if(starting == irTwo.get()){
-      motor.set(speed/3);
+      motor.set(Constants.scoreSpeed/3); //was set to "speed"
     }
     else{
       motor.setPosition(0);
       currentPosition = Position.MOVE_CORAL_DOWN;
       // currentPosition = Position.STOP; //we hav to uncomment above line when there is only one ir
     }
+    
+
+    //Below is Trey's idea for intaking. Need to test it.
+
+    // if (!irOne.get() && irIntake.get()) {
+    //   motor.set(Constants.scoreSpeed);
+    // } else if(irOne.get() && !irTwo.get()) {
+    //   motor.set(0.25);
+    // } else {
+    //   motor.set(0);
+    // }
   }
 
   public void justScore(){
