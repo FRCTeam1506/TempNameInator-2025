@@ -38,6 +38,7 @@ import frc.robot.commands.vision.alignRotationOnly;
 import frc.robot.commands.vision.driveToTagHolonomic;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
+import frc.robot.subsystems.AlgaeTwo;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
@@ -71,6 +72,8 @@ public class RobotContainer {
     public final Intake intake = new Intake();
     public final Vision vision = new Vision();
     public final Candle candle = new Candle();
+    public final AlgaeTwo mainAlgae = new AlgaeTwo();
+    
 
     Autos autos = new Autos(drivetrain, algae, coral, elevator, intake);
 
@@ -168,19 +171,24 @@ public class RobotContainer {
 
         Trigger oRTNew = new Trigger(() -> j.operator.getRawAxis(4) > 0.1);
 
-        j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake()))).whileFalse(new InstantCommand(() -> algae.verticalHome()).andThen(new InstantCommand(() -> algae.stopIntake())));
-        j.oRT.whileTrue(new InstantCommand(() -> algae.verticalBarge())).onFalse(new InstantCommand(() -> algae.outtake()));
-        // oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.2))));
-        // j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
-        j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
+        // j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake()))).whileFalse(new InstantCommand(() -> algae.verticalHome()).andThen(new InstantCommand(() -> algae.stopIntake())));
+        // j.oRT.whileTrue(new InstantCommand(() -> algae.verticalBarge())).onFalse(new InstantCommand(() -> algae.outtake()));
+        // // oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.2))));
+        // // j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+        // j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
 
-        j.oL3.whileTrue(new InstantCommand(() -> algae.gripperUp()));
-        j.oR3.whileTrue(new InstantCommand(() -> algae.gripperDown()));
-        j.oL3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
-        j.oR3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
+        // j.oL3.whileTrue(new InstantCommand(() -> algae.gripperUp()));
+        // j.oR3.whileTrue(new InstantCommand(() -> algae.gripperDown()));
+        // j.oL3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
+        // j.oR3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
+
+        j.oR3.whileTrue(new InstantCommand(() -> mainAlgae.grip()));
+        j.oL3.whileTrue(new InstantCommand(() -> mainAlgae.outtake()));
+        j.oR3.whileFalse(new InstantCommand(() -> mainAlgae.stop()));
+        j.oL3.whileFalse(new InstantCommand(() -> mainAlgae.stop()));
 
         //normal coral intake
-        j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake()));
+        j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
         j.oB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
         j.dRT.whileTrue(new InstantCommand(() -> coral.switchIntake()));
         j.oA.whileFalse(new InstantCommand(() -> coral.stop()));

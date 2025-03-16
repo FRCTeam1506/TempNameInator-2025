@@ -42,7 +42,7 @@ public class Jalign extends Command {
           SwerveConstants.driveKD,
           new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
           0.02);
-  private final ProfiledPIDController yController =
+  private final ProfiledPIDController yController = 
       new ProfiledPIDController(
           SwerveConstants.driveKP,
           SwerveConstants.driveKI,

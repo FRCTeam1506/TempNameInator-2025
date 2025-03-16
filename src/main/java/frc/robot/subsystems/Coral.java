@@ -21,6 +21,7 @@ public class Coral extends SubsystemBase {
   private TalonFX motor = new TalonFX(Constants.CoralConstants.MOTOR_ID);
   public static DigitalInput irTwo = new DigitalInput(CoralConstants.irInput);
   public static DigitalInput irOne = new DigitalInput(CoralConstants.irOutput);
+  public static DigitalInput irThree = new DigitalInput(CoralConstants.irThree);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 
@@ -138,6 +139,7 @@ public class Coral extends SubsystemBase {
 
     SmartDashboard.putBoolean("ir 1", irTwo.get()); //lower in mechanism -- irTwo
     SmartDashboard.putBoolean("ir 2", irOne.get()); //higher in mechanism -- irOne
+    SmartDashboard.putBoolean("ir 3", irThree.get());
 
     // System.out.println("1: " + irOne.get() + ", 2: " + irTwo.get());
 
@@ -157,6 +159,26 @@ public class Coral extends SubsystemBase {
     else{
       stop();
     }
+
+
+
+
+
+
+    //Trey's idea with a third ir. Is irOne the first one that will get triggered? 
+    // if (!irOne.get() && irThree.get()) {
+    //   motor.set(Constants.scoreSpeed);
+    // } else if(irOne.get() && !irTwo.get()) {
+    //   motor.set(0.25);
+    // } else {
+    //   motor.set(0);
+    // }
+
+    // if (irThree.get()) {
+    //   Constants.raisable = false;
+    // } else {
+    //   Constants.raisable = true;
+    // }
 
   }
 }

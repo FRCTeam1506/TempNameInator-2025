@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Constants {
 
-    public static double scoreSpeed = 0.5;
+    public static double scoreSpeed;
+    public static boolean raisable;
     
 
     public static final Slot0Configs slot0Configs = new Slot0Configs().withKS(0.24).withKV(0.12).withKP(4.8).withKI(0).withKD(0.1);
@@ -29,8 +30,8 @@ public class Constants {
         public static final int ELEVATOR2_ID = 56;
 
         // public static final int L4Pos = 10;
-        public static final double L2Pos = 31.8; //30 low KUweek2
-        public static final double L3Pos = 54.2; //53 slightly low FRCC  //53.4 too low when angled KUweek2
+        public static final double L2Pos = 30.5; //30 low KUweek2
+        public static final double L3Pos = 53; //53 slightly low FRCC  //53.4 too low when angled KUweek2
         public static final double L4Pos = 87.5; //87 prev
 
         public static final double ELEVATOR_SPEED = 0.2;
@@ -40,6 +41,7 @@ public class Constants {
         public static final int MOTOR_ID = 58;
         public static final int irInput = 3;
         public static final int irOutput = 2;
+        public static final int irThree = 5;
 
         public static final double forwardSpeed = .5;
         public static final double PrepSpeed = 0.2;
@@ -77,6 +79,16 @@ public class Constants {
 
         public static final double gripSpeedTwo = 0.3;
         public static final double dropSpeedTwo = -1;
+
+    }
+
+    public class AlgaeConstantsTwo {
+        public static final int BottomID = 60;//May Change
+        public static final int TopID = 61;//May Change
+
+
+        public static final double intakeSpeed = 0.2;
+        public static final double outtakeSpeed = -0.2;
 
     }
 
