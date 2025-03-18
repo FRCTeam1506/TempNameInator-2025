@@ -31,19 +31,33 @@ public class Vision extends SubsystemBase {
       angles[i] = 0;
     }
 
-    angles[21] = 0;
-    angles[10] = 0;
+    angles[21] = 180;
+    angles[10] = 180;
     angles[20] = 60;
-    angles[11] = 60;
-    angles[19] = 120;
-    angles[6] = 120;
+    angles[11] = -120;
+    angles[19] = -60;
+    angles[6] = -60;
 
-    angles[18] = 180;
-    angles[7] = 180;
+    angles[18] = 0;
+    angles[7] = 0;
     angles[17] = -120;
-    angles[8] = -120;
-    angles[22] = -60;
-    angles[9] = -60;
+    angles[8] = 60;
+    angles[22] = 120; //new
+    angles[9] = 120;
+
+    // angles[21] = 0;
+    // angles[10] = 0;
+    // angles[20] = 60;
+    // angles[11] = 60;
+    // angles[19] = 120;
+    // angles[6] = 120;
+
+    // angles[18] = 180;
+    // angles[7] = 180;
+    // angles[17] = -120;
+    // angles[8] = -120;
+    // angles[22] = -60;
+    // angles[9] = -60;
   }
 
   @Override

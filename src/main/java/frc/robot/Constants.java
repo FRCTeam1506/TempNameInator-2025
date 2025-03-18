@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Constants {
 
-    public static double scoreSpeed;
+    public static double scoreSpeed = 0.8;
     public static boolean raisable;
     
 

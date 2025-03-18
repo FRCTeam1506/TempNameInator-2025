@@ -24,7 +24,7 @@ import frc.robot.subsystems.Vision;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 
-public class OnlyTurn extends Command {
+public class OnlyTurn2 extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private Pose2d targetPose;
 
@@ -34,6 +34,7 @@ public class OnlyTurn extends Command {
   private Timer timer;
   double closeVelocityBoost = 0.0;
   double timeout = 10;
+  int tagId;
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(
@@ -52,15 +53,15 @@ public class OnlyTurn extends Command {
 
   private final ProfiledPIDController thetaController = 
       new ProfiledPIDController(
-        SwerveConstants.alignKP * 2, 
+        SwerveConstants.alignKP * 2.8, 
         SwerveConstants.alignKI, 
-        SwerveConstants.alignKD, 
+        SwerveConstants.alignKD * 1.5, 
         new TrapezoidProfile.Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 
         double goalAngle;
 
 
-  public OnlyTurn(CommandSwerveDrivetrain drivetrain) {
+  public OnlyTurn2(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
@@ -75,11 +76,12 @@ public class OnlyTurn extends Command {
     // Pose2d currentPose = drivetrain.getState().Pose;
     Pose2d currentPose = new Pose2d(Vision.align3d_x, Vision.align3d_y, new Rotation2d(Math.toRadians(LimelightHelpers.getTX(VisionConstants.LL_CENTER))));
     
-    int tagId = (int) LimelightHelpers.getFiducialID(VisionConstants.LL_CENTER);
+    tagId = (int) LimelightHelpers.getFiducialID(VisionConstants.LL_CENTER);
 
     if(tagId == -1){
       tagId = 0;
     }
+
 
     goalAngle = Math.toRadians(Vision.angles[tagId]);
 
@@ -90,7 +92,8 @@ public class OnlyTurn extends Command {
     thetaController.setGoal(goalAngle);
     thetaController.setTolerance(Math.toRadians(1.5));
 
-    // thetaController.reset(currentPose.getRotation().getRadians());
+    // thetaController.reset(Math.toRadians(findCoterminalAngle(currentPose.getRotation().getDegrees()))); //still revolving before derevolving
+    thetaController.reset(0);
     this.targetPose = new Pose2d(-0.3, 0.1, new Rotation2d(goalAngle));
 
     this.timer.restart();
@@ -115,7 +118,7 @@ public class OnlyTurn extends Command {
     goalAngle = 90;
 
     // double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER); 
-    double rotationOutput = thetaController.calculate(Math.toRadians(findCoterminalAngle(currentPose.getRotation().getDegrees())), Math.toRadians(goalAngle));   
+    double rotationOutput = thetaController.calculate(Math.toRadians(findCoterminalAngle(currentPose.getRotation().getDegrees())), Math.toRadians(Vision.angles[tagId]));   
 
 
     //thetaVelocity add it back

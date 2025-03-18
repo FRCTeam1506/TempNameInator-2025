@@ -55,7 +55,7 @@ public class Autos {
         NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.elevatorL2()));
         NamedCommands.registerCommand("ElevatorGround", new InstantCommand(() -> elevator.elevatorGround()));
 
-        NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.4), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get()).andThen(new InstantCommand(() -> coral.stop())));
+        NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.3), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get()).andThen(new InstantCommand(() -> coral.stop())));
         NamedCommands.registerCommand("StopShooting", new InstantCommand(() -> coral.stop()));
         NamedCommands.registerCommand("IntakeHP", new InstantCommand(() -> coral.stop()).withTimeout(0.02).andThen(new InstantCommand(() -> coral.switchIntake())));
 

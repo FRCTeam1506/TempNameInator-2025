@@ -114,30 +114,24 @@ public class Elevator extends SubsystemBase {
 
 
   public void elevatorGround() {
-      elevator1.setControl(m_motmag.withPosition(0));
-      elevator2.setControl(m_motmag.withPosition(0));
-      Constants.scoreSpeed = 0.65;
+    elevator1.setControl(m_motmag.withPosition(0));
+    elevator2.setControl(m_motmag.withPosition(0));
+    Constants.scoreSpeed = 0.65;
   }
   public void elevatorL2() {
-    //if (Constants.raisable) {
-      elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
-      elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
-      Constants.scoreSpeed = 0.5; //TUNE THIS
-    //}
+    elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
+    elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
+    Constants.scoreSpeed = 0.5; //TUNE THIS
   }
   public void elevatorL3() {
-    //if (Constants.raisable) {
-      elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
-      elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
-      Constants.scoreSpeed = 0.5; //TUNE THIS
-    //}
+    elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
+    elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
+    Constants.scoreSpeed = 0.5; //TUNE THIS
   }
   public void elevatorL4() {
-    //if (Constants.raisable) {
-      elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
-      elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
-      Constants.scoreSpeed = 0.65; 
-    //}
+    elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
+    elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
+    Constants.scoreSpeed = 0.65; 
   }
 
 

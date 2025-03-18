@@ -277,6 +277,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
 
         SmartDashboard.putNumber("Pigeon Yaw", getPigeon2().getYaw().getValueAsDouble());
+        SmartDashboard.putNumber("RP Yaw", getState().Pose.getRotation().getDegrees());
     }
 
     private void startSimThread() {

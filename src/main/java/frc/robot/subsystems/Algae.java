@@ -21,8 +21,8 @@ import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 
 
 public class Algae extends SubsystemBase {
-  private TalonFX vertical = new TalonFX(Constants.AlgaeConstants.VERTICAL_ID);
-  private TalonFX intake = new TalonFX(Constants.AlgaeConstants.INTAKE_ID);
+  private TalonFX top = new TalonFX(Constants.AlgaeConstantsTwo.TopID);
+  private TalonFX bottom = new TalonFX(Constants.AlgaeConstantsTwo.BottomID);
 
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
@@ -47,78 +47,25 @@ public class Algae extends SubsystemBase {
 
     m_motmag.EnableFOC = true;
   
-    vertical.getConfigurator().apply(config);
-    intake.getConfigurator().apply(config);
-
-
+    top.getConfigurator().apply(config);
+    bottom.getConfigurator().apply(config);
   }
+
+
 
 
   public void intake() {
-    intake.set(Constants.AlgaeConstants.intakeSpeed);
+    top.set(Constants.AlgaeConstantsTwo.intakeSpeed);
+    bottom.set(-Constants.AlgaeConstantsTwo.intakeSpeed);
   }
   public void outtake() {
-    intake.set(Constants.AlgaeConstants.outtakeSpeed);
+    top.set(Constants.AlgaeConstantsTwo.outtakeSpeed);
+    bottom.set(-Constants.AlgaeConstantsTwo.outtakeSpeed);
   }
-
-  public void gripperUp() {
-    //algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
-    vertical.set(0.2);
-  }
-
-  public void gripperUp(double speed){
-    vertical.set(0.8 * speed);
-  }
-
-  public void gripperDown() {
-    //algaeGripperTwo.setControl(m_motmag.withPosition(0.5));
-    vertical.set(-0.2);
-  }
-
-
-  public void verticalScore() {
-    vertical.setControl(m_motmag.withPosition(-2.25)); //-2.25
-  }
-  public void verticalBarge(){
-    vertical.setControl(m_motmag.withPosition(-0.43));
-  }
-  public void verticalHome() {
-    vertical.setControl(m_motmag.withPosition(0));
-  }
-
   public void stop() {
-    vertical.set(0);
-    intake.set(0);
-    vertical.stopMotor();
-    intake.stopMotor();
+    top.set(0);
+    bottom.set(0);
   }
-
-  public void stopVertical(){
-    vertical.set(0);
-    vertical.stopMotor();
-  }
-
-  public void dutyCycleTest(){
-
-    //https://v6.docs.ctr-electronics.com/en/2024/docs/api-reference/api-usage/actuator-limits.html
-
-    boolean forwardLimit = Math.abs(vertical.getTorqueCurrent().getValueAsDouble()) > 50;
-
-    vertical.setControl(m_dutyCycle.withOutput(0.5)
-      .withLimitForwardMotion(forwardLimit));
-      // .withLimitReverseMotion(m_reverseLimit.get()));
-  }
-
-  public void stopIntake(){
-    intake.set(0);
-    intake.stopMotor();
-  }
-
-  public void zeroVertical(){
-    vertical.setPosition(0);
-    System.out.println("Algae Motor Zeroed!");
-  }
-
 
 
 
@@ -126,11 +73,5 @@ public class Algae extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // if(Math.abs(vertical.getPosition().getValueAsDouble()) < 0.5 && vertical.getTorqueCurrent().getValueAsDouble() > 20){
-    //   vertical.setPosition(0);
-    // }
-    if(vertical.getTorqueCurrent().getValueAsDouble() > 30 && vertical.getPosition().getValueAsDouble() > 0.5){
-      vertical.setPosition(-2.25);
-    }
   }
 }

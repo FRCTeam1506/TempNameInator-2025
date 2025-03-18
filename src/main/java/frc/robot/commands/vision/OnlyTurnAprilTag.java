@@ -34,6 +34,7 @@ public class OnlyTurnAprilTag extends Command {
   private Timer timer;
   double closeVelocityBoost = 0.0;
   double timeout = 10;
+  boolean absval = false;
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(
@@ -52,9 +53,9 @@ public class OnlyTurnAprilTag extends Command {
 
   private final ProfiledPIDController thetaController = 
       new ProfiledPIDController(
-        SwerveConstants.alignKP, 
+        SwerveConstants.alignKP / 1.5, 
         SwerveConstants.alignKI, 
-        SwerveConstants.alignKD, 
+        SwerveConstants.alignKD / 2, 
         new TrapezoidProfile.Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 
         double goalAngle;
@@ -83,8 +84,12 @@ public class OnlyTurnAprilTag extends Command {
       tagId = 0;
     }
 
-    goalAngle = Math.toRadians(Vision.angles[tagId]) + Math.PI;
+    goalAngle = Math.toRadians(Vision.angles[tagId]);
     System.out.println(goalAngle);
+
+    if(tagId == 10 || tagId == 18){
+      absval = true;
+    }
 
     xController.reset(0);
     yController.reset(0);
@@ -115,9 +120,13 @@ public class OnlyTurnAprilTag extends Command {
     double xVelocity = xController.calculate(currentPose.getX(), this.targetPose.getX());
     double yVelocity = yController.calculate(currentPose.getY(), this.targetPose.getY());
 
-    // double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER); 
-    double rotationOutput = thetaController.calculate(Math.toRadians(findCoterminalAngle(currentPose.getRotation().getDegrees())), goalAngle);   
-
+    // double theta = LimelightHelpers.getTX(VisionConstants.LL_CENTER);     
+    
+    double angle = currentPose.getRotation().getDegrees();
+    if(absval){
+      angle = Math.abs(angle);
+    }
+    double rotationOutput = thetaController.calculate(Math.toRadians(findCoterminalAngle(angle)));   
 
     //thetaVelocity add it back
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-0,0,rotationOutput)));
@@ -133,7 +142,7 @@ public class OnlyTurnAprilTag extends Command {
             && Math.abs(difference.getRotation().getRadians())
                 < Math.toRadians(3);
 
-    return false; //this.timer.hasElapsed(timeout) || atGoal || !LimelightHelpers.getTV(VisionConstants.LL_CENTER);
+    return  thetaController.atGoal() || !LimelightHelpers.getTV(VisionConstants.LL_CENTER);
   }
 
   @Override

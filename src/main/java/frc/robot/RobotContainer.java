@@ -29,6 +29,8 @@ import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
 import frc.robot.commands.vision.Jalign;
 import frc.robot.commands.vision.OnlyTurn;
+import frc.robot.commands.vision.OnlyTurn2;
+import frc.robot.commands.vision.OnlyTurn2Deg;
 import frc.robot.commands.vision.OnlyTurnAprilTag;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
@@ -38,7 +40,7 @@ import frc.robot.commands.vision.alignRotationOnly;
 import frc.robot.commands.vision.driveToTagHolonomic;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
-import frc.robot.subsystems.AlgaeTwo;
+import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
@@ -67,12 +69,12 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Climber climber = new Climber();
     public final Elevator elevator = new Elevator();
-    public final Algae algae = new Algae();
+    // public final Algae algae = new Algae();
     public final Coral coral = new Coral();
     public final Intake intake = new Intake();
     public final Vision vision = new Vision();
     public final Candle candle = new Candle();
-    public final AlgaeTwo mainAlgae = new AlgaeTwo();
+    public final Algae algae = new Algae();
     
 
     Autos autos = new Autos(drivetrain, algae, coral, elevator, intake);
@@ -182,10 +184,10 @@ public class RobotContainer {
         // j.oL3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
         // j.oR3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
 
-        j.oR3.whileTrue(new InstantCommand(() -> mainAlgae.grip()));
-        j.oL3.whileTrue(new InstantCommand(() -> mainAlgae.outtake()));
-        j.oR3.whileFalse(new InstantCommand(() -> mainAlgae.stop()));
-        j.oL3.whileFalse(new InstantCommand(() -> mainAlgae.stop()));
+        j.oR3.whileTrue(new InstantCommand(() -> algae.intake()));
+        j.oL3.whileTrue(new InstantCommand(() -> algae.outtake()));
+        j.oR3.whileFalse(new InstantCommand(() -> algae.stop()));
+        j.oL3.whileFalse(new InstantCommand(() -> algae.stop()));
 
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
@@ -203,7 +205,7 @@ public class RobotContainer {
 
         //zeroing things --- driver for side intake, operator for algae gripper
         j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
-        j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
+        // j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
         //operator floor intake macros
         j.oRB.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
@@ -220,7 +222,7 @@ public class RobotContainer {
         j.dLB.whileTrue(new DTPLeft(drivetrain));
         j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
         j.dLeft.whileTrue(new Jalign(drivetrain));
-        j.dRight.whileTrue(new OnlyTurnAprilTag(drivetrain));
+        j.dRight.whileTrue(new OnlyTurn2(drivetrain));
 
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 
