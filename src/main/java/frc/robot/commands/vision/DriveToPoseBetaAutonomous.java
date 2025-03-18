@@ -59,7 +59,7 @@ public class DriveToPoseBetaAutonomous extends Command {
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 2;
+  double timeout = 1.2;//1.5
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(

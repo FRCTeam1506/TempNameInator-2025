@@ -153,6 +153,7 @@ public class RobotContainer {
         j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
         j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        j.dShare.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
         // j.oUp.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         // j.oRight.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         // j.oLeft.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));

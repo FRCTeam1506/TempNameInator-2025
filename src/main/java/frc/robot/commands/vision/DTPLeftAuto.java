@@ -52,7 +52,7 @@ public class DTPLeftAuto extends Command {
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 10;
+  double timeout = 1.2;
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(
