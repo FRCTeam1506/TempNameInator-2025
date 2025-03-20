@@ -32,7 +32,7 @@ public class Constants {
         // public static final int L4Pos = 10;
         public static final double L2Pos = 30.5; //30 low KUweek2
         public static final double L3Pos = 53; //53 slightly low FRCC  //53.4 too low when angled KUweek2
-        public static final double L4Pos = 87.5; //87 prev
+        public static final double L4Pos = 87; //87 prev, 87.5
 
         public static final double ELEVATOR_SPEED = 0.2;
     }
@@ -62,8 +62,8 @@ public class Constants {
         public static final double outtakeSpeed = 0.6;
 
         public static final double holdSpeed = 0.2;
-        public static final double upSpeed = 0.25;
-        public static final double downSpeed = 0.3;
+        public static final double upSpeed = 0.1; //.25
+        public static final double downSpeed = 0.15; //0.3
 
     }
 

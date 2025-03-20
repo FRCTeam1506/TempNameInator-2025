@@ -28,12 +28,16 @@ import frc.robot.commands.vision.DriveToPose;
 import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
 import frc.robot.commands.vision.Jalign;
+import frc.robot.commands.vision.JalignLeft;
+import frc.robot.commands.vision.JalignRight;
 import frc.robot.commands.vision.OnlyTurn;
 import frc.robot.commands.vision.OnlyTurn2;
 import frc.robot.commands.vision.OnlyTurn2Deg;
 import frc.robot.commands.vision.OnlyTurnAprilTag;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
+import frc.robot.commands.vision.TTAHolonomicAprilTag;
+import frc.robot.commands.vision.TurnToAngleHolonomic;
 import frc.robot.commands.vision.align3d;
 import frc.robot.commands.vision.align3dproper;
 import frc.robot.commands.vision.alignRotationOnly;
@@ -222,8 +226,12 @@ public class RobotContainer {
         //alignment to apriltag
         j.dLB.whileTrue(new DTPLeft(drivetrain));
         j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
-        j.dLeft.whileTrue(new Jalign(drivetrain));
-        j.dRight.whileTrue(new OnlyTurn2(drivetrain));
+        j.dLeft.whileTrue(new JalignLeft(drivetrain));
+        j.dRight.whileTrue(new JalignRight(drivetrain));
+        // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
+        // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
+        // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
+        
 
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
 

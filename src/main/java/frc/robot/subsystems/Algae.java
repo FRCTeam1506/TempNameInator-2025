@@ -40,7 +40,7 @@ public class Algae extends SubsystemBase {
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-    config.MotionMagic.MotionMagicCruiseVelocity = 80; // 80 rps cruise velocity
+    config.MotionMagic.MotionMagicCruiseVelocity = 120; // 80 rps cruise velocity
     config.MotionMagic.MotionMagicAcceleration = 160; // 160 rps/s acceleration (0.5 seconds)
     config.MotionMagic.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
     config.Slot0 = Constants.slot0Configs;
