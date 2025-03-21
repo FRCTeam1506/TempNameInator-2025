@@ -157,7 +157,11 @@ public class RobotContainer {
         j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
         j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
-        j.dShare.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+
+        j.dL3.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        // j.dShare.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+        j.dR3.whileTrue(new InstantCommand(() -> elevator.switchElevator()));
+
         // j.oUp.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         // j.oRight.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
         // j.oLeft.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
@@ -232,15 +236,8 @@ public class RobotContainer {
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
         
-
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
-
-
-        // j.dOptions.onTrue(new InstantCommand(() -> test.runTest(10))); //10 Is always start.
-        // j.dOptions.onFalse(new InstantCommand(() -> test.runTest(0))); //10 Is always start.
-
-
-    
+   
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

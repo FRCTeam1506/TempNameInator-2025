@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ElevatorConstants.ElevatorLevel;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
@@ -64,7 +65,7 @@ public class Elevator extends SubsystemBase {
     elevator2.getConfigurator().apply(config);
 
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 220; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100 //160
+    motionMagicConfigs.MotionMagicCruiseVelocity = 220; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100 //160 //220 before 3/20 bc elevator maltensioned
     motionMagicConfigs.MotionMagicAcceleration = 260; // 160 rps/s acceleration (0.5 seconds) //220
     motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
 
@@ -116,22 +117,47 @@ public class Elevator extends SubsystemBase {
   public void elevatorGround() {
     elevator1.setControl(m_motmag.withPosition(0));
     elevator2.setControl(m_motmag.withPosition(0));
+
     Constants.scoreSpeed = 0.65;
+    ElevatorConstants.current = ElevatorConstants.ElevatorLevel.Ground;
   }
+
   public void elevatorL2() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
+
     Constants.scoreSpeed = 0.5; //TUNE THIS
+    ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L2;
   }
+
   public void elevatorL3() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
+
     Constants.scoreSpeed = 0.5; //TUNE THIS
+    ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L3;
   }
+
   public void elevatorL4() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
+
     Constants.scoreSpeed = 0.65; 
+    ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L4;
+  }
+
+
+  public void switchElevator(){
+
+    if(ElevatorConstants.current == ElevatorLevel.Ground){
+      elevatorL2();
+    }
+    else if(ElevatorConstants.current == ElevatorLevel.L2){
+      elevatorL3();
+    }
+    else if(ElevatorConstants.current == ElevatorLevel.L3){
+      elevatorL4();
+    }
   }
 
 

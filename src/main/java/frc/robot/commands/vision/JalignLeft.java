@@ -146,7 +146,7 @@ public class JalignLeft extends Command {
     yController.reset(0);
 
     // thetaController.reset(currentPose.getRotation().getRadians());
-    this.targetPose = new Pose2d(-0.25, -0.03, new Rotation2d(0)); //y used to = 0.1
+    this.targetPose = new Pose2d(-0.15, -0.03, new Rotation2d(0)); //y used to = 0.1
 
     this.timer.restart();
   }

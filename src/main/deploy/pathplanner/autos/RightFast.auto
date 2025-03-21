@@ -36,28 +36,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "ShootCoral"
+            "waitTime": 0.15
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.2
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootCoral"
-                }
-              }
-            ]
+            "name": "ShootCoral"
           }
         },
         {
@@ -88,7 +75,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.4
+            "waitTime": 0.0
           }
         },
         {
@@ -117,12 +104,6 @@
                 "type": "named",
                 "data": {
                   "name": "ShootCoral"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.2
                 }
               }
             ]
@@ -156,7 +137,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.45
+            "waitTime": 0.0
           }
         },
         {
@@ -170,6 +151,12 @@
                 }
               },
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.1
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "DTPLeft"
@@ -179,6 +166,12 @@
                 "type": "named",
                 "data": {
                   "name": "ShootCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorGround"
                 }
               }
             ]

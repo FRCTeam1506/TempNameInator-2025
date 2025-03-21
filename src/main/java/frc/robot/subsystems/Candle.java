@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.CandleConstants;
+import frc.robot.Constants.VisionConstants;
 
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
@@ -48,6 +50,11 @@ public class Candle extends SubsystemBase {
   public void white(){
     stopGSA();
     candle.setLEDs(255, 255, 255);
+  }
+
+  public void hotPink(){
+    stopGSA();
+    candle.setLEDs(255, 105, 180);
   }
 
   public void green(){
@@ -96,11 +103,19 @@ public class Candle extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(Constants.CandleConstants.noah){
+
+
+
+    if(Constants.CandleConstants.noah || DriverStation.isAutonomousEnabled()){
       gsa();
     }
     else if(!Coral.irTwo.get()){
+      if(LimelightHelpers.getTV(VisionConstants.LL_CENTER) || LimelightHelpers.getTV(VisionConstants.LL_LEFT)){
+        hotPink();
+      }
+      else{
         green();
+      }
     }
     else if(!Coral.irOne.get()){
         greenBlinkAnimation();

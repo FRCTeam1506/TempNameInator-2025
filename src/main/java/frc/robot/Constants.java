@@ -30,11 +30,20 @@ public class Constants {
         public static final int ELEVATOR2_ID = 56;
 
         // public static final int L4Pos = 10;
-        public static final double L2Pos = 30.5; //30 low KUweek2
+        public static final double L2Pos = 29.5; //30 low KUweek2 //30.5 slightly high with jalign, FRCC
         public static final double L3Pos = 53; //53 slightly low FRCC  //53.4 too low when angled KUweek2
         public static final double L4Pos = 87; //87 prev, 87.5
 
         public static final double ELEVATOR_SPEED = 0.2;
+
+        public enum ElevatorLevel{
+            Ground,
+            L2,
+            L3,
+            L4,
+        }
+
+        public static ElevatorLevel current = ElevatorLevel.Ground;
     }
 
     public class CoralConstants {

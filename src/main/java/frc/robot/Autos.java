@@ -13,6 +13,8 @@ import frc.robot.commands.vision.DTPLeft;
 import frc.robot.commands.vision.DTPLeftAuto;
 import frc.robot.commands.vision.DriveToPoseBeta;
 import frc.robot.commands.vision.DriveToPoseBetaAutonomous;
+import frc.robot.commands.vision.JalignLeft;
+import frc.robot.commands.vision.JalignRight;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -46,8 +48,11 @@ public class Autos {
     public void makeNamedCommands(){
         NamedCommands.registerCommand("ZeroGyro", drivetrain.runOnce(() -> drivetrain.seedFieldCentric()).withTimeout(0.05));
         NamedCommands.registerCommand("HoldIntake", new InstantCommand(() -> intake.zeroVertical()).withTimeout(0.05).andThen(new InstantCommand(() -> intake.raiseIntake())));
+        
         NamedCommands.registerCommand("DTPBeta", new DriveToPoseBetaAutonomous(drivetrain));
         NamedCommands.registerCommand("DTPLeft", new DTPLeftAuto(drivetrain));
+        NamedCommands.registerCommand("JalignLeft", new JalignLeft(drivetrain));
+        NamedCommands.registerCommand("JalignRight", new JalignRight(drivetrain));
 
         NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.elevatorL4()));
         NamedCommands.registerCommand("ElevatorL4Delayed", new WaitCommand(2).andThen(new InstantCommand(() -> elevator.elevatorL4())));
@@ -58,7 +63,6 @@ public class Autos {
         NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.15), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get() && coral.irTwo.get()).andThen(new InstantCommand(() -> coral.stop())));
         NamedCommands.registerCommand("StopShooting", new InstantCommand(() -> coral.stop()));
         NamedCommands.registerCommand("IntakeHP", new InstantCommand(() -> coral.stop()).withTimeout(0.02).andThen(new InstantCommand(() -> coral.switchIntake())));
-
         
 
         new EventTrigger("ElevatorL4").whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
