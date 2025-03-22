@@ -67,17 +67,17 @@ public class JalignLeft extends Command {
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP *1.5,
           SwerveConstants.driveKI,
           SwerveConstants.driveKD,
-          new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
+          new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity * 1.8, SwerveConstants.dMaxAccel),
           0.02);
   private final ProfiledPIDController yController =
       new ProfiledPIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP * 1.5,
           SwerveConstants.driveKI,
           SwerveConstants.driveKD,
-          new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
+          new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity * 1.8, SwerveConstants.dMaxAccel),
           0.02);
 
   ProfiledPIDController thetacontroller;

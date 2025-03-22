@@ -228,10 +228,10 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         //alignment to apriltag
-        j.dLB.whileTrue(new DTPLeft(drivetrain));
-        j.dRB.whileTrue(new DriveToPoseBeta(drivetrain));
-        j.dLeft.whileTrue(new JalignLeft(drivetrain));
-        j.dRight.whileTrue(new JalignRight(drivetrain));
+        j.dLeft.whileTrue(new DTPLeft(drivetrain)); //lb
+        j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
+        j.dLB.whileTrue(new JalignLeft(drivetrain));
+        j.dRB.whileTrue(new JalignRight(drivetrain));
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
