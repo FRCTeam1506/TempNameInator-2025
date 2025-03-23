@@ -103,7 +103,7 @@ public class DTPLeft extends Command {
   @Override
   public void initialize() {
     // Reset all controllers
-    this.targetPose = new Pose2d(-0.20, -0.04, new Rotation2d(Math.toRadians(19)));
+    this.targetPose = new Pose2d(-0.20, -0.03, new Rotation2d(Math.toRadians(8.3))); //-0.04, 19
 
     thetaController.setGoal(targetPose.getRotation().getRadians());
     thetaController.setTolerance(Math.toRadians(1.5));

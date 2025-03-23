@@ -63,7 +63,7 @@ public class DriveToPoseBetaAutonomous extends Command {
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP - 0.3,
           SwerveConstants.driveKI,
           SwerveConstants.driveKD,
           new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
@@ -128,7 +128,7 @@ public class DriveToPoseBetaAutonomous extends Command {
 
     thetaController.setTolerance(Math.toRadians(1.5));
 
-    xController.setTolerance(0.02);
+    xController.setTolerance(0.04); //0.02
     yController.setTolerance(0.08);
 
     // thetaController.reset(currentPose.getRotation().getRadians());
