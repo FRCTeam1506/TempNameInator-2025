@@ -63,7 +63,7 @@ public class Constants {
 
         public static final int BUTTON_PORT = 4;
 
-        public static final double groundPosition = -4.13;
+        public static final double groundPosition = -4.3; //-4.13
         public static final double upperPosition = 0;
         public static final double scorePosition = -.5;
 
@@ -96,8 +96,8 @@ public class Constants {
         public static final int TopID = 61;//May Change
 
 
-        public static final double intakeSpeed = 0.2;
-        public static final double outtakeSpeed = -0.2;
+        public static final double intakeSpeed = 0.6;
+        public static final double outtakeSpeed = -0.5;
 
     }
 

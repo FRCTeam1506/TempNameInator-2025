@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -81,7 +82,7 @@ public class RobotContainer {
     public final Algae algae = new Algae();
     
 
-    Autos autos = new Autos(drivetrain, algae, coral, elevator, intake);
+    Autos autos = new Autos(drivetrain, algae, coral, elevator, intake, climber);
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -169,10 +170,11 @@ public class RobotContainer {
 
 
         //algae gripper
-        j.oY.whileTrue(new InstantCommand( () -> algae.intake()));
-        j.oX.whileTrue(new InstantCommand( () -> algae.outtake()));
-        j.oY.whileFalse(new InstantCommand(() -> algae.stop()));
-        j.oX.whileFalse(new InstantCommand(() -> algae.stop()));
+        //og algae gripper commands ===== y and x
+        // j.oY.whileTrue(new InstantCommand( () -> algae.intake()));
+        // j.oX.whileTrue(new InstantCommand( () -> algae.outtake()));
+        // j.oY.whileFalse(new InstantCommand(() -> algae.stop()));
+        // j.oX.whileFalse(new InstantCommand(() -> algae.stop()));
 
         // j.dA.whileTrue(new InstantCommand(() -> algae.outtake()));
         // j.dA.whileFalse(new InstantCommand(() -> algae.stopIntake()));
@@ -193,10 +195,10 @@ public class RobotContainer {
         // j.oL3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
         // j.oR3.whileFalse(new InstantCommand(() -> algae.stopVertical()));
 
-        j.oR3.whileTrue(new InstantCommand(() -> algae.intake()));
-        j.oL3.whileTrue(new InstantCommand(() -> algae.outtake()));
-        j.oR3.whileFalse(new InstantCommand(() -> algae.stop()));
-        j.oL3.whileFalse(new InstantCommand(() -> algae.stop()));
+        j.oRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
+        j.oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
+        j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
+        j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
 
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
@@ -212,8 +214,16 @@ public class RobotContainer {
         j.dUp.whileFalse(new InstantCommand(() -> intake.stop()));
         j.dDown.whileFalse(new InstantCommand(() -> intake.stop()));
 
+        j.oY.whileTrue(new InstantCommand(() -> intake.up())).onFalse(new WaitCommand(0.3).andThen(new InstantCommand(() -> intake.zeroVertical())));
+        j.oX.whileTrue(new InstantCommand(() -> intake.down()));
+        j.oY.whileFalse(new InstantCommand(() -> intake.stop()));
+        j.oX.whileFalse(new InstantCommand(() -> intake.stop()));
+
+
+
         //zeroing things --- driver for side intake, operator for algae gripper
         j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
+        j.oPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
         // j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
         //operator floor intake macros
@@ -228,10 +238,10 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         //alignment to apriltag
-        j.dLeft.whileTrue(new DTPLeft(drivetrain)); //lb
-        j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
-        j.dLB.whileTrue(new JalignLeft(drivetrain));
-        j.dRB.whileTrue(new JalignRight(drivetrain));
+        j.dLB.whileTrue(new DTPLeft(drivetrain)); //lb
+        j.dRB.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
+        j.dLeft.whileTrue(new JalignLeft(drivetrain));
+        j.dRight.whileTrue(new JalignRight(drivetrain));
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));

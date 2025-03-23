@@ -55,8 +55,15 @@ public class Algae extends SubsystemBase {
 
 
   public void intake() {
-    top.set(Constants.AlgaeConstantsTwo.intakeSpeed);
-    bottom.set(-Constants.AlgaeConstantsTwo.intakeSpeed);
+
+    if(top.getTorqueCurrent().getValueAsDouble() < 50){
+      top.set(Constants.AlgaeConstantsTwo.intakeSpeed);
+      bottom.set(-Constants.AlgaeConstantsTwo.intakeSpeed);
+    }
+    else{
+      top.set(Constants.AlgaeConstantsTwo.intakeSpeed / 3);
+      bottom.set(-Constants.AlgaeConstantsTwo.intakeSpeed /3);
+    }
   }
   public void outtake() {
     top.set(Constants.AlgaeConstantsTwo.outtakeSpeed);

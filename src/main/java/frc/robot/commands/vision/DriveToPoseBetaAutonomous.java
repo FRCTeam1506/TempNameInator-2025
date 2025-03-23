@@ -70,7 +70,7 @@ public class DriveToPoseBetaAutonomous extends Command {
           0.02);
   private final ProfiledPIDController yController =
       new ProfiledPIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP - 0.3, //because it missed the first piece in troy match 73 by shifting last second to the left-0
           SwerveConstants.driveKI,
           SwerveConstants.driveKD,
           new TrapezoidProfile.Constraints(SwerveConstants.dMaxVelocity, SwerveConstants.dMaxAccel),
