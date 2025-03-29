@@ -31,10 +31,13 @@ public class Constants {
 
         // public static final int L4Pos = 10;
         public static final double L2Pos = 29.5; //30 low KUweek2 //30.5 slightly high with jalign, FRCC
+        public static final double L2AlgaePos = 16;
         public static final double L3Pos = 53; //53 slightly low FRCC  //53.4 too low when angled KUweek2
+        public static final double L3AlgaePos = 41.25;
         public static final double L4Pos = 87; //87 prev, 87.5
 
-        public static final double ELEVATOR_SPEED = 0.2;
+        public static final double ELEVATOR_SPEED = 0.4; //0.2
+        public static final double ELEVATOR_SPEED_SLOW = 0.3;
 
         public enum ElevatorLevel{
             Ground,
@@ -63,7 +66,7 @@ public class Constants {
 
         public static final int BUTTON_PORT = 4;
 
-        public static final double groundPosition = -4.3; //-4.13
+        public static final double groundPosition = -4.25; //-4.3
         public static final double upperPosition = 0;
         public static final double scorePosition = -.5;
 
@@ -97,7 +100,7 @@ public class Constants {
 
 
         public static final double intakeSpeed = 0.6;
-        public static final double outtakeSpeed = -0.5;
+        public static final double outtakeSpeed = -0.3; //-0.5
 
     }
 

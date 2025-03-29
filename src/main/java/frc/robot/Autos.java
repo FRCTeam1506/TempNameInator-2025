@@ -53,7 +53,7 @@ public class Autos {
         NamedCommands.registerCommand("HoldIntake", new InstantCommand(() -> intake.zeroVertical()).withTimeout(0.05).andThen(new InstantCommand(() -> intake.raiseIntake())));
         NamedCommands.registerCommand("ExtendClimber", new InstantCommand(() -> climber.unclimb()).withTimeout(1).finallyDo(() -> new InstantCommand(() -> climber.stop()).withTimeout(0.02)));
 
-        NamedCommands.registerCommand("DTPBeta", new DriveToPoseBetaAutonomous(drivetrain));
+        NamedCommands.registerCommand("DTPBeta", new DriveToPoseBetaAutonomous(drivetrain)); 
         NamedCommands.registerCommand("DTPLeft", new DTPLeftAuto(drivetrain));
         NamedCommands.registerCommand("JalignLeft", new JalignLeft(drivetrain));
         NamedCommands.registerCommand("JalignRight", new JalignRight(drivetrain));
@@ -62,7 +62,15 @@ public class Autos {
         NamedCommands.registerCommand("ElevatorL4Delayed", new WaitCommand(2).andThen(new InstantCommand(() -> elevator.elevatorL4())));
         NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.elevatorL3()));
         NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.elevatorL2()));
+        NamedCommands.registerCommand("ElevatorL2Algae", new InstantCommand(() -> elevator.elevatorL2Algae()));
+        NamedCommands.registerCommand("ElevatorL3Algae", new InstantCommand(() -> elevator.elevatorL3Algae()));
+        
         NamedCommands.registerCommand("ElevatorGround", new InstantCommand(() -> elevator.elevatorGround()));
+        NamedCommands.registerCommand("ElevatorSlow", new InstantCommand(() -> elevator.autoAlgaeSlow()));
+
+        NamedCommands.registerCommand("AlgaeIntake", new InstantCommand(() -> algae.intake()));
+        NamedCommands.registerCommand("AlgaeOuttake", new InstantCommand(() -> algae.outtake()));
+        NamedCommands.registerCommand("AlgaeStop", new InstantCommand(() -> algae.stop()));
 
         NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.15), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get() && coral.irTwo.get()).andThen(new ParallelDeadlineGroup(new WaitCommand(0.15), new InstantCommand(() -> coral.stop()))));
         NamedCommands.registerCommand("StopShooting", new InstantCommand(() -> coral.stop()));
@@ -78,6 +86,7 @@ public class Autos {
         chooser.addOption("Center", new PathPlannerAuto("Center"));
         chooser.addOption("C10", new PathPlannerAuto("C10"));
         chooser.addOption("Nothing", new WaitCommand(15));
+        chooser.addOption("CenterMainAuto", new PathPlannerAuto("CenterMainAuto"));
 
         return chooser;
     }

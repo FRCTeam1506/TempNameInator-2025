@@ -104,6 +104,11 @@ public class Elevator extends SubsystemBase {
     }
   }
 
+  public void autoAlgaeSlow() {
+    elevator1.set(Constants.ElevatorConstants.ELEVATOR_SPEED_SLOW);
+    elevator2.set(Constants.ElevatorConstants.ELEVATOR_SPEED_SLOW);
+  }
+
 
   public void elevatorStop() {
     elevator1.set(0);
@@ -125,6 +130,21 @@ public class Elevator extends SubsystemBase {
   public void elevatorL2() {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
+
+    Constants.scoreSpeed = 0.5; //TUNE THIS
+    ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L2;
+  }
+  public void elevatorL2Algae() {
+    elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2AlgaePos));
+    elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2AlgaePos));
+
+    Constants.scoreSpeed = 0.5; //TUNE THIS
+    ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L2;
+  }
+
+  public void elevatorL3Algae() {
+    elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L3AlgaePos));
+    elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L3AlgaePos));
 
     Constants.scoreSpeed = 0.5; //TUNE THIS
     ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L2;

@@ -1,0 +1,235 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "zeroGyro"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterMain1"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DTPBeta"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.2
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorSlow"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorL2Algae"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorL4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorGround"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CenterMain2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HoldIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorL4"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeOuttake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ElevatorGround"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterMain3"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DTPBeta"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorL3Algae"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorGround"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterMain4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

@@ -230,6 +230,7 @@ public class RobotContainer {
         j.oRB.whileTrue(new InstantCommand(() -> intake.lowerIntake()));
         j.oRB.whileTrue(new InstantCommand(() -> intake.intake()));
         j.oRB.whileFalse(new InstantCommand(() -> intake.intakeIdle()));
+        //j.oRB.whileFalse(new InstantCommand(() -> intake.stopIntake()));
         j.oRB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         j.oLB.whileTrue(new InstantCommand(() -> intake.scoreIntake()));
