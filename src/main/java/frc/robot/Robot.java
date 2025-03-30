@@ -7,6 +7,9 @@ package frc.robot;
 import com.ctre.phoenix6.Utils;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +22,7 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final boolean kUseLimelight = false;
+  private final boolean kUseLimelight = true;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -43,15 +46,24 @@ public class Robot extends TimedRobot {
      * of how to use vision should be tuned per-robot and to the team's specification.
      */
 
+     m_robotContainer.drivetrain.setOperatorPerspectiveForward(new Rotation2d(0));
+
     if (kUseLimelight) {
       var driveState = m_robotContainer.drivetrain.getState();
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
+      m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999));
 
-      LimelightHelpers.SetRobotOrientation(VisionConstants.LL_CENTER, headingDeg, 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(VisionConstants.LL_CENTER, headingDeg + 180, 0, 0, 0, 0, 0);
+      var llMeasurement1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_CENTER);
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_CENTER);
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+
+        Pose2d pose = new Pose2d(llMeasurement.pose.getX(), llMeasurement.pose.getY(), llMeasurement.pose.getRotation().minus(new Rotation2d(Math.PI)));
+        m_robotContainer.drivetrain.addVisionMeasurement(pose, llMeasurement.timestampSeconds);
+
+        SmartDashboard.putNumberArray("MT2Result", new double[]{llMeasurement.pose.getX(), llMeasurement.pose.getY()});
+        System.out.println("Updating MegaTag2!!!");
       }
     }
 
