@@ -11,7 +11,9 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -46,20 +48,19 @@ public class Robot extends TimedRobot {
      * of how to use vision should be tuned per-robot and to the team's specification.
      */
 
-     m_robotContainer.drivetrain.setOperatorPerspectiveForward(new Rotation2d(0));
 
     if (kUseLimelight) {
       var driveState = m_robotContainer.drivetrain.getState();
-      double headingDeg = driveState.Pose.getRotation().getDegrees();
+      double headingDeg = driveState.Pose.getRotation().getDegrees(); //+180
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
       m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999));
 
-      LimelightHelpers.SetRobotOrientation(VisionConstants.LL_CENTER, headingDeg + 180, 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(VisionConstants.LL_CENTER, headingDeg, 0, 0, 0, 0, 0);
       var llMeasurement1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_CENTER);
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_CENTER);
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
 
-        Pose2d pose = new Pose2d(llMeasurement.pose.getX(), llMeasurement.pose.getY(), llMeasurement.pose.getRotation().minus(new Rotation2d(Math.PI)));
+        Pose2d pose = new Pose2d(llMeasurement.pose.getX(), llMeasurement.pose.getY(), llMeasurement.pose.getRotation().minus(new Rotation2d(0))); //minus rotation2d(math.pi)
         m_robotContainer.drivetrain.addVisionMeasurement(pose, llMeasurement.timestampSeconds);
 
         SmartDashboard.putNumberArray("MT2Result", new double[]{llMeasurement.pose.getX(), llMeasurement.pose.getY()});
@@ -76,7 +77,16 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+
+    if(DriverStation.getAlliance().get().equals(Alliance.Blue)){
+      m_robotContainer.drivetrain.setOperatorPerspectiveForward(new Rotation2d(0));
+    }
+    else{
+      m_robotContainer.drivetrain.setOperatorPerspectiveForward(new Rotation2d(Math.PI));
+    }
+
+  }
 
   @Override
   public void autonomousInit() {

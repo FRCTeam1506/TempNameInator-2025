@@ -110,12 +110,13 @@ public class Candle extends SubsystemBase {
       gsa();
     }
     else if(!Coral.irTwo.get()){
-      if(LimelightHelpers.getTV(VisionConstants.LL_CENTER) || LimelightHelpers.getTV(VisionConstants.LL_LEFT)){
-        hotPink();
-      }
-      else{
-        green();
-      }
+      // if(LimelightHelpers.getTV(VisionConstants.LL_CENTER) || LimelightHelpers.getTV(VisionConstants.LL_LEFT)){
+      //   hotPink();
+      // }
+      // else{
+      //   green();
+      // }
+      green();
     }
     else if(!Coral.irOne.get()){
         greenBlinkAnimation();

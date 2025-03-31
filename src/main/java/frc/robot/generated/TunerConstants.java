@@ -2,6 +2,7 @@ package frc.robot.generated;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.hardware.*;
@@ -78,14 +79,14 @@ public class TunerConstants {
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
-    private static final double kCoupleRatio = 2;
+    private static final double kCoupleRatio = -2;
 
     private static final double kDriveGearRatio = 4.1; //3.75 for proper autos //5.5  // tuner constants 6.54545454545454
     private static final double kSteerGearRatio = 10.285714285714286;
     private static final Distance kWheelRadius = Inches.of(2);
 
-    private static final boolean kInvertLeftSide = false;
-    private static final boolean kInvertRightSide = true;
+    private static final boolean kInvertLeftSide = false; //false
+    private static final boolean kInvertRightSide = true; //true
 
     private static final int kPigeonId = 50;
 
