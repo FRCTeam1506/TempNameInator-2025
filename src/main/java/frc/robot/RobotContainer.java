@@ -11,6 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,6 +36,12 @@ import frc.robot.commands.vision.OnlyTurn;
 import frc.robot.commands.vision.OnlyTurn2;
 import frc.robot.commands.vision.OnlyTurn2Deg;
 import frc.robot.commands.vision.OnlyTurnAprilTag;
+import frc.robot.commands.vision.PIDToPose;
+import frc.robot.commands.vision.PIDToPose2;
+import frc.robot.commands.vision.PIDToPose3;
+import frc.robot.commands.vision.PIDToPose4Spark;
+import frc.robot.commands.vision.PIDToPose5Holonomic;
+import frc.robot.commands.vision.PoseAlignRight;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
 import frc.robot.commands.vision.TTAHolonomicAprilTag;
@@ -66,6 +73,8 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    private final SwerveRequest.FieldCentric forwardStraightFieldCentric = new SwerveRequest.FieldCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -77,7 +86,7 @@ public class RobotContainer {
     // public final Algae algae = new Algae();
     public final Coral coral = new Coral();
     public final Intake intake = new Intake();
-    public final Vision vision = new Vision(drivetrain);
+    public final Vision vision = new Vision();
     public final Candle candle = new Candle();
     public final Algae algae = new Algae();
     
@@ -123,6 +132,8 @@ public class RobotContainer {
         j.dTouchpad.whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
         );
+        // j.dOptions.whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraightFieldCentric.withVelocityX(0.5).withVelocityY(0)));
         // driver.pov(180).whileTrue(drivetrain.applyRequest(() ->
         //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         // );
@@ -239,13 +250,24 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         //alignment to apriltag
-        j.dLB.whileTrue(new DTPLeft(drivetrain)); //lb
-        j.dRB.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
-        j.dLeft.whileTrue(new JalignLeft(drivetrain));
-        j.dRight.whileTrue(new JalignRight(drivetrain));
+        j.dLeft.whileTrue(new DTPLeft(drivetrain)); //lb
+        j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
+        // j.dLeft.whileTrue(new JalignLeft(drivetrain));
+        // j.dRight.whileTrue(new JalignRight(drivetrain));
+        j.dLB.whileTrue(drivetrain.pathPIDToTagLeftSelect());
+        j.dRB.whileTrue(drivetrain.pathPIDToTagRightSelect());
+
+        // j.dShare.whileTrue(new PIDToPose2(drivetrain, new Pose2d(11.4,3.87,new Rotation2d(Math.PI)), 10));
+        j.dShare.whileTrue(new PIDToPose3(drivetrain, new Pose2d(12,4.06,new Rotation2d(Math.PI)), 10));
+        // j.dOptions.whileTrue(PIDToPose4Spark.generateCommand(drivetrain, new Pose2d(12,4.06,new Rotation2d(Math.PI)),6));
+        // j.dOptions.whileTrue(new PIDToPose5Holonomic(drivetrain, new Pose2d(12,4.06,new Rotation2d(Math.PI))));4
+        j.dOptions.whileTrue(new PoseAlignRight(drivetrain));
+
+
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
+
         
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
    

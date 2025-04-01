@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "zeroGyro"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Calibration10"

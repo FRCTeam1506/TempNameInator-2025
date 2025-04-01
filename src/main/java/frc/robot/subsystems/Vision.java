@@ -20,8 +20,6 @@ import frc.robot.generated.TunerConstants;
 public class Vision extends SubsystemBase {
   /** Creates a new Vision. */
 
-  private CommandSwerveDrivetrain drivetrain;
-
   public static double tagX;// = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[3];
   public static double tagY;// = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_BACK)[4];
 
@@ -33,15 +31,8 @@ public class Vision extends SubsystemBase {
 
   public static int[] angles;
 
-  public SwerveDrivePoseEstimator estimator;
 
-  public static Map<Integer, Pose2d> tagPoseAndymarkMap;
-
-
-
-  public Vision(CommandSwerveDrivetrain drivetrain) {
-    this.drivetrain = drivetrain;
-
+  public Vision() {
     angles = new int[23];
 
     for(int i = 0; i<angles.length; i++){
@@ -77,36 +68,6 @@ public class Vision extends SubsystemBase {
     // angles[9] = -60;
   }
 
-  public void initializePoseEstimator(Pose2d pose){
-
-    Translation2d[] swerveModuleLocations = new Translation2d[4];
-    swerveModuleLocations[0] = new Translation2d(TunerConstants.kFrontLeftXPos, TunerConstants.kFrontLeftYPos);
-    swerveModuleLocations[1] = new Translation2d(TunerConstants.kFrontRightXPos, TunerConstants.kFrontRightYPos);
-    swerveModuleLocations[2] = new Translation2d(TunerConstants.kBackLeftXPos, TunerConstants.kBackLeftYPos);
-    swerveModuleLocations[3] = new Translation2d(TunerConstants.kFrontRightXPos, TunerConstants.kFrontRightYPos);
-
-    SwerveDriveKinematics swerve_kinematics = new SwerveDriveKinematics(swerveModuleLocations);
-
-
-
-    estimator = new SwerveDrivePoseEstimator(swerve_kinematics, drivetrain.getState().Pose.getRotation(), drivetrain.getState().ModulePositions, pose);
-  }
-
-  public void initializeAndyMarkMap(){
-    tagPoseAndymarkMap.put(6, new Pose2d(13.474, 3.301, new Rotation2d(Math.toRadians(-60))));
-    tagPoseAndymarkMap.put(7, new Pose2d(13.890, 4.021, new Rotation2d(Math.toRadians(0))));
-    tagPoseAndymarkMap.put(8, new Pose2d(13.474, 4.740, new Rotation2d(Math.toRadians(60))));
-    tagPoseAndymarkMap.put(9, new Pose2d(12.643, 4.740, new Rotation2d(Math.toRadians(120))));
-    tagPoseAndymarkMap.put(10, new Pose2d(12.227, 4.021, new Rotation2d(Math.toRadians(180))));
-    tagPoseAndymarkMap.put(11, new Pose2d(12.643, 3.301, new Rotation2d(Math.toRadians(-120))));
-
-    tagPoseAndymarkMap.put(17, new Pose2d(4.074, 3.301, new Rotation2d(Math.toRadians(-120))));
-    tagPoseAndymarkMap.put(18, new Pose2d(3.658, 4.021, new Rotation2d(Math.toRadians(180))));
-    tagPoseAndymarkMap.put(19, new Pose2d(4.074, 4.740, new Rotation2d(Math.toRadians(120))));
-    tagPoseAndymarkMap.put(20, new Pose2d(4.905, 4.740, new Rotation2d(Math.toRadians(60))));
-    tagPoseAndymarkMap.put(21, new Pose2d(5.321, 4.021, new Rotation2d(Math.toRadians(0))));
-    tagPoseAndymarkMap.put(22, new Pose2d(4.905, 3.301, new Rotation2d(Math.toRadians(-60))));
-  }
 
   @Override
   public void periodic() {

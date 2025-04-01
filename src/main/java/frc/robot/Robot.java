@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.drivetrain.addVisionMeasurement(pose, llMeasurement.timestampSeconds);
 
         SmartDashboard.putNumberArray("MT2Result", new double[]{llMeasurement.pose.getX(), llMeasurement.pose.getY()});
-        System.out.println("Updating MegaTag2!!!");
+        // System.out.println("Updating MegaTag2!!!");
       }
     }
 

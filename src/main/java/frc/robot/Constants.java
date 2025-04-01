@@ -125,9 +125,9 @@ public class Constants {
         
         //todo: definitely change these values for our robot.
         // X is in the normal direction of the tag, Y is parallel to the tag 
-        public static final Transform2d leftBranch = new Transform2d(0.46769, -0.14993, new Rotation2d(Math.PI)); // -0.14993
-        public static final Transform2d rightBranch = new Transform2d(0.46769, 0.16, new Rotation2d(Math.PI));
-        public static final Transform2d reefAlgae = new Transform2d(0.5,0.0,new Rotation2d(Math.PI));
+        public static final Transform2d leftBranch = new Transform2d(0.26769, -0.34993, new Rotation2d(0)); // -0.46769 x, //math.pi puts the ramp touching the reef
+        public static final Transform2d rightBranch = new Transform2d(0.26769, 0.0, new Rotation2d(0));
+        public static final Transform2d reefAlgae = new Transform2d(0.5,0.0,new Rotation2d(0));
 
 
         public static double std02 = 15; //standard deviation for vision??? seems high
