@@ -30,7 +30,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
  *
  * <p>At End: stops the drivetrain
  */
-public class PoseAlignRight extends Command {
+public class PoseAlign extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
@@ -59,21 +59,19 @@ public class PoseAlignRight extends Command {
   private Pose2d goalPose = new Pose2d();
 
   int thetaGoal;
+  boolean left;
 
   /**
-   * Constructs a new DriveToPose command that drives the robot in a straight line to the specified
-   * pose. A pose supplier is specified instead of a pose since the target pose may not be known
-   * when this command is created.
-   *
    * @param drivetrain the drivetrain subsystem required by this command
-   * @param poseSupplier a supplier that returns the pose to drive to
+   * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlignRight(CommandSwerveDrivetrain drivetrain) {
+  public PoseAlign(CommandSwerveDrivetrain drivetrain, boolean left) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
+    this.left = left;
   }
 
   /**
@@ -93,7 +91,12 @@ public class PoseAlignRight extends Command {
     startPos = drivetrain.getState().Pose;
 
     int id = (int) drivetrain.getTag();
-    goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
+    if(left){
+      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.leftBranch);
+    }
+    else{
+      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
+    }
 
     this.timer.restart();
   }
@@ -105,48 +108,22 @@ public class PoseAlignRight extends Command {
    */
   @Override
   public void execute() {
-    // set running to true in this method to capture that the calculate method has been invoked on
-    // the PID controllers. This is important since these controllers will return true for atGoal if
-    // the calculate method has not yet been invoked.
     running = true;
 
-
-    // use last values of filter
-    // double xVelocity = xController.calculate(currentPose.getX(), this.goalPose.getX());
-    // double yVelocity = yController.calculate(currentPose.getY(), this.goalPose.getY());
-
     Pose2d currPose2d = drivetrain.getState().Pose;
-    ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d,
-        goalPose, 0, goalPose.getRotation());
+    ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, goalPose, 0, goalPose.getRotation());
 
-
-    //thetaVelocity add it back
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
   }
 
-  /**
-   * This method returns true if the command has finished. It is invoked periodically while this
-   * command is scheduled (after execute is invoked). This command is considered finished if the
-   * move-to-pose feature is disabled on the drivetrain subsystem or if the timeout has elapsed or
-   * if all the PID controllers are at their goal.
-   *
-   * @return true if the command has finished
-   */
   @Override
   public boolean isFinished() {
     return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference();
   }
 
-  /**
-   * This method will be invoked when this command finishes or is interrupted. It stops the motion
-   * of the drivetrain.
-   *
-   * @param interrupted true if the command was interrupted by another command being scheduled
-   */
   @Override
   public void end(boolean interrupted) {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
   }
-
 }

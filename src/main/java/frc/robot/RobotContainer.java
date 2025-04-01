@@ -41,6 +41,7 @@ import frc.robot.commands.vision.PIDToPose2;
 import frc.robot.commands.vision.PIDToPose3;
 import frc.robot.commands.vision.PIDToPose4Spark;
 import frc.robot.commands.vision.PIDToPose5Holonomic;
+import frc.robot.commands.vision.PoseAlign;
 import frc.robot.commands.vision.PoseAlignRight;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
@@ -254,15 +255,8 @@ public class RobotContainer {
         j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
-        j.dLB.whileTrue(drivetrain.pathPIDToTagLeftSelect());
-        j.dRB.whileTrue(drivetrain.pathPIDToTagRightSelect());
-
-        // j.dShare.whileTrue(new PIDToPose2(drivetrain, new Pose2d(11.4,3.87,new Rotation2d(Math.PI)), 10));
-        j.dShare.whileTrue(new PIDToPose3(drivetrain, new Pose2d(12,4.06,new Rotation2d(Math.PI)), 10));
-        // j.dOptions.whileTrue(PIDToPose4Spark.generateCommand(drivetrain, new Pose2d(12,4.06,new Rotation2d(Math.PI)),6));
-        // j.dOptions.whileTrue(new PIDToPose5Holonomic(drivetrain, new Pose2d(12,4.06,new Rotation2d(Math.PI))));4
-        j.dOptions.whileTrue(new PoseAlignRight(drivetrain));
-
+        j.dLB.whileTrue(new PoseAlign(drivetrain, true));
+        j.dRB.whileTrue(new PoseAlign(drivetrain, false));
 
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
