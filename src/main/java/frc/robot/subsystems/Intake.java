@@ -45,14 +45,14 @@ public class Intake extends SubsystemBase {
 
 
   public void intake() {
-    intake.set(-GroundIntakeConstants.intakeSpeed);
+    intake.set(GroundIntakeConstants.intakeSpeed); //-
   }
   public void outtake() {
-    intake.set(GroundIntakeConstants.outtakeSpeed);
+    intake.set(-GroundIntakeConstants.outtakeSpeed);
   }
 
   public void intakeIdle(){
-    intake.set(-0.1);
+    intake.set(0.1); //-0.1
   }
 
   public void up() {
@@ -72,7 +72,7 @@ public class Intake extends SubsystemBase {
   public void raiseIntake() {
     vertical.setControl(m_motmag.withPosition(0));
 
-    if(Math.abs(vertical.getTorqueCurrent().getValueAsDouble()) > 15){
+    if(Math.abs(vertical.getTorqueCurrent().getValueAsDouble()) > 25){ //15, 20
       vertical.setPosition(0);
       // stop();
     }

@@ -40,11 +40,12 @@ public class Constants {
         public static final int ELEVATOR2_ID = 56;
 
         // public static final int L4Pos = 10;
-        public static final double L2Pos = 29.5; //30 low KUweek2 //30.5 slightly high with jalign, FRCC
+        public static final double L2Pos = 28.8; //30 low KUweek2 //30.5 slightly high with jalign, FRCC //29.5 too high
         public static final double L2AlgaePos = 16;
-        public static final double L3Pos = 53; //53 slightly low FRCC  //53.4 too low when angled KUweek2
+        public static final double L3Pos = 50
+        ; //53 slightly low FRCC  //53.4 too low when angled KUweek2 //53 too high FRCC
         public static final double L3AlgaePos = 41.25;
-        public static final double L4Pos = 87; //87 prev, 87.5
+        public static final double L4Pos = 85.85; //87 prev, 87.5 //87 good auto, not teleop
 
         public static final double ELEVATOR_SPEED = 0.4; //0.2
         public static final double ELEVATOR_SPEED_SLOW = 0.3;
@@ -84,7 +85,7 @@ public class Constants {
         public static final double outtakeSpeed = 0.6;
 
         public static final double holdSpeed = 0.2;
-        public static final double upSpeed = 0.1; //.25
+        public static final double upSpeed = 0.15; //.25, .1
         public static final double downSpeed = 0.15; //0.3
 
     }
@@ -125,8 +126,8 @@ public class Constants {
         
         //todo: definitely change these values for our robot.
         // X is in the normal direction of the tag, Y is parallel to the tag 
-        public static final Transform2d leftBranch = new Transform2d(0.26769, -0.34993, new Rotation2d(0)); // -0.46769 x, //math.pi puts the ramp touching the reef
-        public static final Transform2d rightBranch = new Transform2d(0.26769, 0.0, new Rotation2d(0));
+        public static final Transform2d leftBranch = new Transform2d(0.23769, -0.35, new Rotation2d(Math.toRadians(-4))); // -0.46769 x, //math.pi puts the ramp touching the reef
+        public static final Transform2d rightBranch = new Transform2d(0.23769, 0.0, new Rotation2d(Math.toRadians(-4))); //both used to be 0 degrees, but -4 is (italian chef kiss)
         public static final Transform2d reefAlgae = new Transform2d(0.5,0.0,new Rotation2d(0));
 
 
@@ -183,76 +184,22 @@ public class Constants {
 
 
 
+    // zones for auto driving around the reef
+    public static final class driveZones {
 
+        public static final FieldPoly reef1Zone = new FieldPoly(
+                new FieldPoint(5, 0),
+                new FieldPoint(-5, 0),
+                new FieldPoint(-5, -5),
+                new FieldPoint(5, -5));
 
-
-
-    //https://github.com/TheMathWiz56/2848_Reefscape/blob/without_algae_changes/src/main/java/frc/robot/Constants.java
-    // util values for the reef
-    public static class reef {
-        /* possible reef values l for left, r for right, L for level */
-        public static enum reefSide {
-            LEFT, RIGHT
-        }
-
-        public static enum reefLs {
-            lL4,
-            lL3,
-            lL2,
-            lL1,
-            rL4,
-            rL3,
-            rL2,
-            rL1,
-            STOW,
-            NONE
-        }
-
-        public static final Map<Integer, Integer> rMap = new HashMap<>() {
+        public static final Map<Integer, FieldPoly> fieldPolyList = new HashMap<>() {
             {
-                put(9, 1);
-                put(10, 2);
-                put(11, 3);
-                put(12, 4);
-                put(13, 5);
-                put(14, 6);
+                put(1, reef1Zone);
             }
         };
-
-
-        public static final Map<Integer, reefLs> lMap = new HashMap<>() {
-            {
-                put(1, reefLs.lL4);
-                put(2, reefLs.lL3);
-                put(3, reefLs.lL2);
-                put(4, reefLs.lL1);
-                put(5, reefLs.rL4);
-                put(6, reefLs.rL3);
-                put(7, reefLs.rL2);
-                put(8, reefLs.rL1);
-                put(22,reefLs.STOW);
-                put(19, reefLs.STOW);
-            }
-        };
-
-        // zones for auto driving around the reef
-        public static final class driveZones {
-
-            public static final FieldPoly reef1Zone = new FieldPoly(
-                    new FieldPoint(5, 0),
-                    new FieldPoint(-5, 0),
-                    new FieldPoint(-5, -5),
-                    new FieldPoint(5, -5));
-
-            public static final Map<Integer, FieldPoly> fieldPolyList = new HashMap<>() {
-                {
-                    put(1, reef1Zone);
-                }
-            };
-        }
+    }
 
         
-
-    }
 
 }

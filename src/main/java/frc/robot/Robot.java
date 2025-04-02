@@ -56,15 +56,21 @@ public class Robot extends TimedRobot {
       m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999));
 
       LimelightHelpers.SetRobotOrientation(VisionConstants.LL_CENTER, headingDeg, 0, 0, 0, 0, 0);
-      var llMeasurement1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_CENTER);
+      LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, headingDeg, 0, 0, 0, 0, 0);
+
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_CENTER);
+      var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_LEFT);
+
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
 
-        Pose2d pose = new Pose2d(llMeasurement.pose.getX(), llMeasurement.pose.getY(), llMeasurement.pose.getRotation().minus(new Rotation2d(0))); //minus rotation2d(math.pi)
-        m_robotContainer.drivetrain.addVisionMeasurement(pose, llMeasurement.timestampSeconds);
+        // Pose2d pose = new Pose2d(llMeasurement.pose.getX(), llMeasurement.pose.getY(), llMeasurement.pose.getRotation().minus(new Rotation2d(0))); //minus rotation2d(math.pi)
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
 
-        SmartDashboard.putNumberArray("MT2Result", new double[]{llMeasurement.pose.getX(), llMeasurement.pose.getY()});
-        // System.out.println("Updating MegaTag2!!!");
+        // SmartDashboard.putNumberArray("MT2Result_Center", new double[]{llMeasurement.pose.getX(), llMeasurement.pose.getY()});
+      }
+
+      if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_left.pose, llMeasurement_left.timestampSeconds);
       }
     }
 
@@ -113,8 +119,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("DTPose_X", m_robotContainer.drivetrain.getState().Pose.getX());
-    SmartDashboard.putNumber("DTPose_Y", m_robotContainer.drivetrain.getState().Pose.getY());
+    // SmartDashboard.putNumber("DTPose_X", m_robotContainer.drivetrain.getState().Pose.getX());
+    // SmartDashboard.putNumber("DTPose_Y", m_robotContainer.drivetrain.getState().Pose.getY());
   }
 
   @Override

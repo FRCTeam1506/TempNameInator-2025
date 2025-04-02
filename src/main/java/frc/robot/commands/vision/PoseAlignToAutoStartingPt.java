@@ -8,7 +8,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.SwerveConstants;
@@ -30,7 +32,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
  *
  * <p>At End: stops the drivetrain
  */
-public class PoseAlign extends Command {
+public class PoseAlignToAutoStartingPt extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
@@ -66,7 +68,7 @@ public class PoseAlign extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlign(CommandSwerveDrivetrain drivetrain, boolean left) {
+  public PoseAlignToAutoStartingPt(CommandSwerveDrivetrain drivetrain, boolean left) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
@@ -85,24 +87,28 @@ public class PoseAlign extends Command {
   @Override
   public void initialize() {
 
-    isFinished = false;
-
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
 
-    int id = (int) drivetrain.getTag();
-    if(id == -1){
-      id = 6;
-      isFinished = true;
+    if(DriverStation.getAlliance().get().equals(Alliance.Red)){
+      if(left){
+        goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));
+      }
+      else{
+        goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));//change
+      }
     }
-    if(left){
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.leftBranch);
-    }
-    else{
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
+    else {
+      if(left){
+        goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180))); //change
+      }
+      else{
+        goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));//change
+      }
+
     }
 
     this.timer.restart();
@@ -133,17 +139,5 @@ public class PoseAlign extends Command {
   public void end(boolean interrupted) {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
-  }
-
-  public static void printAllGoals(){
-    int[] allTags = {6,7,8,9,10,11,17,18,19,20,21,22};
-    for(int a: allTags){
-      System.out.println("Tag: " + a);
-      Pose2d goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(a).transformBy(VisionConstants.leftBranch);
-      System.out.println("Left: (x): " + goalPose.getX() + "(y): " + goalPose.getY() + "(rot): " + goalPose.getRotation().getDegrees());
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(a).transformBy(VisionConstants.rightBranch);
-      System.out.println("Right: (x): " + goalPose.getX() + "(y): " + goalPose.getY() + "(rot): " + goalPose.getRotation().getDegrees());
-      System.out.println("\n\n");
-    }
   }
 }

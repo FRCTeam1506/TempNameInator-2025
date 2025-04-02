@@ -42,7 +42,9 @@ import frc.robot.commands.vision.PIDToPose3;
 import frc.robot.commands.vision.PIDToPose4Spark;
 import frc.robot.commands.vision.PIDToPose5Holonomic;
 import frc.robot.commands.vision.PoseAlign;
+import frc.robot.commands.vision.PoseAlignHP;
 import frc.robot.commands.vision.PoseAlignRight;
+import frc.robot.commands.vision.PoseAlignToAutoStartingPt;
 import frc.robot.commands.vision.DriveToPoseBetaAutoNO;
 import frc.robot.commands.vision.StopDrivetrain;
 import frc.robot.commands.vision.TTAHolonomicAprilTag;
@@ -131,8 +133,12 @@ public class RobotContainer {
         // ));
 
         j.dTouchpad.whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
+            forwardStraight.withVelocityX(0).withVelocityY(0.5))
         );
+        j.dOptions.whileTrue(drivetrain.applyRequest(() ->
+        forwardStraight.withVelocityX(0).withVelocityY(-0.5))
+        );
+
         // j.dOptions.whileTrue(drivetrain.applyRequest(() ->
         //     forwardStraightFieldCentric.withVelocityX(0.5).withVelocityY(0)));
         // driver.pov(180).whileTrue(drivetrain.applyRequest(() ->
@@ -215,10 +221,10 @@ public class RobotContainer {
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
         j.oB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
-        j.dRT.whileTrue(new InstantCommand(() -> coral.switchIntake()));
+        j.dRT.whileTrue(new InstantCommand(() -> coral.switchIntake()).unless(j.dLT));
         j.oA.whileFalse(new InstantCommand(() -> coral.stop()));
         j.oB.whileFalse(new InstantCommand(() -> coral.stop()));
-        j.dRT.whileFalse(new InstantCommand(() -> coral.stop()));
+        j.dRT.whileFalse(new InstantCommand(() -> coral.stop()).unless(j.oA));
         
         //floor intake
         j.dUp.whileTrue(new InstantCommand(() -> intake.up()));
@@ -258,12 +264,17 @@ public class RobotContainer {
         j.dLB.whileTrue(new PoseAlign(drivetrain, true));
         j.dRB.whileTrue(new PoseAlign(drivetrain, false));
 
+        j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
+        j.dPS.and(j.dA).whileTrue(new PoseAlignToAutoStartingPt(drivetrain, true));
+
+
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
 
         
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
+        // j.dOptions.whileTrue(new InstantCommand(() -> PoseAlign.printAllGoals())); //get all goalposes, used for autos
    
 
         drivetrain.registerTelemetry(logger::telemeterize);

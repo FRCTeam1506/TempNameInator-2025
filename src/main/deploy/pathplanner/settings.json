@@ -8,6 +8,8 @@
     "Center",
     "CenterMain",
     "Left",
+    "LeftDirect",
+    "RightDirect",
     "Right"
   ],
   "autoFolders": [],

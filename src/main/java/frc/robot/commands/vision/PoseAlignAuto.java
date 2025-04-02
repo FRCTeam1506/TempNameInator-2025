@@ -30,7 +30,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
  *
  * <p>At End: stops the drivetrain
  */
-public class PoseAlign extends Command {
+public class PoseAlignAuto extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
@@ -39,7 +39,7 @@ public class PoseAlign extends Command {
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 10;
+  double timeout = 0.7;
 
   private final PIDController xController =
       new PIDController(
@@ -66,7 +66,7 @@ public class PoseAlign extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlign(CommandSwerveDrivetrain drivetrain, boolean left) {
+  public PoseAlignAuto(CommandSwerveDrivetrain drivetrain, boolean left) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
@@ -133,17 +133,5 @@ public class PoseAlign extends Command {
   public void end(boolean interrupted) {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
-  }
-
-  public static void printAllGoals(){
-    int[] allTags = {6,7,8,9,10,11,17,18,19,20,21,22};
-    for(int a: allTags){
-      System.out.println("Tag: " + a);
-      Pose2d goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(a).transformBy(VisionConstants.leftBranch);
-      System.out.println("Left: (x): " + goalPose.getX() + "(y): " + goalPose.getY() + "(rot): " + goalPose.getRotation().getDegrees());
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(a).transformBy(VisionConstants.rightBranch);
-      System.out.println("Right: (x): " + goalPose.getX() + "(y): " + goalPose.getY() + "(rot): " + goalPose.getRotation().getDegrees());
-      System.out.println("\n\n");
-    }
   }
 }

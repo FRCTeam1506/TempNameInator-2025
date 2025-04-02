@@ -8,13 +8,18 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -30,11 +35,10 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
  *
  * <p>At End: stops the drivetrain
  */
-public class PoseAlign extends Command {
+public class PoseAlignHP extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
-  boolean isFinished = false;
 
   private boolean running = false;
   private Timer timer;
@@ -66,13 +70,12 @@ public class PoseAlign extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlign(CommandSwerveDrivetrain drivetrain, boolean left) {
+  public PoseAlignHP(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
-    this.left = left;
   }
 
   /**
@@ -85,24 +88,22 @@ public class PoseAlign extends Command {
   @Override
   public void initialize() {
 
-    isFinished = false;
-
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
 
-    int id = (int) drivetrain.getTag();
-    if(id == -1){
-      id = 6;
-      isFinished = true;
-    }
-    if(left){
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.leftBranch);
+    if(DriverStation.getAlliance().get().equals(Alliance.Red)){
+
+      List<Pose2d> list = new ArrayList<>();
+      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(1));
+      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(2));
+      goalPose = startPos.nearest(list);
     }
     else{
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
+      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(1);
+      ///ADD CODE FOR BLUE ALLIANCE@!!!!!!
     }
 
     this.timer.restart();
@@ -126,24 +127,12 @@ public class PoseAlign extends Command {
 
   @Override
   public boolean isFinished() {
-    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference() || isFinished;
+    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference();
   }
 
   @Override
   public void end(boolean interrupted) {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
-  }
-
-  public static void printAllGoals(){
-    int[] allTags = {6,7,8,9,10,11,17,18,19,20,21,22};
-    for(int a: allTags){
-      System.out.println("Tag: " + a);
-      Pose2d goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(a).transformBy(VisionConstants.leftBranch);
-      System.out.println("Left: (x): " + goalPose.getX() + "(y): " + goalPose.getY() + "(rot): " + goalPose.getRotation().getDegrees());
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(a).transformBy(VisionConstants.rightBranch);
-      System.out.println("Right: (x): " + goalPose.getX() + "(y): " + goalPose.getY() + "(rot): " + goalPose.getRotation().getDegrees());
-      System.out.println("\n\n");
-    }
   }
 }
