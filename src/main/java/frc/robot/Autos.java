@@ -80,6 +80,7 @@ public class Autos {
 
         NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.elevatorL4()));
         NamedCommands.registerCommand("ElevatorL4Delayed", new WaitCommand(2).andThen(new InstantCommand(() -> elevator.elevatorL4())));
+        NamedCommands.registerCommand("ElevatorL4Timed", new InstantCommand(() -> elevator.elevatorL4()).until(() -> elevator.getPosition() > 84.5).withTimeout(1.8));
         NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.elevatorL3()));
         NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.elevatorL2()));
         NamedCommands.registerCommand("ElevatorL2Algae", new InstantCommand(() -> elevator.elevatorL2Algae()));

@@ -1,19 +1,18 @@
 package frc.robot;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
+// import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.generated.TunerConstants;
+// import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+// import edu.wpi.first.wpilibj.DigitalInput;
+// import frc.robot.generated.TunerConstants;
 import frc.robot.util.FieldPoint;
 import frc.robot.util.FieldPoly;
 
@@ -40,7 +39,7 @@ public class Constants {
         public static final int ELEVATOR2_ID = 56;
 
         // public static final int L4Pos = 10;
-        public static final double L2Pos = 28.8; //30 low KUweek2 //30.5 slightly high with jalign, FRCC //29.5 too high
+        public static final double L2Pos = 27.2; //30 low KUweek2 //30.5 slightly high with jalign, FRCC //29.5 too high//28.8 too high
         public static final double L2AlgaePos = 16;
         public static final double L3Pos = 50
         ; //53 slightly low FRCC  //53.4 too low when angled KUweek2 //53 too high FRCC
@@ -119,6 +118,7 @@ public class Constants {
 
         public static final String LL_LEFT = "limelight-left";
         public static final String LL_CENTER = "limelight-center";
+        public static final String LL_FRONT = "limelight-front"; //human player side
 
         public static final double coralStationLeftHeading = 235;
         public static final double coralStationRightHeading = 125;   
@@ -126,8 +126,8 @@ public class Constants {
         
         //todo: definitely change these values for our robot.
         // X is in the normal direction of the tag, Y is parallel to the tag 
-        public static final Transform2d leftBranch = new Transform2d(0.23769, -0.35, new Rotation2d(Math.toRadians(-4))); // -0.46769 x, //math.pi puts the ramp touching the reef
-        public static final Transform2d rightBranch = new Transform2d(0.23769, 0.0, new Rotation2d(Math.toRadians(-4))); //both used to be 0 degrees, but -4 is (italian chef kiss)
+        public static final Transform2d leftBranch = new Transform2d(0.23769, -0.35, new Rotation2d(Math.toRadians(-4))); // 0.237 x // -0.46769 x, //math.pi puts the ramp touching the reef
+        public static final Transform2d rightBranch = new Transform2d(0.1, 0.0, new Rotation2d(Math.toRadians(-4))); //both used to be 0 degrees, but -4 is (italian chef kiss)
         public static final Transform2d reefAlgae = new Transform2d(0.5,0.0,new Rotation2d(0));
 
 

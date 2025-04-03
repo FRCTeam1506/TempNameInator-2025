@@ -101,9 +101,11 @@ public class PoseAlignHP extends Command {
       list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(2));
       goalPose = startPos.nearest(list);
     }
-    else{
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(1);
-      ///ADD CODE FOR BLUE ALLIANCE@!!!!!!
+    else{ //blue alliance!!!!
+      List<Pose2d> list = new ArrayList<>();
+      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(12));
+      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(13));
+      goalPose = startPos.nearest(list);
     }
 
     this.timer.restart();

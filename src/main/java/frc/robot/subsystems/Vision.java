@@ -71,6 +71,10 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    // SmartDashboard.putNumber("HP Limelight target area", LimelightHelpers.getTA(VisionConstants.LL_FRONT));
+
+
     if(LimelightHelpers.getTV(VisionConstants.LL_CENTER)){
 
     // This method will be called once per scheduler run

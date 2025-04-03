@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.76608606557377,
-        "y": 4.00701844262295
+        "x": 1.2946721311475409,
+        "y": 0.8302766393442619
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.024795081967212,
-        "y": 4.318698770491803
+        "x": 1.7861680327868854,
+        "y": 1.3577356557377045
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.552254098360655,
-        "y": 5.1098872950819665
+        "x": 2.7931352459016394,
+        "y": 1.9451331967213106
       },
       "prevControl": {
-        "x": 7.636170376003503,
-        "y": 4.834170795130975
+        "x": 2.616358550605002,
+        "y": 1.768356501424674
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "ScoreAlgaeEnd"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,34 +33,29 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "",
-      "waypointRelativePos": 0.4240378122889877,
+      "name": "ElevatorL4",
+      "waypointRelativePos": 0.7032301480484565,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "ElevatorL4"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.6,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 180.0
+    "velocity": 0.8,
+    "rotation": -120.3791260113684
   },
   "reversed": false,
-  "folder": "CenterMain",
+  "folder": "RightDirect",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -127.23483398157462
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

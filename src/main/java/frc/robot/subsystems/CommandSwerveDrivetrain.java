@@ -664,7 +664,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         tagPoseAndymarkMap.put(21, new Pose2d(5.321, 4.021, new Rotation2d(Math.toRadians(0))));
         tagPoseAndymarkMap.put(22, new Pose2d(4.905, 3.301, new Rotation2d(Math.toRadians(-60))));
 
-        tagPoseAndymarkMap.put(1, new Pose2d(16.6, 1.11, new Rotation2d(Math.toRadians(-45))));
-        tagPoseAndymarkMap.put(2, new Pose2d(16.1, 7.17, new Rotation2d(Math.toRadians(54.1))));
+        tagPoseAndymarkMap.put(1, new Pose2d(16.5, 0.87, new Rotation2d(Math.toRadians(-45)))); //red left HP //used to be 16.6, 1.11
+        tagPoseAndymarkMap.put(2, new Pose2d(16.58, 7.07, new Rotation2d(Math.toRadians(51.9)))); //red right HP
+        tagPoseAndymarkMap.put(12, new Pose2d(0.93,0.94, new Rotation2d(Math.toRadians(-125.5)))); //blue right HP
+        tagPoseAndymarkMap.put(13, new Pose2d(1.14, 7.22, new Rotation2d(Math.toRadians(127)))); //blue left HP
+
     }    
 }

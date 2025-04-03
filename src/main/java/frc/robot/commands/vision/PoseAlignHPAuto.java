@@ -102,8 +102,10 @@ public class PoseAlignHPAuto extends Command {
       goalPose = startPos.nearest(list);
     }
     else{
-      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(1);
-      ///ADD CODE FOR BLUE ALLIANCE@!!!!!!
+      List<Pose2d> list = new ArrayList<>();
+      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(12));
+      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(13));
+      goalPose = startPos.nearest(list);
     }
 
     this.timer.restart();
