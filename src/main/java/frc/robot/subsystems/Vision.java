@@ -82,29 +82,36 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("WPI_BPB (y)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getY());
     SmartDashboard.putNumber("WPI_BPB (theta)", LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.LL_CENTER).getRotation().getAngle());
 
-    SmartDashboard.putNumber("align3d_x", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2]);
-    SmartDashboard.putNumber("align3d_y", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0]);
+    try {
 
-    align3d_x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
-    align3d_y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
-
-
-    double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[3];
-    double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[4];
-    double z = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[5];
-    SmartDashboard.putNumber("Bot (x)", x - (x%0.1));
-    SmartDashboard.putNumber("Bot (y)", y - (y%0.1));
-    SmartDashboard.putNumber("Bot (z)", z - (z%0.1));
-
-    tagX = x;
-    tagY = y;
-
-    double tpRS_x = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[3];
-    double tpRS_y = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[4];
-    double tpRS_z = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[5];
-    SmartDashboard.putNumber("TPRS (x)", tpRS_x - (tpRS_x%0.1));
-    SmartDashboard.putNumber("TPRS (y)", tpRS_y - (tpRS_y%0.1));
-    SmartDashboard.putNumber("TPRS (z)", tpRS_z - (tpRS_z%0.1));
+      SmartDashboard.putNumber("align3d_x", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2]);
+      SmartDashboard.putNumber("align3d_y", LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0]);
+  
+      align3d_x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[2];
+      align3d_y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[0];
+  
+  
+      double x = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[3];
+      double y = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[4];
+      double z = LimelightHelpers.getCameraPose_TargetSpace(VisionConstants.LL_CENTER)[5];
+      SmartDashboard.putNumber("Bot (x)", x - (x%0.1));
+      SmartDashboard.putNumber("Bot (y)", y - (y%0.1));
+      SmartDashboard.putNumber("Bot (z)", z - (z%0.1));
+  
+      tagX = x;
+      tagY = y;
+  
+      double tpRS_x = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[3];
+      double tpRS_y = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[4];
+      double tpRS_z = LimelightHelpers.getTargetPose_RobotSpace(VisionConstants.LL_CENTER)[5];
+      SmartDashboard.putNumber("TPRS (x)", tpRS_x - (tpRS_x%0.1));
+      SmartDashboard.putNumber("TPRS (y)", tpRS_y - (tpRS_y%0.1));
+      SmartDashboard.putNumber("TPRS (z)", tpRS_z - (tpRS_z%0.1));  
+      
+    } catch (Exception e) {
+      // TODO: handle exception
+      System.out.println("Vision CENTER FAILED.");
+    }
 
 
     }

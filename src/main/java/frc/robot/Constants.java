@@ -31,7 +31,7 @@ public class Constants {
         public static final int LS_CLIMBER = 1; //limit switch
         
 
-        public static final double CLIMB_SPEED = 0.2;
+        public static final double CLIMB_SPEED = 0.3; //.2
     }
 
     public class ElevatorConstants {
@@ -81,7 +81,7 @@ public class Constants {
         public static final double scorePosition = -.5;
 
         public static final double intakeSpeed = 0.8;
-        public static final double outtakeSpeed = 0.6;
+        public static final double outtakeSpeed = 1; //.6 b4 state
 
         public static final double holdSpeed = 0.2;
         public static final double upSpeed = 0.15; //.25, .1
@@ -126,8 +126,8 @@ public class Constants {
         
         //todo: definitely change these values for our robot.
         // X is in the normal direction of the tag, Y is parallel to the tag 
-        public static final Transform2d leftBranch = new Transform2d(0.23769, -0.35, new Rotation2d(Math.toRadians(-4))); // 0.237 x // -0.46769 x, //math.pi puts the ramp touching the reef
-        public static final Transform2d rightBranch = new Transform2d(0.1, 0.0, new Rotation2d(Math.toRadians(-4))); //both used to be 0 degrees, but -4 is (italian chef kiss)
+        public static final Transform2d leftBranch = new Transform2d(0.23769, -0.35, new Rotation2d(Math.toRadians(-2.8))); // 0.237 x // -0.46769 x, //math.pi puts the ramp touching the reef //-4 DEGREES good at FRCC, but too angled for SVSU hemlock, reduced to -2.8.
+        public static final Transform2d rightBranch = new Transform2d(0.1, 0.0, new Rotation2d(Math.toRadians(-2.6))); //both used to be 0 degrees, but -4 is (italian chef kiss)
         public static final Transform2d reefAlgae = new Transform2d(0.5,0.0,new Rotation2d(0));
 
 

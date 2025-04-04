@@ -43,7 +43,7 @@ public class PoseAlignHPAuto extends Command {
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 1.3;
+  double timeout = 0.9; //used to be 1.3, lowered at states to save time
 
   private final PIDController xController =
       new PIDController(

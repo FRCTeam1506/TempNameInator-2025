@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+
+//You got this Josh! Work your magic!!!! y=m*x+b!
 package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
@@ -258,11 +260,11 @@ public class RobotContainer {
 
         //alignment to apriltag
         j.dLeft.whileTrue(new DTPLeft(drivetrain)); //lb
-        j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
+        j.dRB.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
         j.dLB.whileTrue(new PoseAlign(drivetrain, true));
-        j.dRB.whileTrue(new PoseAlign(drivetrain, false));
+        j.dRight.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted
 
         j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
         j.dPS.and(j.dA).whileTrue(new PoseAlignToAutoStartingPt(drivetrain, true));

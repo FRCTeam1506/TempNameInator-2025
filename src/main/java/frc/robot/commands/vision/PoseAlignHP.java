@@ -103,8 +103,10 @@ public class PoseAlignHP extends Command {
     }
     else{ //blue alliance!!!!
       List<Pose2d> list = new ArrayList<>();
-      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(12));
-      list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(13));
+      // list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(12));
+      // list.add(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(13));
+      list.add(new Pose2d(1.36,7.17,new Rotation2d(126.5))); //125 measured
+      list.add(new Pose2d(1.21, 1.02, new Rotation2d(-126.5))); //-127.47 measured
       goalPose = startPos.nearest(list);
     }
 

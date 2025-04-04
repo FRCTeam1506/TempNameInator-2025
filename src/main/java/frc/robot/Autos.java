@@ -1,8 +1,9 @@
+//everything will work. Josh worked his magic.
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
-import java.time.Instant;
+// import java.time.Instant;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -60,14 +61,14 @@ public class Autos {
         this.coral = coral;
         this.elevator = elevator;
         this.intake = intake;
-        this.climber = climber;
+        this.climber = climber; 
         this.drivetrain = drivetrain;
     }
 
     public void makeNamedCommands(){
         NamedCommands.registerCommand("ZeroGyro", drivetrain.runOnce(() -> drivetrain.seedFieldCentric()).withTimeout(0.05));
         NamedCommands.registerCommand("HoldIntake", new InstantCommand(() -> intake.zeroVertical()).withTimeout(0.05).andThen(new InstantCommand(() -> intake.raiseIntake())));
-        NamedCommands.registerCommand("ExtendClimber", new InstantCommand(() -> climber.unclimb()).withTimeout(1).finallyDo(() -> new InstantCommand(() -> climber.stop()).withTimeout(0.02)));
+        NamedCommands.registerCommand("ExtendClimber", new InstantCommand(() -> climber.unclimb()).withTimeout(.14).andThen(() -> new InstantCommand(() -> climber.stop()).withTimeout(0.05)));
 
         NamedCommands.registerCommand("DTPBeta", new DriveToPoseBetaAutonomous(drivetrain)); 
         NamedCommands.registerCommand("DTPLeft", new DTPLeftAuto(drivetrain));
@@ -100,6 +101,7 @@ public class Autos {
         
         new EventTrigger("ElevatorL4").whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
         new EventTrigger("ElevatorL2Algae").whileTrue(new InstantCommand(() -> elevator.elevatorL2Algae()));
+        new EventTrigger("ElevatorGround").whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
 
     }
 
@@ -116,3 +118,4 @@ public class Autos {
 
 
 }
+//everything will work. Josh worked his magic.

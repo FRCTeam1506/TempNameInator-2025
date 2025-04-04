@@ -31,8 +31,8 @@ public class Intake extends SubsystemBase {
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-    config.MotionMagic.MotionMagicCruiseVelocity = 20; // 80 rps cruise velocity
-    config.MotionMagic.MotionMagicAcceleration = 40; // 160 rps/s acceleration (0.5 seconds)
+    config.MotionMagic.MotionMagicCruiseVelocity = 40; // 80 rps cruise velocity //20 before states
+    config.MotionMagic.MotionMagicAcceleration = 45; // 160 rps/s acceleration (0.5 seconds)
     config.MotionMagic.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
 
     config.Slot0 = Constants.slot0Configs;
@@ -72,7 +72,7 @@ public class Intake extends SubsystemBase {
   public void raiseIntake() {
     vertical.setControl(m_motmag.withPosition(0));
 
-    if(Math.abs(vertical.getTorqueCurrent().getValueAsDouble()) > 25){ //15, 20
+    if(Math.abs(vertical.getTorqueCurrent().getValueAsDouble()) > 85){ //15, 20
       vertical.setPosition(0);
       // stop();
     }

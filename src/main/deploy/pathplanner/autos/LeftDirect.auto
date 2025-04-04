@@ -24,9 +24,16 @@
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "LeftDirect1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftDirect1"
+                }
+              }
+            ]
           }
         },
         {
@@ -91,7 +98,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftDirect3"
+                  "pathName": "LeftDirect3First"
                 }
               },
               {
@@ -103,7 +110,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.35
                 }
               },
               {
@@ -136,26 +143,20 @@
                 "data": {
                   "name": "IntakeHP"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ElevatorGround"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
           }
         },
         {
           "type": "named",
           "data": {
             "name": "PoseAlignHP"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.0
           }
         },
         {
@@ -177,7 +178,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 0.37
                 }
               },
               {
