@@ -101,6 +101,7 @@ public class RobotContainer {
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
     private SendableChooser<Command> autoChooserManual;
+    public static SendableChooser<String> lazyAuto2000 = new SendableChooser<String>();
 
     public RobotContainer() {
 
@@ -108,9 +109,13 @@ public class RobotContainer {
 
         autoChooserManual = new SendableChooser<Command>();
         autoChooserManual = autos.configureChooser(autoChooserManual);
+        lazyAuto2000.addOption("Left", "Left");
+        lazyAuto2000.addOption("Center", "Center");
+        lazyAuto2000.addOption("Right", "Right");
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+        SmartDashboard.putData("lazyAuto2000", lazyAuto2000);
         // SmartDashboard.putData("Auto Mode 2000", autoChooserManual);
 
         configureBindings();
@@ -134,10 +139,10 @@ public class RobotContainer {
         //     point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
         // ));
 
-        j.dTouchpad.whileTrue(drivetrain.applyRequest(() ->
+        j.dOptions.whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0).withVelocityY(0.5))
         );
-        j.dOptions.whileTrue(drivetrain.applyRequest(() ->
+        j.dTouchpad.whileTrue(drivetrain.applyRequest(() ->
         forwardStraight.withVelocityX(0).withVelocityY(-0.5))
         );
 
@@ -260,14 +265,15 @@ public class RobotContainer {
 
         //alignment to apriltag
         j.dLeft.whileTrue(new DTPLeft(drivetrain)); //lb
-        j.dRB.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
+        j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
         j.dLB.whileTrue(new PoseAlign(drivetrain, true));
-        j.dRight.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted
+        j.dRB.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted //its back!!
 
         j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
-        j.dPS.and(j.dA).whileTrue(new PoseAlignToAutoStartingPt(drivetrain, true));
+        // j.dB.whileTrue(new PoseAlignHP(drivetrain));
+        j.dPS.and(j.dShare).whileTrue(new PoseAlignToAutoStartingPt(drivetrain));
 
 
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));

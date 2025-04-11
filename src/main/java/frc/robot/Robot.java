@@ -122,6 +122,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.elevator.elevatorStop();
+    m_robotContainer.algae.stop();
   }
 
   @Override

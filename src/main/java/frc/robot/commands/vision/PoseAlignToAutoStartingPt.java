@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -62,19 +63,17 @@ public class PoseAlignToAutoStartingPt extends Command {
   private Pose2d goalPose = new Pose2d();
 
   int thetaGoal;
-  boolean left;
 
   /**
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlignToAutoStartingPt(CommandSwerveDrivetrain drivetrain, boolean left) {
+  public PoseAlignToAutoStartingPt(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
-    this.left = left;
   }
 
   /**
@@ -87,6 +86,8 @@ public class PoseAlignToAutoStartingPt extends Command {
   @Override
   public void initialize() {
 
+    String side = RobotContainer.lazyAuto2000.getSelected();
+
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
@@ -94,19 +95,27 @@ public class PoseAlignToAutoStartingPt extends Command {
     startPos = drivetrain.getState().Pose;
 
     if(DriverStation.getAlliance().get().equals(Alliance.Red)){
-      if(left){
+      if(side.equals("Left")){
         goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));
       }
       else{
         goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));//change
       }
+
+      if(side.equals("Center")){
+        goalPose = new Pose2d(10.35, 3.93, new Rotation2d(Math.toRadians(-180)));
+      }
     }
     else {
-      if(left){
+      if(side.equals("Left")){
         goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180))); //change
       }
       else{
         goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));//change
+      }
+      
+      if(side.equals("Center")){
+
       }
 
     }

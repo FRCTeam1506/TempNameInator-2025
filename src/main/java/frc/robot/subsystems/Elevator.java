@@ -16,27 +16,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ElevatorConstants.ElevatorLevel;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-
-import static frc.robot.Constants.scoreSpeed;
-
-import java.lang.annotation.ElementType;
-import java.util.Map;
-
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.controls.ControlRequest;
-import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
-import com.ctre.phoenix6.signals.ControlModeValue;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.robot.LimelightHelpers;
-import frc.robot.generated.TunerConstants;
-
 
 public class Elevator extends SubsystemBase {
   private TalonFX elevator1 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
@@ -162,7 +141,7 @@ public class Elevator extends SubsystemBase {
     elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
     elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
 
-    Constants.scoreSpeed = 0.65; 
+    Constants.scoreSpeed = 0.65; //0.65 og speed
     ElevatorConstants.current = ElevatorConstants.ElevatorLevel.L4;
   }
 
