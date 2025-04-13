@@ -13,36 +13,25 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-/**
- * This command, when executed, instructs the drivetrain subsystem to drive to the specified pose in
- * a straight line. The execute method invokes the drivetrain subsystem's drive method. For
- * following a predetermined path, refer to the FollowPath Command class. For generating a path on
- * the fly and following that path, refer to the MoveToPose Command class.
- *
- * <p>Requires: the Drivetrain subsystem
- *
- * <p>Finished When: the robot is at the specified pose (within the specified tolerances)
- *
- * <p>At End: stops the drivetrain
- */
-public class PoseAlignToAutoStartingPt extends Command {
+public class PoseAlignBargeAuto extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
-  boolean isFinished = false;
 
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 10;
+  double timeout = 3;
 
   private final PIDController xController =
       new PIDController(
@@ -68,7 +57,7 @@ public class PoseAlignToAutoStartingPt extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlignToAutoStartingPt(CommandSwerveDrivetrain drivetrain) {
+  public PoseAlignBargeAuto(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
@@ -86,8 +75,6 @@ public class PoseAlignToAutoStartingPt extends Command {
   @Override
   public void initialize() {
 
-    String side = RobotContainer.lazyAuto2000.getSelected();
-
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
@@ -95,29 +82,12 @@ public class PoseAlignToAutoStartingPt extends Command {
     startPos = drivetrain.getState().Pose;
 
     if(DriverStation.getAlliance().get().equals(Alliance.Red)){
-      if(side.equals("Left")){
-        goalPose = new Pose2d(10.37,1.65,new Rotation2d(Math.toRadians(-180)));
-      }
-      else{
-        goalPose = new Pose2d(10.39,6.03,new Rotation2d(Math.toRadians(-180)));//change
-      }
 
-      if(side.equals("Center")){
-        goalPose = new Pose2d(10.35, 3.93, new Rotation2d(Math.toRadians(-180)));
-      }
+      goalPose = new Pose2d(9.9,3.51, new Rotation2d(0));
     }
-    else {
-      if(side.equals("Left")){
-        goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180))); //change
-      }
-      else{
-        goalPose = new Pose2d(10.54,1.73,new Rotation2d(Math.toRadians(-180)));//change
-      }
-      
-      if(side.equals("Center")){
-
-      }
-
+    else{
+      ////do something for blue
+      goalPose = new Pose2d(7.67,4.82, new Rotation2d(Math.toRadians(180)));
     }
 
     this.timer.restart();
@@ -141,7 +111,7 @@ public class PoseAlignToAutoStartingPt extends Command {
 
   @Override
   public boolean isFinished() {
-    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference() || isFinished;
+    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference();
   }
 
   @Override

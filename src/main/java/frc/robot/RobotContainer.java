@@ -44,6 +44,7 @@ import frc.robot.commands.vision.PIDToPose3;
 import frc.robot.commands.vision.PIDToPose4Spark;
 import frc.robot.commands.vision.PIDToPose5Holonomic;
 import frc.robot.commands.vision.PoseAlign;
+import frc.robot.commands.vision.PoseAlignBargeAuto;
 import frc.robot.commands.vision.PoseAlignHP;
 import frc.robot.commands.vision.PoseAlignRight;
 import frc.robot.commands.vision.PoseAlignToAutoStartingPt;
@@ -279,11 +280,11 @@ public class RobotContainer {
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
+        j.oShare.whileTrue(new PoseAlignBargeAuto(drivetrain));
 
         
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
         // j.dOptions.whileTrue(new InstantCommand(() -> PoseAlign.printAllGoals())); //get all goalposes, used for autos
-   
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

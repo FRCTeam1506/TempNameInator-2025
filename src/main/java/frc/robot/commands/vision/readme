@@ -19,6 +19,14 @@ DriveToPosebetaAutoNO --- AutoNO because it is not auto but this is the teleop c
 
 driveToTagHolonomic -- tried to use holonomicPID to align to apriltag but didn't work -- I think its more intended for moving target?
 
+DTPLeft --- this is the left side version of DriveToPoseBeta (which was originally for the right), basically uses the other camera (which we mounted to the corner) and has a different present to align to the left post. The main command that we use in teleop (for version 1 of auto align)
+
+DTPLeftAuto --- same as DTPLeft but with a timeout (around 1 second or something) so that it can be used in autonomous
+
+DTPoseTest --- a really good idea, with poor results. basically if we know our drivertrains current pose ---- even if it is wildly incorrect ---bceause at the time that we were making this we were only using swerve odometry (no camera vision measurements added to pose), --then even if its wrong it will still always be wrong by the same amount, and it will be able to track how far and in which direction the robot has traveled since its initial point of the command. Combine this with knowing (limelight RobotPoseInTargetSpace) where the robot is in terms of the limelight than you can just use a pidcontroller to drive to the goal. You will calcualte the goal (the hard part) by taking the current robot pose and adding/subtracting the robotposeintargetspace, and continually updating the both. Great concept, no results. Does not work.
+
+Jalign -- this is the 2nd align
+
 StopDrivetrain --- it's name.
 
 TTAHolonomicApriltag -- same as TurnToAngleHolonomic BUT!!! 1: uses apriltag to determine the angle for alignment and 2: moved the pidcontroller stuff out of the constructor and into initialize so that we can fix the issue of the robot turning to zero before turning to target angle (even if the target was non zero, it would go to zero first and then the target) this fix worked.
@@ -27,3 +35,21 @@ turnByAngle --- a test file made during kettering week 1 that worked -- just tur
 
 TurnToAngleHolonomic -- using holonomic drive!!! from this team https://github.com/Frc5572/FRC2022/blob/main/src/main/java/frc/robot/commands/TurnToAngle.java worked but had the issue outlined in TTAHolonomicAprilTag
 
+
+
+/
+/
+
+
+
+
+
+
+
+
+
+
+In the year 1506 a team was born the team that will win worlds. Then in 2025 they had their chance. FINALLY
+-JOSH T 2025
+
+.

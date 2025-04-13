@@ -25,6 +25,7 @@ import frc.robot.commands.vision.JalignLeft;
 import frc.robot.commands.vision.JalignRight;
 import frc.robot.commands.vision.PoseAlign;
 import frc.robot.commands.vision.PoseAlignAuto;
+import frc.robot.commands.vision.PoseAlignBargeAuto;
 import frc.robot.commands.vision.PoseAlignHP;
 import frc.robot.commands.vision.PoseAlignHPAuto;
 import frc.robot.commands.vision.PoseAlignRight;
@@ -77,6 +78,7 @@ public class Autos {
         NamedCommands.registerCommand("PoseAlignLeft", new PoseAlignAuto(drivetrain, true));
         NamedCommands.registerCommand("PoseAlignRight", new PoseAlignAuto(drivetrain, false));
         NamedCommands.registerCommand("PoseAlignHP", new PoseAlignHPAuto(drivetrain));
+        NamedCommands.registerCommand("PoseAlignBargeLeft", new PoseAlignBargeAuto(drivetrain));
 
 
         NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.elevatorL4()));
@@ -91,11 +93,12 @@ public class Autos {
         NamedCommands.registerCommand("ElevatorSlow", new InstantCommand(() -> elevator.autoAlgaeSlow()));
 
         NamedCommands.registerCommand("AlgaeIntake", new InstantCommand(() -> algae.intake()));
-        NamedCommands.registerCommand("AlgaeOuttake", new InstantCommand(() -> algae.outtake()));
+        NamedCommands.registerCommand("AlgaeOuttake", new InstantCommand(() -> algae.outtakeAuto()));
         NamedCommands.registerCommand("AlgaeStop", new InstantCommand(() -> algae.stop()));
         NamedCommands.registerCommand("AlgaeMacro", new ParallelCommandGroup(drivetrain.applyRequest(() -> forwardStraight.withVelocityX(-0.3)).withTimeout(0.45), new SequentialCommandGroup(new InstantCommand(() -> elevator.elevatorGround()).withTimeout(0.45), new InstantCommand(() -> elevator.elevatorUp()).alongWith(new InstantCommand(() -> algae.intake())).until(() -> elevator.getPosition() > 38))));
 
         NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.15), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get() && coral.irTwo.get()).andThen(new ParallelDeadlineGroup(new WaitCommand(0.15), new InstantCommand(() -> coral.stop()))));
+        NamedCommands.registerCommand("ShootCoralManually", new ParallelDeadlineGroup(new WaitCommand(.3), new InstantCommand(() -> coral.switchIntakeAuto())).andThen(new InstantCommand(() -> coral.stop())));
         NamedCommands.registerCommand("StopShooting", new InstantCommand(() -> coral.stop()));
         NamedCommands.registerCommand("IntakeHP", new InstantCommand(() -> coral.stop()).withTimeout(0.02).andThen(new InstantCommand(() -> coral.switchIntake())));
         
