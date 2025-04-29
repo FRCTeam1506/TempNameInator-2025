@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootCoral"
+            "name": "ShootCoralManuallySlow"
           }
         },
         {
@@ -110,13 +110,19 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.35
+                  "waitTime": 0.2
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootCoral"
+                  "name": "ShootCoralManuallySlow"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
                 }
               }
             ]
@@ -178,13 +184,19 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.37
+                  "waitTime": 0.2
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootCoral"
+                  "name": "ShootCoralManuallySlow"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
                 }
               },
               {

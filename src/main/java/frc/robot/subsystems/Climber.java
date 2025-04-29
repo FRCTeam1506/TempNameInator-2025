@@ -50,6 +50,13 @@ public class Climber extends SubsystemBase {
     }
   }
 
+  public void turboClimb() {
+    if(ls.get()){
+      motor.set(ClimberConstants.CLIMB_SPEED * 2.66);
+    }
+  }
+
+
   public void stop(){
     motor.set(0);
     motor.stopMotor();

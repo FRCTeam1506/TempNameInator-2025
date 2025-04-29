@@ -27,9 +27,15 @@
                 }
               },
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.2
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "ShootCoralManually"
+                  "name": "ShootCoralManuallySlow"
                 }
               },
               {
@@ -123,7 +129,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
@@ -137,20 +143,14 @@
                 "data": {
                   "name": "AlgaeIntake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorL4"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ElevatorL4"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.8
           }
         },
         {
@@ -160,7 +160,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.7
+                  "waitTime": 0.8
                 }
               },
               {
@@ -185,15 +185,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.8
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -241,13 +241,38 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.3
+                  "waitTime": 0.6
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "ElevatorL3Algae"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorSlow"
                 }
               },
               {
@@ -282,6 +307,12 @@
           "type": "path",
           "data": {
             "pathName": "CenterMain4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseAlignBargeLeft"
           }
         }
       ]

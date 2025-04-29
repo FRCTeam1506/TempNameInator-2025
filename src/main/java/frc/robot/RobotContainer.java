@@ -173,6 +173,9 @@ public class RobotContainer {
         j.dA.whileFalse(new InstantCommand(() -> climber.stop()));
         j.dY.whileFalse(new InstantCommand(() -> climber.stop()));
 
+        j.dA.and(j.dRT).whileTrue(new InstantCommand(() -> climber.turboClimb()));
+        j.dA.and(j.dRT).whileFalse(new InstantCommand(() -> climber.stop()));
+
         //manual elevator commands -- a up, b down
         j.oOptions.whileTrue(new InstantCommand( () -> elevator.elevatorDown()));
         j.oTouchpad.whileTrue(new InstantCommand( () -> elevator.elevatorUp()));

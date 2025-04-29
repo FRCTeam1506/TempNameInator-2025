@@ -8,9 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.SwerveConstants;
@@ -18,20 +16,30 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-public class PoseAlignBargeAuto extends Command {
+/**
+ * This command, when executed, instructs the drivetrain subsystem to drive to the specified pose in
+ * a straight line. The execute method invokes the drivetrain subsystem's drive method. For
+ * following a predetermined path, refer to the FollowPath Command class. For generating a path on
+ * the fly and following that path, refer to the MoveToPose Command class.
+ *
+ * <p>Requires: the Drivetrain subsystem
+ *
+ * <p>Finished When: the robot is at the specified pose (within the specified tolerances)
+ *
+ * <p>At End: stops the drivetrain
+ */
+public class PoseAlignAutoLong extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
+  boolean isFinished = false;
 
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 2;
+  double timeout = 3;
 
   private final PIDController xController =
       new PIDController(
@@ -52,17 +60,19 @@ public class PoseAlignBargeAuto extends Command {
   private Pose2d goalPose = new Pose2d();
 
   int thetaGoal;
+  boolean left;
 
   /**
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public PoseAlignBargeAuto(CommandSwerveDrivetrain drivetrain) {
+  public PoseAlignAutoLong(CommandSwerveDrivetrain drivetrain, boolean left) {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
+    this.left = left;
   }
 
   /**
@@ -75,19 +85,25 @@ public class PoseAlignBargeAuto extends Command {
   @Override
   public void initialize() {
 
+    isFinished = false;
+
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
 
-    if(DriverStation.getAlliance().get().equals(Alliance.Red)){
-
-      goalPose = new Pose2d(9.87,3.51, new Rotation2d(0));
+    int id = (int) drivetrain.getTag();
+    if(id == -1){
+      id = 6;
+      isFinished = true;
+      System.out.println("NO TAG IDENTIFIED!");
+    }
+    if(left){
+      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.leftBranch);
     }
     else{
-      ////do something for blue
-      goalPose = new Pose2d(7.66,4.82, new Rotation2d(Math.toRadians(180)));
+      goalPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
     }
 
     this.timer.restart();
@@ -111,7 +127,7 @@ public class PoseAlignBargeAuto extends Command {
 
   @Override
   public boolean isFinished() {
-    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference();
+    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference() || isFinished;
   }
 
   @Override

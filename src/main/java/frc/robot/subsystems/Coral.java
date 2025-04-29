@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.nio.file.attribute.PosixFilePermission;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -32,6 +34,7 @@ public class Coral extends SubsystemBase {
     OUTTAKE,
     MOVE_CORAL_DOWN,
     INTAKE_AUTO,
+    INTAKE_AUTO_SLOW,
     STOP
   }
 
@@ -99,8 +102,13 @@ public class Coral extends SubsystemBase {
   }
 
   public void justScore(){
-    motor.set(0.65); //.85 //0.65 //0.5
+    motor.set(0.5); //.85 //0.65 //0.5 //0.65 the coral is bouncing off the post
   }
+
+  public void justScoreSlowly(){
+    motor.set(0.43); //.85 //0.65 //0.5 //0.65 the coral is bouncing off the post
+  }
+
 
   public void moveCoralDown(){
     motor.setControl(m_motmag.withPosition(2)); //6 //7.6 before adding 2nd ir
@@ -129,6 +137,11 @@ public class Coral extends SubsystemBase {
     currentPosition = Position.INTAKE_AUTO;
   }
 
+  public void switchIntakeAutoSlow(){
+    currentPosition = Position.INTAKE_AUTO_SLOW;
+  }
+
+
   
 
 
@@ -155,6 +168,9 @@ public class Coral extends SubsystemBase {
     }
     else if(currentPosition == Position.INTAKE_AUTO){
       justScore();
+    }
+    else if(currentPosition == Position.INTAKE_AUTO_SLOW){
+      justScoreSlowly();
     }
     else{
       stop();

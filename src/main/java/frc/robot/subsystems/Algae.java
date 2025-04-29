@@ -78,8 +78,8 @@ public class Algae extends SubsystemBase {
     bottom.set(0.45);
     }
     else{ //more powerful on blue alliance because it is angled -- not completely flat
-      top.set(-0.85);
-      bottom.set(0.85);
+      top.set(-0.45); //undid the power difference after ti bounced out at worlds, also it is now flat and no longer angled //missed a shot on the practice field so were increasing it a bit //0.48 --> 0.43 after overshoot on worlds playoff
+      bottom.set(0.55); //0.55 --> 0.48
     }
   }
   public void stop() {

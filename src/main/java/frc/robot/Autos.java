@@ -25,6 +25,7 @@ import frc.robot.commands.vision.JalignLeft;
 import frc.robot.commands.vision.JalignRight;
 import frc.robot.commands.vision.PoseAlign;
 import frc.robot.commands.vision.PoseAlignAuto;
+import frc.robot.commands.vision.PoseAlignAutoLong;
 import frc.robot.commands.vision.PoseAlignBargeAuto;
 import frc.robot.commands.vision.PoseAlignHP;
 import frc.robot.commands.vision.PoseAlignHPAuto;
@@ -77,6 +78,7 @@ public class Autos {
         NamedCommands.registerCommand("JalignRight", new JalignRight(drivetrain));
         NamedCommands.registerCommand("PoseAlignLeft", new PoseAlignAuto(drivetrain, true));
         NamedCommands.registerCommand("PoseAlignRight", new PoseAlignAuto(drivetrain, false));
+        NamedCommands.registerCommand("PoseAlignRightLong", new PoseAlignAutoLong(drivetrain, false));
         NamedCommands.registerCommand("PoseAlignHP", new PoseAlignHPAuto(drivetrain));
         NamedCommands.registerCommand("PoseAlignBargeLeft", new PoseAlignBargeAuto(drivetrain));
 
@@ -99,6 +101,8 @@ public class Autos {
 
         NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.15), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get() && coral.irTwo.get()).andThen(new ParallelDeadlineGroup(new WaitCommand(0.15), new InstantCommand(() -> coral.stop()))));
         NamedCommands.registerCommand("ShootCoralManually", new ParallelDeadlineGroup(new WaitCommand(.3), new InstantCommand(() -> coral.switchIntakeAuto())).andThen(new InstantCommand(() -> coral.stop())));
+        NamedCommands.registerCommand("ShootCoralManuallySlow", new ParallelDeadlineGroup(new WaitCommand(.3), new InstantCommand(() -> coral.switchIntakeAutoSlow())).andThen(new InstantCommand(() -> coral.stop())));
+
         NamedCommands.registerCommand("StopShooting", new InstantCommand(() -> coral.stop()));
         NamedCommands.registerCommand("IntakeHP", new InstantCommand(() -> coral.stop()).withTimeout(0.02).andThen(new InstantCommand(() -> coral.switchIntake())));
         
