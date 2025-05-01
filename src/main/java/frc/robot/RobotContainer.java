@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.pathfinding.PathfindingCommand;
 import frc.robot.commands.vision.DTPLeft;
 import frc.robot.commands.vision.DTPoseTest;
 import frc.robot.commands.vision.DriveToPose;
@@ -239,6 +240,7 @@ public class RobotContainer {
         j.oLB.whileFalse(new InstantCommand(() -> intake.raiseIntake()));
 
         //alignment to apriltag
+<<<<<<< Updated upstream
         j.dLB.whileTrue(new DTPLeft(drivetrain)); //lb
         j.dRB.whileTrue(new DriveToPoseBeta(drivetrain)); //rb
         j.dLeft.whileTrue(new JalignLeft(drivetrain));
@@ -246,6 +248,28 @@ public class RobotContainer {
         // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
         // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
+=======
+        // j.dLeft.whileTrue(new DTPLeft(drivetrain)); //lb
+        // j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
+        // j.dLeft.whileTrue(new JalignLeft(drivetrain));
+        // j.dRight.whileTrue(new JalignRight(drivetrain));
+        j.dLB.whileTrue(new PoseAlign(drivetrain, true));
+        j.dRB.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted //its back!!
+
+        j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
+        // j.dB.whileTrue(new PoseAlignHP(drivetrain));
+        j.dPS.and(j.dShare).whileTrue(new PoseAlignToAutoStartingPt(drivetrain));
+
+
+        // j.dRight.whileTrue(new OnlyTurn2(drivetrain));
+        // j.dRight.whileTrue(new TurnToAngleHolonomic(drivetrain, 60, false));
+        // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
+        j.oShare.whileTrue(new PoseAlignBargeAuto(drivetrain));
+
+        j.dLeft.whileTrue(new PathfindingCommand(drivetrain)).whileFalse(new PoseAlign(drivetrain, false));
+        
+
+>>>>>>> Stashed changes
         
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
    

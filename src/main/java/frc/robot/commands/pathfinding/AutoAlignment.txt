@@ -1,0 +1,244 @@
+package frc.robot.commands.pathfinding;
+
+import static edu.wpi.first.units.Units.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearAcceleration;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Vision;
+
+import java.util.*;
+
+public class AutoAlignment {
+
+    boolean lowSpeedModeEnabled = false;
+
+    public record AutoAlignmentTarget(
+            Pose2d roughTarget,
+            Pose2d preciseTarget,
+            Rotation2d preciseApproachDirection,
+            OptionalInt tagIdToFocus,
+            OptionalInt cameraToFocus,
+            Optional<Translation2d> faceToTargetDuringRoughApproach) {}
+    /**
+     * creates a precise auto-alignment command NOTE: AutoBuilder must be configured! the command has two steps: 1.
+     * path-find to the target pose, roughly 2. accurate auto alignment
+     */
+    public static Command pathFindAndAutoAlign(
+            CommandSwerveDrivetrain drivetrain,
+            Vision vision,
+            AutoAlignmentTarget target,
+            Command toRunDuringRoughApproach,
+            Command toRunDuringPreciseAlignment,
+            AutoAlignmentConfigurations config) {
+        Command pathFindToRoughTarget = pathFindToPose(
+                        target.roughTarget(), target.faceToTargetDuringRoughApproach(), config)
+                .onlyIf(() -> drivetrain.getState().Pose
+                                .minus(target.preciseTarget())
+                                .getTranslation()
+                                .getNorm()
+                        > config.distanceStartPreciseApproach.in(Meters));
+        Command preciseAlignment = preciseAlignment(
+                        drivetrain, target.preciseTarget(), target.preciseApproachDirection(), config)
+                .deadlineFor(vision.focusOnTarget(target.tagIdToFocus(), target.cameraToFocus()));
+
+        return pathFindToRoughTarget
+                .deadlineFor(toRunDuringRoughApproach.asProxy())
+                .andThen(preciseAlignment.deadlineFor(toRunDuringPreciseAlignment.asProxy()));
+    }
+
+    public static Command followPathAndAutoAlign(
+            CommandSwerveDrivetrain driveSubsystem,
+            Vision vision,
+            PathPlannerPath path,
+            Pose2d preciseTargetAtBlue,
+            Rotation2d preciseTargetApproachDirection,
+            OptionalInt tagIdToFocusAtBlue,
+            OptionalInt tagIdToFocusAtRed,
+            OptionalInt cameraIdToFocus,
+            Command toRunAtFollowPath,
+            Command toRunAtPreciseAlignment,
+            AutoAlignmentConfigurations config) {
+        return Commands.deferredProxy(() -> followPathAndAutoAlignStatic(
+                driveSubsystem,
+                vision,
+                path,
+                new AutoAlignmentTarget(
+                        PathUtils.getEndingPose(path),
+                        FieldMirroringUtils.toCurrentAlliancePose(preciseTargetAtBlue),
+                        preciseTargetApproachDirection,
+                        FieldMirroringUtils.isSidePresentedAsRed() ? tagIdToFocusAtRed : tagIdToFocusAtBlue,
+                        cameraIdToFocus,
+                        Optional.empty()),
+                toRunAtFollowPath,
+                toRunAtPreciseAlignment,
+                config));
+    }
+
+    public static Command followPathAndAutoAlignStatic(
+            CommandSwerveDrivetrain drivetrain,
+            Vision vision,
+            PathPlannerPath path,
+            AutoAlignmentTarget target,
+            Command toRunAtFollowPath,
+            Command toRunAtPreciseAlignment,
+            AutoAlignmentConfigurations config) {
+        Command followPath = AutoBuilder.followPath(path)
+                .until(() -> drivetrain.getState().Pose
+                                .getTranslation()
+                                .minus(target.roughTarget().getTranslation())
+                                .getNorm()
+                        < config.distanceStartPreciseApproach.in(Meters));
+
+        Command preciseAlignment = preciseAlignment(
+                        drivetrain, target.preciseTarget(), target.preciseApproachDirection(), config)
+                .deadlineFor(vision.focusOnTarget(target.tagIdToFocus(), target.cameraToFocus()));
+
+        return followPath
+                .deadlineFor(toRunAtFollowPath.asProxy())
+                .andThen(preciseAlignment.deadlineFor(toRunAtPreciseAlignment.asProxy()));
+    }
+
+    public static Command pathFindToPose(
+            Pose2d targetPose, Optional<Translation2d> faceToVisionTarget, AutoAlignmentConfigurations config) {
+        ChassisHeadingController.ChassisHeadingRequest chassisHeadingRequest = faceToVisionTarget.isPresent()
+                ? new ChassisHeadingController.FaceToTargetRequest(faceToVisionTarget::get, null)
+                : new ChassisHeadingController.NullRequest();
+        Command activateChassisHeadingController =
+                Commands.runOnce(() -> ChassisHeadingController.getInstance().setHeadingRequest(chassisHeadingRequest));
+        Runnable deactivateChassisHeadingController = () ->
+                ChassisHeadingController.getInstance().setHeadingRequest(new ChassisHeadingController.NullRequest());
+
+        PathConstraints normalConstraints = new PathConstraints(
+                4.5, //max velocity drivetrain
+                6,
+                0.75,
+                1);
+        PathConstraints lowSpeedConstrain = new PathConstraints(
+                2,
+                3,
+                .75,
+                1);
+        Command pathFindToPoseNormalConstrains = AutoBuilder.pathfindToPose(
+                        targetPose, normalConstraints, config.preciseApproachStartingSpeed())
+                .onlyIf(() -> !RobotState.getInstance().lowSpeedModeEnabled())
+                .until(RobotState.getInstance()::lowSpeedModeEnabled);
+        Command pathFindToPoseLowConstrains = AutoBuilder.pathfindToPose(
+                        targetPose, lowSpeedConstrain, config.preciseApproachStartingSpeed())
+                .onlyIf(RobotState.getInstance()::lowSpeedModeEnabled);
+        Command pathFindToPose = pathFindToPoseNormalConstrains.andThen(pathFindToPoseLowConstrains);
+
+        Runnable resetDriveCommandRotationMaintenance =
+                () -> JoystickDrive.instance.ifPresent(joystickDrive -> joystickDrive.setRotationMaintenanceSetpoint(
+                        RobotState.getInstance().getRotation()));
+
+        return pathFindToPose
+                .beforeStarting(activateChassisHeadingController)
+                .until(() -> RobotState.getInstance()
+                                .getVisionPose()
+                                .getTranslation()
+                                .minus(targetPose.getTranslation())
+                                .getNorm()
+                        < config.distanceStartPreciseApproach.in(Meters))
+                .finallyDo(deactivateChassisHeadingController)
+                .finallyDo(resetDriveCommandRotationMaintenance);
+    }
+
+    public static Command preciseAlignment(
+            CommandSwerveDrivetrain drivetrain,
+            Pose2d preciseTarget,
+            Rotation2d preciseTargetApproachDirection,
+            AutoAlignmentConfigurations config) {
+        PathConstraints constraints = new PathConstraints(
+            MetersPerSecond.of(2),
+                MetersPerSecondPerSecond.of(3),
+                RotationsPerSecond.of(.75),
+                RotationsPerSecondPerSecond.of(1));
+        return Commands.defer(
+                        () -> AutoBuilder.followPath(getPreciseAlignmentPath(
+                                constraints,
+                                ChassisSpeeds.fromRobotRelativeSpeeds(drivetrain.getState().Speeds, drivetrain.getState().Pose.getRotation()),
+                                drivetrain.getState().Pose,
+                                preciseTarget,
+                                preciseTargetApproachDirection,
+                                config)),
+                        Set.of(drivetrain));
+                // .deadlineFor(Commands.startEnd( ///VISION SENSITIVE MODE TRY THIS AT HOME
+                //         () -> drivetrain.getInstance().setVisionSensitiveMode(true),
+                //         () -> RobotState.getInstance().setVisionSensitiveMode(false))
+                //https://github.com/Shenzhen-Robotics-Alliance/Maple-Swerve-Skeleton/blob/main/src/main/java/frc/robot/constants/DriveControlLoops.java
+    }
+
+    private static PathPlannerPath getPreciseAlignmentPath(
+            PathConstraints constraints,
+            ChassisSpeeds measuredSpeedsFieldRelative,
+            Pose2d currentRobotPose,
+            Pose2d preciseTarget,
+            Rotation2d preciseTargetApproachDirection,
+            AutoAlignmentConfigurations config) {
+        Translation2d interiorWaypoint = preciseTarget
+                .getTranslation()
+                .plus(new Translation2d(
+                        -config.finalApproachStraightTrajectoryLength.in(Meters), preciseTargetApproachDirection));
+        Translation2d fieldRelativeSpeedsMPS = new Translation2d(
+                measuredSpeedsFieldRelative.vxMetersPerSecond, measuredSpeedsFieldRelative.vyMetersPerSecond);
+        Rotation2d startingPathDirection = fieldRelativeSpeedsMPS
+                .times(0.8)
+                .plus(interiorWaypoint.minus(currentRobotPose.getTranslation()))
+                .getAngle();
+
+        List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+                new Pose2d(currentRobotPose.getTranslation(), startingPathDirection),
+                new Pose2d(interiorWaypoint, preciseTargetApproachDirection),
+                new Pose2d(preciseTarget.getTranslation(), preciseTargetApproachDirection));
+
+        PathConstraints slowDownConstrains = new PathConstraints(
+                config.finalAlignmentSpeed(),
+                config.preciseAlignmentMaxAcceleration,
+                RotationsPerSecond.of(0.5),
+                RotationsPerSecondPerSecond.of(1));
+
+        List<RotationTarget> rotationTargets = List.of(new RotationTarget(1.0, preciseTarget.getRotation()));
+        List<ConstraintsZone> constraintsZones = List.of(new ConstraintsZone(1.0, 2.0, slowDownConstrains));
+
+        PathPlannerPath path = new PathPlannerPath(
+                waypoints,
+                rotationTargets,
+                List.of(),
+                constraintsZones,
+                List.of(),
+                constraints,
+                new IdealStartingState(fieldRelativeSpeedsMPS.getNorm(), currentRobotPose.getRotation()),
+                new GoalEndState(config.hitTargetSpeed, preciseTarget.getRotation()),
+                false);
+        path.preventFlipping = true;
+
+        return path;
+    }
+
+    public record AutoAlignmentConfigurations(
+            Distance distanceStartPreciseApproach,
+            LinearVelocity preciseApproachStartingSpeed,
+            LinearVelocity finalAlignmentSpeed,
+            Distance finalApproachStraightTrajectoryLength,
+            LinearVelocity hitTargetSpeed,
+            LinearAcceleration preciseAlignmentMaxAcceleration) {
+        public static final AutoAlignmentConfigurations DEFAULT_CONFIG = new AutoAlignmentConfigurations(
+                Meters.of(0.5),
+                MetersPerSecond.of(3),
+                MetersPerSecond.of(2),
+                Meters.of(0.4),
+                MetersPerSecond.of(0.5),
+                MetersPerSecondPerSecond.of(4));
+    }
+}
