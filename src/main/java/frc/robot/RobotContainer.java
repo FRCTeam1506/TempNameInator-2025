@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.pathfinding.PathfindingCommand;
+import frc.robot.commands.pathfinding.SmartPathfinding;
 import frc.robot.commands.vision.DTPLeft;
 import frc.robot.commands.vision.DTPoseTest;
 import frc.robot.commands.vision.DriveToPose;
@@ -104,6 +105,8 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     private SendableChooser<Command> autoChooserManual;
     public static SendableChooser<String> lazyAuto2000 = new SendableChooser<String>();
+    public static SendableChooser<Integer> autoDriveLocation = new SendableChooser<Integer>();
+
 
     public RobotContainer() {
 
@@ -115,9 +118,18 @@ public class RobotContainer {
         lazyAuto2000.addOption("Center", "Center");
         lazyAuto2000.addOption("Right", "Right");
 
+        autoDriveLocation.addOption("Center Rear (id 10/21)", 1);
+        autoDriveLocation.addOption("Right Rear (id 9/22)", 2);
+        autoDriveLocation.addOption("Right Front (id 8/17)", 3);
+        autoDriveLocation.addOption("Center Front (id 7/18)", 4);
+        autoDriveLocation.addOption("Left Front (id 6/19)", 5);
+        autoDriveLocation.addOption("Left Rear (id 11/20)", 6);
+
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
         SmartDashboard.putData("lazyAuto2000", lazyAuto2000);
+        SmartDashboard.putData("SmartPathfinding", autoDriveLocation);
         // SmartDashboard.putData("Auto Mode 2000", autoChooserManual);
 
         configureBindings();
@@ -286,7 +298,7 @@ public class RobotContainer {
         // j.dRight.whileTrue(new TTAHolonomicAprilTag(drivetrain));
         j.oShare.whileTrue(new PoseAlignBargeAuto(drivetrain));
 
-        j.dLeft.whileTrue(new PathfindingCommand(drivetrain)).whileFalse(new PoseAlign(drivetrain, false));
+        j.dLeft.whileTrue(new SmartPathfinding(drivetrain));
         
 
         

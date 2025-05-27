@@ -10,16 +10,20 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.vision.PoseAlign;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PathfindingCommand extends Command {
+public class SmartPathfinding extends Command {
   /** Creates a new PathfindingCommand. */
   CommandSwerveDrivetrain drivetrain;
   PoseAlign poseAlign;
-  public PathfindingCommand(CommandSwerveDrivetrain drivetrain) {
+  public SmartPathfinding(CommandSwerveDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
     // poseAlign = new PoseAlign(drivetrain, false);
@@ -33,7 +37,62 @@ public class PathfindingCommand extends Command {
 
     // Since we are using a holonomic drivetrain, the rotation component of this pose
     // represents the goal holonomic rotation
-    Pose2d targetPose = new Pose2d(13.8, 5.66, Rotation2d.fromDegrees(60));
+    int face = 0;
+    Pose2d targetPose;
+
+    if(RobotContainer.autoDriveLocation.getSelected() != null){
+      face = RobotContainer.autoDriveLocation.getSelected();
+    }
+
+    int id = 7;
+    if(DriverStation.getAlliance().get().equals(Alliance.Red)){
+      if(face == 0 || face == 1){
+        id = 10;
+      }
+      else if(face == 2){
+        id = 9;
+      }
+      else if(face == 3){
+        id = 8;
+      }
+      else if(face == 4){
+        id = 7;
+      }
+      else if(face == 5){
+        id = 6;
+      }
+      else if(face == 6){
+        id = 11;
+      }
+    }
+
+    if(DriverStation.getAlliance().get().equals(Alliance.Blue)){
+      if(face == 0 || face == 1){
+        id = 21;
+      }
+      else if(face == 2){
+        id = 22;
+      }
+      else if(face == 3){
+        id = 17;
+      }
+      else if(face == 4){
+        id = 18;
+      }
+      else if(face == 5){
+        id = 19;
+      }
+      else if(face == 6){
+        id = 20;
+      }
+      else{
+        id = 21; //worst case should not occur
+      }
+    }
+
+
+    // targetPose = new Pose2d(13.8, 5.66, Rotation2d.fromDegrees(60));
+    targetPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
 
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
