@@ -93,6 +93,7 @@ public class SmartPathfinding extends Command {
 
     // targetPose = new Pose2d(13.8, 5.66, Rotation2d.fromDegrees(60));
     targetPose = CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id).transformBy(VisionConstants.rightBranch);
+    System.out.println(targetPose);
 
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
