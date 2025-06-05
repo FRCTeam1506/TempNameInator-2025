@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.macros.AlgaeL3;
 import frc.robot.commands.pathfinding.PathfindingCommand;
 import frc.robot.commands.pathfinding.SmartPathfinding;
 import frc.robot.commands.vision.DTPLeft;
@@ -242,6 +243,9 @@ public class RobotContainer {
         j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
         j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
 
+        //algae macro
+        j.oY.whileTrue(new AlgaeL3(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
+
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
         j.oB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
@@ -256,10 +260,11 @@ public class RobotContainer {
         j.dUp.whileFalse(new InstantCommand(() -> intake.stop()));
         j.dDown.whileFalse(new InstantCommand(() -> intake.stop()));
 
-        j.oY.whileTrue(new InstantCommand(() -> intake.up())).onFalse(new WaitCommand(0.3).andThen(new InstantCommand(() -> intake.zeroVertical())));
-        j.oX.whileTrue(new InstantCommand(() -> intake.down()));
-        j.oY.whileFalse(new InstantCommand(() -> intake.stop()));
-        j.oX.whileFalse(new InstantCommand(() -> intake.stop()));
+        //we need X and Y buttons for algae
+        // j.oY.whileTrue(new InstantCommand(() -> intake.up())).onFalse(new WaitCommand(0.3).andThen(new InstantCommand(() -> intake.zeroVertical())));
+        // j.oX.whileTrue(new InstantCommand(() -> intake.down()));
+        // j.oY.whileFalse(new InstantCommand(() -> intake.stop()));
+        // j.oX.whileFalse(new InstantCommand(() -> intake.stop()));
 
 
 
