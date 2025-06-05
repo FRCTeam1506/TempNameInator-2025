@@ -64,6 +64,12 @@ public class SmartPathfinding extends Command {
       else if(face == 6){
         id = 11;
       }
+      else if(face == 10){
+        id = 2;
+      }
+      else{
+        id = 21;
+      }
     }
 
     if(DriverStation.getAlliance().get().equals(Alliance.Blue)){

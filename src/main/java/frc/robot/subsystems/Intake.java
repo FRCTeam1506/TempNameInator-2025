@@ -40,7 +40,7 @@ public class Intake extends SubsystemBase {
     vertical.getConfigurator().apply(config);
     intake.getConfigurator().apply(config);
 
-    intake.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
+    intake.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
   }
 
 

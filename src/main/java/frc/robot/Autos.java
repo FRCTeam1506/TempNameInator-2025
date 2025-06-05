@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.macros.AlgaeL2;
+import frc.robot.commands.macros.AlgaeL3;
+import frc.robot.commands.macros.AlgaeL3Auto;
 import frc.robot.commands.vision.DTPLeft;
 import frc.robot.commands.vision.DTPLeftAuto;
 import frc.robot.commands.vision.DriveToPoseBeta;
@@ -98,6 +101,8 @@ public class Autos {
         NamedCommands.registerCommand("AlgaeOuttake", new InstantCommand(() -> algae.outtakeAuto()));
         NamedCommands.registerCommand("AlgaeStop", new InstantCommand(() -> algae.stop()));
         NamedCommands.registerCommand("AlgaeMacro", new ParallelCommandGroup(drivetrain.applyRequest(() -> forwardStraight.withVelocityX(-0.3)).withTimeout(0.45), new SequentialCommandGroup(new InstantCommand(() -> elevator.elevatorGround()).withTimeout(0.45), new InstantCommand(() -> elevator.elevatorUp()).alongWith(new InstantCommand(() -> algae.intake())).until(() -> elevator.getPosition() > 38))));
+        NamedCommands.registerCommand("AlgaeL2", new AlgaeL2(algae, elevator));
+        NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Auto(algae, elevator));
 
         NamedCommands.registerCommand("ShootCoral", new ParallelDeadlineGroup(new WaitCommand(.15), new InstantCommand(() -> coral.switchIntakeAuto())).until(() -> coral.irOne.get() && coral.irTwo.get()).andThen(new ParallelDeadlineGroup(new WaitCommand(0.15), new InstantCommand(() -> coral.stop()))));
         NamedCommands.registerCommand("ShootCoralManually", new ParallelDeadlineGroup(new WaitCommand(.3), new InstantCommand(() -> coral.switchIntakeAuto())).andThen(new InstantCommand(() -> coral.stop())));

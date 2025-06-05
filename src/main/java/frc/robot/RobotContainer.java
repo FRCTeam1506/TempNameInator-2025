@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.macros.AlgaeL2;
 import frc.robot.commands.macros.AlgaeL3;
 import frc.robot.commands.pathfinding.PathfindingCommand;
 import frc.robot.commands.pathfinding.SmartPathfinding;
@@ -125,6 +126,8 @@ public class RobotContainer {
         autoDriveLocation.addOption("Center Front (id 7/18)", 4);
         autoDriveLocation.addOption("Left Front (id 6/19)", 5);
         autoDriveLocation.addOption("Left Rear (id 11/20)", 6);
+        autoDriveLocation.addOption("Right HP (id 2/?)", 10);
+
 
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -245,6 +248,7 @@ public class RobotContainer {
 
         //algae macro
         j.oY.whileTrue(new AlgaeL3(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
+        j.oX.whileTrue(new AlgaeL2(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
         //normal coral intake
         j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
