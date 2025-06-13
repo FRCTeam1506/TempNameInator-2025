@@ -10,9 +10,12 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 /** Add your docs here. */
 public class j {
 
+    public static final PS4Controller driverRumble = new PS4Controller(2);
+    public static final PS4Controller operatorRumble = new PS4Controller(3);
+    
   public static final PS4Controller driver = new PS4Controller(0);
   public static final PS4Controller operator = new PS4Controller(1);
-  public static final PS4Controller test = new PS4Controller(2);
+  public static final PS4Controller test = new PS4Controller(5);
 
   // buttons
   public static JoystickButton dA = new JoystickButton(driver, PS4Controller.Button.kCross.value);

@@ -16,6 +16,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -61,7 +62,6 @@ import frc.robot.commands.vision.align3dproper;
 import frc.robot.commands.vision.alignRotationOnly;
 import frc.robot.commands.vision.driveToTagHolonomic;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Climber;
@@ -128,8 +128,6 @@ public class RobotContainer {
         autoDriveLocation.addOption("Left Rear (id 11/20)", 6);
         autoDriveLocation.addOption("Right HP (id 2/?)", 10);
 
-
-
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
         SmartDashboard.putData("lazyAuto2000", lazyAuto2000);
@@ -189,6 +187,8 @@ public class RobotContainer {
         j.dY.whileTrue(new InstantCommand( () -> climber.unclimb()));
         j.dA.whileFalse(new InstantCommand(() -> climber.stop()));
         j.dY.whileFalse(new InstantCommand(() -> climber.stop()));
+
+        driver.setRumble(GenericHID.RumbleType.kBothRumble, 1.0);
 
         j.dA.and(j.dRT).whileTrue(new InstantCommand(() -> climber.turboClimb()));
         j.dA.and(j.dRT).whileFalse(new InstantCommand(() -> climber.stop()));

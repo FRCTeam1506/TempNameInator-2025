@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
@@ -14,6 +15,8 @@ import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix.led.StrobeAnimation;
 
 
@@ -25,12 +28,17 @@ public class Candle extends SubsystemBase {
   int[] green = {0, 191, 0};
   int[] red = {191, 0, 0};
 
+  public static CANrange range = new CANrange(45);
+
 
   public Candle() {
     CANdleConfiguration config = new CANdleConfiguration();
     config.stripType = LEDStripType.BRG; // set the strip type to RGB
     config.brightnessScalar = 1; // dim the LEDs to half brightness
     candle.configAllSettings(config);
+
+    CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
+    range.getConfigurator().apply(rangeConfig);
   }
 
   public void orange(){
@@ -50,6 +58,12 @@ public class Candle extends SubsystemBase {
   public void white(){
     stopGSA();
     candle.setLEDs(255, 255, 255);
+  }
+
+  public void strobeWhite(){
+    stopGSA();
+    StrobeAnimation strobe = new StrobeAnimation(255, 255, 255);
+    candle.animate(strobe);
   }
 
   public void hotPink(){
@@ -100,11 +114,14 @@ public class Candle extends SubsystemBase {
   }
 
 
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-
+    System.out.println(range.getDistance().getValueAsDouble());
+    SmartDashboard.putNumber("Canrange value: ", range.getDistance().getValueAsDouble());
 
     if(Constants.CandleConstants.noah || DriverStation.isAutonomousEnabled()){
       gsa();
@@ -116,6 +133,16 @@ public class Candle extends SubsystemBase {
       // else{
       //   green();
       // }
+
+      if(range.getDistance().getValueAsDouble() > 0.5 && range.getDistance().getValueAsDouble() < 1.5){
+        strobeWhite();
+      }
+      else{
+        strobeOrange();
+      }
+
+
+
       green();
     }
     else if(!Coral.irOne.get()){
