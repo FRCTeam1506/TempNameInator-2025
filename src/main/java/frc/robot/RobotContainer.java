@@ -27,6 +27,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.controllers.Rumble1;
+import frc.robot.commands.controllers.RumbleUntimed;
 import frc.robot.commands.macros.AlgaeL2;
 import frc.robot.commands.macros.AlgaeL3;
 import frc.robot.commands.pathfinding.PathfindingCommand;
@@ -97,7 +99,7 @@ public class RobotContainer {
     public final Coral coral = new Coral();
     public final Intake intake = new Intake();
     public final Vision vision = new Vision();
-    public final Candle candle = new Candle();
+    public final Candle candle = new Candle(drivetrain);
     public final Algae algae = new Algae();
     
 
@@ -310,7 +312,7 @@ public class RobotContainer {
         j.dLeft.whileTrue(new SmartPathfinding(drivetrain));
         
 
-        
+        j.dShare.whileTrue(new RumbleUntimed());
         j.dX.whileTrue(new InstantCommand(() -> candle.toggleNoah()));
         // j.dOptions.whileTrue(new InstantCommand(() -> PoseAlign.printAllGoals())); //get all goalposes, used for autos
 

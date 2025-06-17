@@ -1,21 +1,28 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.RobotContainer;
+import frc.robot.j;
 import frc.robot.Constants.CandleConstants;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.controllers.Rumble1;
 
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
+import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.ProximityParamsConfigs;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix.led.StrobeAnimation;
 
@@ -29,16 +36,19 @@ public class Candle extends SubsystemBase {
   int[] red = {191, 0, 0};
 
   public static CANrange range = new CANrange(45);
+  CommandSwerveDrivetrain drivetrain;
 
-
-  public Candle() {
+  public Candle(CommandSwerveDrivetrain drivetrain) {
     CANdleConfiguration config = new CANdleConfiguration();
     config.stripType = LEDStripType.BRG; // set the strip type to RGB
     config.brightnessScalar = 1; // dim the LEDs to half brightness
     candle.configAllSettings(config);
 
     CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
+    // rangeConfig.ProximityParams = new ProximityParamsConfigs().withProximityHysteresis(0.4).withProximityThreshold(0.1);
     range.getConfigurator().apply(rangeConfig);
+
+    this.drivetrain = drivetrain;
   }
 
   public void orange(){
@@ -65,6 +75,13 @@ public class Candle extends SubsystemBase {
     StrobeAnimation strobe = new StrobeAnimation(255, 255, 255);
     candle.animate(strobe);
   }
+
+  public void fire(){
+    stopGSA();
+    FireAnimation fire = new FireAnimation(1, 0.5, 64, 0.7, 0.2);
+    candle.animate(fire);
+  }
+
 
   public void hotPink(){
     stopGSA();
@@ -120,7 +137,7 @@ public class Candle extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    System.out.println(range.getDistance().getValueAsDouble());
+    // System.out.println(range.getDistance().getValueAsDouble());
     SmartDashboard.putNumber("Canrange value: ", range.getDistance().getValueAsDouble());
 
     if(Constants.CandleConstants.noah || DriverStation.isAutonomousEnabled()){
@@ -134,16 +151,23 @@ public class Candle extends SubsystemBase {
       //   green();
       // }
 
-      if(range.getDistance().getValueAsDouble() > 0.5 && range.getDistance().getValueAsDouble() < 1.5){
-        strobeWhite();
+      if(range.getDistance().getValueAsDouble() > 0.31 && range.getDistance().getValueAsDouble() < .5 && (j.dRB.getAsBoolean() || j.dLB.getAsBoolean()) && (Math.abs(drivetrain.getState().Speeds.vxMetersPerSecond) + Math.abs(drivetrain.getState().Speeds.vyMetersPerSecond) < 0.25)){
+        // fire();
+        // gsa();
+        // j.driverRumble.setRumble(RumbleType.kBothRumble, 1);
+        // j.operatorRumble.setRumble(RumbleType.kBothRumble, 0.5);
+        CommandScheduler.getInstance().schedule(new Rumble1());
       }
       else{
-        strobeOrange();
+        green();
+        j.driverRumble.setRumble(RumbleType.kBothRumble, 0);
+        j.operatorRumble.setRumble(RumbleType.kBothRumble, 0);
+
       }
 
 
 
-      green();
+      // green();
     }
     else if(!Coral.irOne.get()){
         greenBlinkAnimation();
@@ -154,6 +178,19 @@ public class Candle extends SubsystemBase {
     else{
       red();
     }
+
+
+
+
+    if(DriverStation.getMatchTime() < 21 && DriverStation.getMatchTime() > 19){
+      j.driverRumble.setRumble(RumbleType.kBothRumble, 0.5);
+      j.operatorRumble.setRumble(RumbleType.kBothRumble, 0.5);
+    }
+    else{
+      j.driverRumble.setRumble(RumbleType.kBothRumble, 0);
+      j.operatorRumble.setRumble(RumbleType.kBothRumble, 0);
+    }
+
   }
 
 }
