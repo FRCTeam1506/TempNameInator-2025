@@ -63,6 +63,7 @@ import frc.robot.commands.vision.align3d;
 import frc.robot.commands.vision.align3dproper;
 import frc.robot.commands.vision.alignRotationOnly;
 import frc.robot.commands.vision.driveToTagHolonomic;
+import frc.robot.commands.autoScore;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Candle;
@@ -74,6 +75,9 @@ import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
+    public  int elevatorPos = 4;
+
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -202,9 +206,14 @@ public class RobotContainer {
         j.oTouchpad.whileFalse(new InstantCommand(() -> elevator.elevatorStop()));
 
         //elevator setpoints
-        j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
-        j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
-        j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+        // j.oUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
+        // j.oRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
+        // j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+        // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+
+        j.oUp.whileTrue(new InstantCommand(() -> elevator.autoL4()));
+        j.oRight.whileTrue(new InstantCommand(() -> elevator.autoL3()));
+        j.oLeft.whileTrue(new InstantCommand(() -> elevator.autoL2()));
         j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
 
         j.dL3.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
@@ -296,8 +305,8 @@ public class RobotContainer {
         // j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
-        j.dLB.whileTrue(new PoseAlign(drivetrain, true));
-        j.dRB.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted //its back!!
+        j.dLB.whileTrue(new autoScore(drivetrain, true));
+        j.dRB.whileTrue(new autoScore(drivetrain, false)); //new right has been demoted //its back!!
 
         j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
         // j.dB.whileTrue(new PoseAlignHP(drivetrain));

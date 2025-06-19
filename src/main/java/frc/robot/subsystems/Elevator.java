@@ -18,6 +18,9 @@ import frc.robot.Constants.ElevatorConstants.ElevatorLevel;
 
 
 public class Elevator extends SubsystemBase {
+
+public static int autoScorePos;
+
   private TalonFX elevator1 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
   private TalonFX elevator2 = new TalonFX(Constants.ElevatorConstants.ELEVATOR2_ID);
   public boolean isClicked = false;
@@ -197,6 +200,18 @@ public class Elevator extends SubsystemBase {
 
   public double getPosition(){
     return (elevator1.getPosition().getValueAsDouble() + elevator2.getPosition().getValueAsDouble()) / 2;
+  }
+
+
+
+  public static void autoL4() {
+    autoScorePos = 4;
+  }
+  public static void autoL3() {
+    autoScorePos = 3;
+  }
+  public static void autoL2() {
+    autoScorePos = 2;
   }
 
 
