@@ -40,12 +40,14 @@ public class autoScore extends Command {
     private final Timer myTimer = new Timer();
     double elapsedTime = myTimer.get();
 
-    public final Elevator elevator = new Elevator();
-    public final Coral coral = new Coral();
-
-    int elevatorPos = elevator.autoScorePos;
+    int elevatorPos;
+  
 
   private final CommandSwerveDrivetrain drivetrain;
+  private final Elevator elevator;
+  private final Coral coral;
+
+  
 
   SwerveRequest.ApplyRobotSpeeds request;
   boolean isFinished = false;
@@ -80,13 +82,17 @@ public class autoScore extends Command {
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
-  public autoScore(CommandSwerveDrivetrain drivetrain, boolean left) {
+  public autoScore(CommandSwerveDrivetrain drivetrain, boolean left, Elevator elevator, Coral coral) {
+    this.elevator = elevator;
+    this.coral = coral;
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
     this.left = left;
+    
+    
   }
 
   /**
@@ -130,8 +136,9 @@ public class autoScore extends Command {
    */
   @Override
   public void execute() {
+    elevatorPos = elevator.autoScorePos;
     running = true;
-    elapsedTime = myTimer.get();
+    //elapsedTime = myTimer.get();
 
 
     Pose2d currPose2d = drivetrain.getState().Pose;
@@ -176,6 +183,7 @@ public class autoScore extends Command {
     } else {
         elevator.elevatorL2();
     }
+    
     
   }
 

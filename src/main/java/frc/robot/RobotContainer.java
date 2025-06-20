@@ -305,8 +305,8 @@ public class RobotContainer {
         // j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
-        j.dLB.whileTrue(new autoScore(drivetrain, true));
-        j.dRB.whileTrue(new autoScore(drivetrain, false)); //new right has been demoted //its back!!
+        j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
+        j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); //new right has been demoted //its back!!
 
         j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
         // j.dB.whileTrue(new PoseAlignHP(drivetrain));
