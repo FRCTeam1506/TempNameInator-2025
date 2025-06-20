@@ -192,7 +192,7 @@ public class RobotContainer {
 
         driver.setRumble(GenericHID.RumbleType.kBothRumble, 1.0);
 
-        j.dA.and(j.dRT).whileTrue(new InstantCommand(() -> climber.turboClimb()));
+        j.dA.and(j.dRT).whileTrue(new RepeatCommand(new InstantCommand(() -> climber.turboClimb())));
         j.dA.and(j.dRT).whileFalse(new InstantCommand(() -> climber.stop()));
 
         //manual elevator commands -- a up, b down

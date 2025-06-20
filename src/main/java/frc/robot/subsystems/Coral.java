@@ -81,12 +81,12 @@ public class Coral extends SubsystemBase {
       motor.set(Constants.scoreSpeed); //was set to "speed"
     }
     else if(starting == irTwo.get()){
-      motor.set(Constants.scoreSpeed/3); //was set to "speed"
+      motor.set(Constants.scoreSpeed/6); //was set to "speed"
     }
     else{
       motor.setPosition(0);
-      currentPosition = Position.MOVE_CORAL_DOWN;
-      // currentPosition = Position.STOP; //we hav to uncomment above line when there is only one ir
+      // currentPosition = Position.MOVE_CORAL_DOWN;
+      currentPosition = Position.STOP; //we hav to uncomment above line when there is only one ir
     }
     
 

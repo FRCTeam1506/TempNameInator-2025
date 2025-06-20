@@ -10,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,6 +20,7 @@ public class Climber extends SubsystemBase {
 
   private TalonFX motor = new TalonFX(Constants.ClimberConstants.CLIMBER_ID);
   DigitalInput ls = new DigitalInput(ClimberConstants.LS_CLIMBER);
+  Timer turboTimer = new Timer();
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 
@@ -38,6 +40,7 @@ public class Climber extends SubsystemBase {
 
     motor.getConfigurator().apply(config);
     motor.setPosition(0);
+    turboTimer.reset();
   }
 
   public void unclimb() {
@@ -51,8 +54,12 @@ public class Climber extends SubsystemBase {
   }
 
   public void turboClimb() {
-    if(ls.get()){
+    turboTimer.start();
+    if(ls.get() && turboTimer.hasElapsed(0.25)){
       motor.set(ClimberConstants.CLIMB_SPEED * 2.66);
+    }
+    else if(!turboTimer.hasElapsed(0.25)){
+      motor.set(ClimberConstants.CLIMB_SPEED * 1.2);
     }
   }
 
@@ -60,6 +67,7 @@ public class Climber extends SubsystemBase {
   public void stop(){
     motor.set(0);
     motor.stopMotor();
+    turboTimer.reset();
   }
 
   public void switchClicked(){
