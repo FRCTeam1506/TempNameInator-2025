@@ -44,7 +44,7 @@ public class Constants {
         public static final double L3Pos = 50
         ; //53 slightly low FRCC  //53.4 too low when angled KUweek2 //53 too high FRCC
         public static final double L3AlgaePos = 41.25;
-        public static final double L4Pos = 84.8; //87 prev, 87.5 //87 good auto, not teleop //85.85 too high somehow
+        public static final double L4Pos = 85.2; //87 prev, 87.5 //87 good auto, not teleop //85.85 too high somehow
 
         public static final double ELEVATOR_SPEED = 0.4; //0.2
         public static final double ELEVATOR_SPEED_SLOW = 0.3;

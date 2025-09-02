@@ -109,13 +109,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootCoralManually"
+                  "name": "ShootCoralManuallySlow"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.05
+                  "waitTime": 0.15
                 }
               }
             ]
