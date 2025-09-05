@@ -18,6 +18,8 @@ import frc.robot.Constants.ElevatorConstants.ElevatorLevel;
 
 
 public class Elevator extends SubsystemBase {
+  public static int autoScorePos;
+
   private TalonFX elevator1 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
   private TalonFX elevator2 = new TalonFX(Constants.ElevatorConstants.ELEVATOR2_ID);
   public boolean isClicked = false;
@@ -159,6 +161,13 @@ public class Elevator extends SubsystemBase {
     }
   }
 
+  public void manualScore() {
+    Constants.ElevatorConstants.elevatorManual = true;
+  }
+  public void autoScore() {
+    Constants.ElevatorConstants.elevatorManual = false;
+  }
+
 
 
 
@@ -199,10 +208,22 @@ public class Elevator extends SubsystemBase {
     return (elevator1.getPosition().getValueAsDouble() + elevator2.getPosition().getValueAsDouble()) / 2;
   }
 
+  public static void autoL4() {
+    autoScorePos = 4;
+  }
+  public static void autoL3() {
+    autoScorePos = 3;
+  }
+  public static void autoL2() {
+    autoScorePos = 2;
+  }
+
 
 
   @Override
   public void periodic() {
+
+    System.out.println(Constants.ElevatorConstants.elevatorManual);
     // This method will be called once per scheduler run
     // SmartDashboard.putNumber("elevator1 position", elevator1.getRotorPosition().getValueAsDouble());
     // SmartDashboard.putNumber("elevator2 position", elevator2.getRotorPosition().getValueAsDouble());

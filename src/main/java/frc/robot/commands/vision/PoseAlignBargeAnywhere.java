@@ -66,21 +66,20 @@ public class PoseAlignBargeAnywhere extends Command {
    */
   @Override
   public void initialize() {
-    double goalXPosition = startPos.getX();
-
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
+    double goalYPosition = startPos.getY();
 
     if(DriverStation.getAlliance().get().equals(Alliance.Red)){
 
-      goalPose = new Pose2d(goalXPosition,3.51, new Rotation2d(0));
+      goalPose = new Pose2d(9.87,goalYPosition, new Rotation2d(0));
     }
     else{
       ////do something for blue
-      goalPose = new Pose2d(goalXPosition,4.82, new Rotation2d(Math.toRadians(180)));
+      goalPose = new Pose2d(7.66,goalYPosition, new Rotation2d(Math.toRadians(180)));
     }
 
     this.timer.restart();
