@@ -42,6 +42,8 @@ public class autoScore extends Command {
   double elapsedTime = myTimer.get();
 
   int elevatorPos;
+
+
   
 
   private final CommandSwerveDrivetrain drivetrain;
@@ -77,21 +79,30 @@ public class autoScore extends Command {
 
   int thetaGoal;
   boolean left;
+  boolean auto;
+
+
+
 
   /**
    * @param drivetrain the drivetrain subsystem required by this command
    * @param left true if aligning to left side, false if aligning to right side
    */
   public autoScore(CommandSwerveDrivetrain drivetrain, boolean left, Elevator elevator, Coral coral) {
+
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     this.elevator = elevator;
-    this.coral = coral;
+    this.coral = coral;  
+    
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
     this.left = left;
+
+
   }
+  
 
   /**
    * This method is invoked once when this command is scheduled. It resets all the PID controllers
@@ -102,6 +113,7 @@ public class autoScore extends Command {
    */
   @Override
   public void initialize() {
+    
 
     isFinished = false;
 
@@ -110,7 +122,6 @@ public class autoScore extends Command {
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
-
     int id = (int) drivetrain.getTag();
     if(id == -1){
       id = 6;
@@ -133,7 +144,9 @@ public class autoScore extends Command {
    * method.
    */
   @Override
-  public void execute() {
+  public void execute() { 
+    auto = Elevator.elevatorManual;
+    int id2 = (int) drivetrain.getTag();
    elevatorPos = Elevator.autoScorePos;
     running = true;
 
@@ -142,35 +155,40 @@ public class autoScore extends Command {
 
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
 
-    if (currPose2d.getX() - goalPose.getX() < 0.3) {
+    if (auto == true) {
+
+    if (id2 < 9 && currPose2d.getX() - goalPose.getX() < 0.25 || id2 > 8 && currPose2d.getX() - goalPose.getX() > -0.25 ) {
 
       if (elevatorPos == 4) {
         elevator.elevatorL4();
-        if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
-            coral.justScore();
-        }
+        // if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
+        //     coral.justScore();
+        // }
       } else if (elevatorPos == 3) {
         elevator.elevatorL3();
-        if (Constants.ElevatorConstants.L3Pos - elevator.getPosition() < 1) {
-          coral.justScore();
-          myTimer.reset();
-          if (myTimer.hasElapsed(1.5)) {
-            coral.stop();
-            elevator.elevatorGround();
-          }
-      }
+      //   if (Constants.ElevatorConstants.L3Pos - elevator.getPosition() < 1) {
+      //     coral.justScore();
+      //     myTimer.reset();
+      //     if (myTimer.hasElapsed(1.5)) {
+      //       coral.stop();
+      //       elevator.elevatorGround();
+      //     }
+      // }
       } else if (elevatorPos == 2) {
         elevator.elevatorL2();
-        if (Constants.ElevatorConstants.L2Pos - elevator.getPosition() < 1) {
-          coral.justScore();
-          myTimer.reset();
-          if (myTimer.hasElapsed(1.5)) {
-            coral.stop();
-            elevator.elevatorGround();
-          }
-        }
+        // if (Constants.ElevatorConstants.L2Pos - elevator.getPosition() < 1) {
+        //   coral.justScore();
+        //   myTimer.reset();
+        //   if (myTimer.hasElapsed(1.5)) {
+        //     coral.stop();
+        //     elevator.elevatorGround();
+        //   }
+        // }
+      }
       }
     }
+
+    System.out.println(currPose2d.getX() - goalPose.getX());
   }
 
   @Override
@@ -180,6 +198,7 @@ public class autoScore extends Command {
 
   @Override
   public void end(boolean interrupted) {
+    //elevator.elevatorGround();
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
   }

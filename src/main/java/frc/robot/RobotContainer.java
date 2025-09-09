@@ -105,6 +105,10 @@ public class RobotContainer {
     public final Vision vision = new Vision();
     public final Candle candle = new Candle(drivetrain);
     public final Algae algae = new Algae();
+
+    boolean Mode;
+
+    
     
 
     Autos autos = new Autos(drivetrain, algae, coral, elevator, intake, climber);
@@ -210,18 +214,46 @@ public class RobotContainer {
         // j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
 
-        //if (Constants.ElevatorConstants.elevatorManual == true) {
-            j.XboxUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
-            j.XboxRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
-            j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
-            j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
-        //}
-        // if (Constants.ElevatorConstants.elevatorManual == false) {
+        // if (Constants.ElevatorConstants.elevatorManual == true && !Constants.ElevatorConstants.startPressed) {
+        //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.autoScore()));
+        //     Constants.ElevatorConstants.startPressed = true;
+        // }
+        // if (Constants.ElevatorConstants.elevatorManual == false && !Constants.ElevatorConstants.startPressed) {
+        //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.manualScore()));
+        //     Constants.ElevatorConstants.startPressed = true;
+        // }
+        // j.XboxStart.whileFalse(new InstantCommand(() -> elevator.startNotPushed()));
+
+        j.XboxStart.onTrue(new InstantCommand(() -> elevator.manualOverride()));
+        
+
+        Mode = Elevator.elevatorManual;
+        // if (Mode == true) {
+        //     j.XboxUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
+        //     j.XboxRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
+        //     j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+        //     j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        //     j.dLB.whileTrue(new PoseAlign(drivetrain, true));
+        //     j.dRB.whileTrue(new PoseAlign(drivetrain, false));
+        // }
+        // if (Mode == false) {
         //     j.XboxUp.whileTrue(new InstantCommand(() -> elevator.autoL4()));
         //     j.XboxRight.whileTrue(new InstantCommand(() -> elevator.autoL3()));
         //     j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.autoL2()));
         //     j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        //     j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
+        //     j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); 
         // }
+
+        j.XboxUp.whileTrue(new InstantCommand(() -> elevator.L4(Elevator.elevatorManual)));
+        j.XboxRight.whileTrue(new InstantCommand(() -> elevator.L3(Elevator.elevatorManual)));
+        j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.L2(Elevator.elevatorManual)));
+        j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
+        j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); 
+
+ 
+        
 
         j.dL3.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
         // j.dShare.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
@@ -307,12 +339,8 @@ public class RobotContainer {
         j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
         // j.oPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
         j.XboxStart.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
-        // if (Constants.ElevatorConstants.elevatorManual == true) {
-        //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.autoScore()));
-        // }
-        // if (Constants.ElevatorConstants.elevatorManual == false) {
-        //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.manualScore()));
-        // }
+
+    
         // j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
         //operator floor intake macros
@@ -341,8 +369,6 @@ public class RobotContainer {
         // j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
-        j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
-        j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); //new right has been demoted //its back!!
 
         j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
         // j.dB.whileTrue(new PoseAlignHP(drivetrain));
