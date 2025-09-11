@@ -211,6 +211,7 @@ public class RobotContainer {
         // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         j.oOptions.onTrue(new InstantCommand(() -> elevator.manualOverride()));
         
 
@@ -224,6 +225,8 @@ public class RobotContainer {
         j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); 
 
 =======
+=======
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
         //if (Constants.ElevatorConstants.elevatorManual == true) {
             j.XboxUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
             j.XboxRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
@@ -237,6 +240,9 @@ public class RobotContainer {
         //     j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
         // }
 
+<<<<<<< HEAD
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
+=======
 >>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
         j.dL3.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
         // j.dShare.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
@@ -318,6 +324,9 @@ public class RobotContainer {
         // if (Constants.ElevatorConstants.elevatorManual == false) {
         //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.manualScore()));
         // }
+<<<<<<< HEAD
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
+=======
 >>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
         // j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
@@ -339,8 +348,13 @@ public class RobotContainer {
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
 <<<<<<< HEAD
+<<<<<<< HEAD
         j.dLB.whileTrue(new PoseAlign(drivetrain, true));
         j.dRB.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted //its back!!
+=======
+        j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
+        j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); //new right has been demoted //its back!!
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
 =======
         j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
         j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); //new right has been demoted //its back!!

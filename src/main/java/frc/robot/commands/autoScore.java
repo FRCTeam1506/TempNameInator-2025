@@ -44,6 +44,8 @@ public class autoScore extends Command {
   double elapsedTime = myTimer.get();
 
   int elevatorPos;
+
+
   
 
   private final CommandSwerveDrivetrain drivetrain;
@@ -79,15 +81,10 @@ public class autoScore extends Command {
 
   int thetaGoal;
   boolean left;
-<<<<<<< HEAD
   boolean auto;
 
-  boolean runScore;
 
 
-
-=======
->>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
 
   /**
    * @param drivetrain the drivetrain subsystem required by this command
@@ -97,11 +94,8 @@ public class autoScore extends Command {
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     this.elevator = elevator;
-<<<<<<< HEAD
     this.coral = coral;  
-=======
-    this.coral = coral;
->>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
+    
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
@@ -157,14 +151,9 @@ public class autoScore extends Command {
 
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
 
-<<<<<<< HEAD
-    // if (auto == true) {
-       System.out.println("in auto");
+    if (auto == true) {
 
     if (id2 < 9 && currPose2d.getX() - goalPose.getX() < 0.25 || id2 > 8 && currPose2d.getX() - goalPose.getX() > -0.25 ) {
-      System.out.println("we are close");
-=======
-    if (currPose2d.getX() - goalPose.getX() < 0.3) {
 
 >>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
       if (elevatorPos == 4) {
@@ -193,8 +182,10 @@ public class autoScore extends Command {
           }
         }
       }
-      //}
+      }
     }
+
+    System.out.println(currPose2d.getX() - goalPose.getX());
   }
 
   @Override
