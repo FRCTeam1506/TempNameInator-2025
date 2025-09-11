@@ -8,6 +8,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -81,6 +83,8 @@ public class autoScore extends Command {
   boolean left;
   boolean auto;
 
+  boolean runScore;
+
 
 
 
@@ -94,7 +98,6 @@ public class autoScore extends Command {
     this.timer = new Timer();
     this.elevator = elevator;
     this.coral = coral;  
-    
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
@@ -155,37 +158,38 @@ public class autoScore extends Command {
 
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
 
-    if (auto == true) {
+    // if (auto == true) {
+       System.out.println("in auto");
 
     if (id2 < 9 && currPose2d.getX() - goalPose.getX() < 0.25 || id2 > 8 && currPose2d.getX() - goalPose.getX() > -0.25 ) {
-
+      System.out.println("we are close");
       if (elevatorPos == 4) {
         elevator.elevatorL4();
-        // if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
-        //     coral.justScore();
-        // }
+        if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
+            coral.justScore();
+        }
       } else if (elevatorPos == 3) {
         elevator.elevatorL3();
-      //   if (Constants.ElevatorConstants.L3Pos - elevator.getPosition() < 1) {
-      //     coral.justScore();
-      //     myTimer.reset();
-      //     if (myTimer.hasElapsed(1.5)) {
-      //       coral.stop();
-      //       elevator.elevatorGround();
-      //     }
-      // }
+        if (Constants.ElevatorConstants.L3Pos - elevator.getPosition() < 1) {
+          coral.justScore();
+          myTimer.reset();
+          if (myTimer.hasElapsed(1.5)) {
+            coral.stop();
+            elevator.elevatorGround();
+          }
+      }
       } else if (elevatorPos == 2) {
         elevator.elevatorL2();
-        // if (Constants.ElevatorConstants.L2Pos - elevator.getPosition() < 1) {
-        //   coral.justScore();
-        //   myTimer.reset();
-        //   if (myTimer.hasElapsed(1.5)) {
-        //     coral.stop();
-        //     elevator.elevatorGround();
-        //   }
-        // }
+        if (Constants.ElevatorConstants.L2Pos - elevator.getPosition() < 1) {
+          coral.justScore();
+          myTimer.reset();
+          if (myTimer.hasElapsed(1.5)) {
+            coral.stop();
+            elevator.elevatorGround();
+          }
+        }
       }
-      }
+      //}
     }
 
     System.out.println(currPose2d.getX() - goalPose.getX());
