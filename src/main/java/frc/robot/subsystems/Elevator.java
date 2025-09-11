@@ -18,8 +18,6 @@ import frc.robot.Constants.ElevatorConstants.ElevatorLevel;
 
 
 public class Elevator extends SubsystemBase {
-  public static boolean elevatorManual;
-
   public static int autoScorePos;
 
   private TalonFX elevator1 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_ID);
@@ -164,47 +162,10 @@ public class Elevator extends SubsystemBase {
   }
 
   public void manualScore() {
-    elevatorManual = true;
+    Constants.ElevatorConstants.elevatorManual = true;
   }
   public void autoScore() {
-    elevatorManual = false;
-  }
-
-  public void startNotPushed() {
-    Constants.ElevatorConstants.startPressed = false;
-  }
-
-  public void manualOverride() {
-    if (elevatorManual == true) {
-      elevatorManual = false;
-    } else if (elevatorManual == false) {
-      elevatorManual = true;
-    }
-  }
-
-  public void L4(Boolean auto) {
-    if (auto == false) {
-      elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
-      elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L4Pos));
-    } else if (auto == true) {
-      autoScorePos = 4;
-    }
-  }
-  public void L3(Boolean auto) {
-    if (auto == false) {
-      elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
-      elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L3Pos));
-    } else if (auto == true) {
-      autoScorePos = 3;
-    }
-  }
-  public void L2(Boolean auto) {
-    if (auto == false) {
-      elevator1.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
-      elevator2.setControl(m_motmag.withPosition(ElevatorConstants.L2Pos));
-    } else if (auto == true) {
-      autoScorePos = 2;
-    }
+    Constants.ElevatorConstants.elevatorManual = false;
   }
 
 
@@ -262,7 +223,7 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
 
-    System.out.println(elevatorManual);
+    System.out.println(Constants.ElevatorConstants.elevatorManual);
     // This method will be called once per scheduler run
     // SmartDashboard.putNumber("elevator1 position", elevator1.getRotorPosition().getValueAsDouble());
     // SmartDashboard.putNumber("elevator2 position", elevator2.getRotorPosition().getValueAsDouble());

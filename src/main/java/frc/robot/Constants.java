@@ -58,9 +58,7 @@ public class Constants {
 
         public static ElevatorLevel current = ElevatorLevel.Ground;
 
-        // public static boolean elevatorManual = true;
-
-        public static boolean startPressed; 
+        public static boolean elevatorManual;
 
         
     }

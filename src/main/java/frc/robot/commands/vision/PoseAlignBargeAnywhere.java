@@ -75,7 +75,7 @@ public class PoseAlignBargeAnywhere extends Command {
 
     if(DriverStation.getAlliance().get().equals(Alliance.Red)){
 
-      goalPose = new Pose2d(10.64,goalYPosition, new Rotation2d(Math.toRadians(0)));
+      goalPose = new Pose2d(9.87,goalYPosition, new Rotation2d(0));
     }
     else{
       ////do something for blue
@@ -97,13 +97,13 @@ public class PoseAlignBargeAnywhere extends Command {
 
     Pose2d currPose2d = drivetrain.getState().Pose;
     ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, goalPose, 0, goalPose.getRotation());
-    chassisSpeeds.omegaRadiansPerSecond *= 4;
+
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
   }
 
   @Override
   public boolean isFinished() {
-    return /*this.timer.hasElapsed(timeout) ||*/ holonomicDriveController.atReference();
+    return this.timer.hasElapsed(timeout) || holonomicDriveController.atReference();
   }
 
   @Override

@@ -210,6 +210,7 @@ public class RobotContainer {
         // j.oLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         // j.oDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
 
+<<<<<<< HEAD
         j.oOptions.onTrue(new InstantCommand(() -> elevator.manualOverride()));
         
 
@@ -222,6 +223,21 @@ public class RobotContainer {
         j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
         j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); 
 
+=======
+        //if (Constants.ElevatorConstants.elevatorManual == true) {
+            j.XboxUp.whileTrue(new InstantCommand(() -> elevator.elevatorL4()));
+            j.XboxRight.whileTrue(new InstantCommand(() -> elevator.elevatorL3()));
+            j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
+            j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        //}
+        // if (Constants.ElevatorConstants.elevatorManual == false) {
+        //     j.XboxUp.whileTrue(new InstantCommand(() -> elevator.autoL4()));
+        //     j.XboxRight.whileTrue(new InstantCommand(() -> elevator.autoL3()));
+        //     j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.autoL2()));
+        //     j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
+        // }
+
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
         j.dL3.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
         // j.dShare.whileTrue(new InstantCommand(() -> elevator.elevatorL2()));
         j.dR3.whileTrue(new InstantCommand(() -> elevator.switchElevator()));
@@ -291,7 +307,18 @@ public class RobotContainer {
 
         //zeroing things --- driver for side intake, operator for algae gripper
         j.dPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
+<<<<<<< HEAD
         j.oPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
+=======
+        // j.oPS.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
+        j.XboxStart.whileTrue(new InstantCommand(() -> intake.zeroVertical()));
+        // if (Constants.ElevatorConstants.elevatorManual == true) {
+        //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.autoScore()));
+        // }
+        // if (Constants.ElevatorConstants.elevatorManual == false) {
+        //     j.XboxStart.whileTrue(new InstantCommand(() -> elevator.manualScore()));
+        // }
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
         // j.oPS.whileTrue(new InstantCommand(() -> algae.zeroVertical()));
 
         //operator floor intake macros
@@ -311,8 +338,13 @@ public class RobotContainer {
         // j.dRight.whileTrue(new DriveToPoseBeta(drivetrain)); //old right promoted @ states
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
+<<<<<<< HEAD
         j.dLB.whileTrue(new PoseAlign(drivetrain, true));
         j.dRB.whileTrue(new PoseAlign(drivetrain, false)); //new right has been demoted //its back!!
+=======
+        j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
+        j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); //new right has been demoted //its back!!
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
 
         j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
         // j.dB.whileTrue(new PoseAlignHP(drivetrain));
