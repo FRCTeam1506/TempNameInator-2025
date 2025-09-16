@@ -161,29 +161,29 @@ public class autoScore extends Command {
 
       if (elevatorPos == 4) {
         elevator.elevatorL4();
-        // if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
-        //     coral.justScore();
-        // }
+        if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
+            coral.justScore();
+        }
       } else if (elevatorPos == 3) {
         elevator.elevatorL3();
-      //   if (Constants.ElevatorConstants.L3Pos - elevator.getPosition() < 1) {
-      //     coral.justScore();
-      //     myTimer.reset();
-      //     if (myTimer.hasElapsed(1.5)) {
-      //       coral.stop();
-      //       elevator.elevatorGround();
-      //     }
-      // }
+        if (Constants.ElevatorConstants.L3Pos - elevator.getPosition() < 1) {
+          coral.justScore();
+          myTimer.reset();
+          if (myTimer.hasElapsed(1.5)) {
+            coral.stop();
+            elevator.elevatorGround();
+          }
+      }
       } else if (elevatorPos == 2) {
         elevator.elevatorL2();
-        // if (Constants.ElevatorConstants.L2Pos - elevator.getPosition() < 1) {
-        //   coral.justScore();
-        //   myTimer.reset();
-        //   if (myTimer.hasElapsed(1.5)) {
-        //     coral.stop();
-        //     elevator.elevatorGround();
-        //   }
-        // }
+        if (Constants.ElevatorConstants.L2Pos - elevator.getPosition() < 1) {
+          coral.justScore();
+          myTimer.reset();
+          if (myTimer.hasElapsed(1.5)) {
+            coral.stop();
+            elevator.elevatorGround();
+          }
+        }
       }
       }
     }

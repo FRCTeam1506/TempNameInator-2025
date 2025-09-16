@@ -19,6 +19,7 @@ public class PoseAlignBargeAnywhere extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   SwerveRequest.ApplyRobotSpeeds request;
+  boolean isFinished = false;
 
   private boolean running = false;
   private Timer timer;
@@ -27,14 +28,14 @@ public class PoseAlignBargeAnywhere extends Command {
 
   private final PIDController xController =
       new PIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP * 1.4,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD);
+          SwerveConstants.driveKD * 1.25);
   private final PIDController yController =
       new PIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP * 1.4,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD);
+          SwerveConstants.driveKD * 1.25);
 
   ProfiledPIDController thetaController = new ProfiledPIDController(SwerveConstants.alignKP * 4, SwerveConstants.alignKI, SwerveConstants.alignKD, new Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 
@@ -51,7 +52,7 @@ public class PoseAlignBargeAnywhere extends Command {
    */
   public PoseAlignBargeAnywhere(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
-    this.timer = new Timer();
+    //this.timer = new Timer();
     addRequirements(drivetrain);
 
     request = new SwerveRequest.ApplyRobotSpeeds();
@@ -66,12 +67,22 @@ public class PoseAlignBargeAnywhere extends Command {
    */
   @Override
   public void initialize() {
+
+    isFinished = false;
+
     holonomicDriveController =
         new HolonomicDriveController(xController, yController, thetaController);
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
     double goalYPosition = startPos.getY();
+    
+    // if(goalYPosition > 10 && goalYPosition < 15) {
+    //   goalYPosition = 10;
+    // }
+    // else if(goalYPosition > 20 && goalYPosition < 15) {
+    //   goalYPosition = 20;
+    // }
 
     if(DriverStation.getAlliance().get().equals(Alliance.Red)){
 
@@ -82,7 +93,7 @@ public class PoseAlignBargeAnywhere extends Command {
       goalPose = new Pose2d(7.66,goalYPosition, new Rotation2d(Math.toRadians(180)));
     }
 
-    this.timer.restart();
+    //this.timer.restart();
     System.out.println("Goal(x): " + goalPose.getX() + "\nGoal(y): " + goalPose.getY() + "\nGoal(rot): " + goalPose.getRotation().getDegrees());
   }
 
@@ -93,11 +104,15 @@ public class PoseAlignBargeAnywhere extends Command {
    */
   @Override
   public void execute() {
+    System.out.println("Goal(x): " + goalPose.getX() + "\nGoal(y): " + goalPose.getY() + "\nGoal(rot): " + goalPose.getRotation().getDegrees());
+
+
+
     running = true;
 
     Pose2d currPose2d = drivetrain.getState().Pose;
     ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, goalPose, 0, goalPose.getRotation());
-    chassisSpeeds.omegaRadiansPerSecond *= 4;
+    chassisSpeeds.omegaRadiansPerSecond *= 2;
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
   }
 

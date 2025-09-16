@@ -53,6 +53,7 @@ import frc.robot.commands.vision.PIDToPose3;
 import frc.robot.commands.vision.PIDToPose4Spark;
 import frc.robot.commands.vision.PIDToPose5Holonomic;
 import frc.robot.commands.vision.PoseAlign;
+import frc.robot.commands.vision.PoseAlignBarge;
 import frc.robot.commands.vision.PoseAlignBargeAnywhere;
 import frc.robot.commands.vision.PoseAlignBargeAuto;
 import frc.robot.commands.vision.PoseAlignHP;
@@ -316,10 +317,10 @@ public class RobotContainer {
         // j.dRT.whileFalse(new InstantCommand(() -> coral.stop()).unless(j.oA));
         j.XboxA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
         j.XboxB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
-        j.dRT.whileTrue(new InstantCommand(() -> coral.switchIntake()).unless(j.dLT));
+        j.dRight.whileTrue(new InstantCommand(() -> coral.switchIntake()));
         j.XboxA.whileFalse(new InstantCommand(() -> coral.stop()));
         j.XboxB.whileFalse(new InstantCommand(() -> coral.stop()));
-        j.dRT.whileFalse(new InstantCommand(() -> coral.stop()).unless(j.oA));
+        j.dRight.whileFalse(new InstantCommand(() -> coral.stop()));
         
         //floor intake
         j.dUp.whileTrue(new InstantCommand(() -> intake.up()));
@@ -381,6 +382,9 @@ public class RobotContainer {
         // j.oShare.whileTrue(new PoseAlignBargeAuto(drivetrain));
         //j.XboxBack.whileTrue(new PoseAlignBargeAuto(drivetrain));
         j.dLeft.whileTrue(new PoseAlignBargeAnywhere(drivetrain));
+        //j.dLeft.whileTrue(new PoseAlignBarge(drivetrain));
+
+        
 
         ///j.dLeft.whileTrue(new SmartPathfinding(drivetrain));
         
