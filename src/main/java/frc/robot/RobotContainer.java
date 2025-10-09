@@ -303,37 +303,10 @@ public class RobotContainer {
         Trigger oRT = new Trigger(() -> j.operator.getRawAxis(3) > 0.1);
         Trigger oLT = new Trigger(() -> j.operator.getRawAxis(2) > 0.1);
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        //j.XboxRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
-        oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
-        oLTNew.whileTrue(new InstantCommand(() -> algae.outtake()));
-        oLTNew.whileFalse(new InstantCommand(() -> algae.stop()));
-        oRTNew.whileFalse(new InstantCommand(() -> algae.stop()));
-        j.XboxLT.whileFalse(new InstantCommand(() -> algae.stop()));
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         oRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
         oRT.whileFalse(new InstantCommand(() -> algae.stop()));
         oLT.whileFalse(new InstantCommand(() -> algae.stop()));
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
         //algae macro
         // j.oY.whileTrue(new AlgaeL3(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
