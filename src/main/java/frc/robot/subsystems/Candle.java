@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -135,6 +136,7 @@ public class Candle extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     // This method will be called once per scheduler run
 
     // System.out.println(range.getDistance().getValueAsDouble());
@@ -161,7 +163,7 @@ public class Candle extends SubsystemBase {
       else{
         green();
         j.driverRumble.setRumble(RumbleType.kBothRumble, 0);
-        j.operatorRumble.setRumble(RumbleType.kBothRumble, 0);
+        j.operator.setRumble(RumbleType.kBothRumble, 0);
 
       }
 
@@ -184,11 +186,11 @@ public class Candle extends SubsystemBase {
 
     if(DriverStation.getMatchTime() < 21 && DriverStation.getMatchTime() > 19){
       j.driverRumble.setRumble(RumbleType.kBothRumble, 0.5);
-      j.operatorRumble.setRumble(RumbleType.kBothRumble, 0.5);
+      j.operator.setRumble(RumbleType.kBothRumble, 0.5);
     }
     else{
       j.driverRumble.setRumble(RumbleType.kBothRumble, 0);
-      j.operatorRumble.setRumble(RumbleType.kBothRumble, 0);
+      j.operator.setRumble(RumbleType.kBothRumble, 0);
     }
 
   }

@@ -157,6 +157,7 @@ public class RobotContainer {
                 drive.withVelocityX(-driver.getLeftY() * MaxSpeed * (j.dLT.getAsBoolean() ? 0.25 : 1.0)) // Drive forward with negative Y (forward)
                     .withVelocityY(-driver.getLeftX() * MaxSpeed * (j.dLT.getAsBoolean() ? 0.25 : 1.0)) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate * (j.dLT.getAsBoolean() ? 0.5 : 1.0)) // Drive counterclockwise with negative X (left)
+                    //NEGATIVE REMOVED FROM X AND Y!!!
             )
         );
 
@@ -250,8 +251,10 @@ public class RobotContainer {
         j.XboxRight.whileTrue(new InstantCommand(() -> elevator.L3(Elevator.elevatorManual)));
         j.XboxLeft.whileTrue(new InstantCommand(() -> elevator.L2(Elevator.elevatorManual)));
         j.XboxDown.whileTrue(new InstantCommand(() -> elevator.elevatorGround()));
-        j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
-        j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral)); 
+        // j.dLB.whileTrue(new autoScore(drivetrain, true, elevator, coral));
+        // j.dRB.whileTrue(new autoScore(drivetrain, false, elevator, coral));
+        j.dLB.whileTrue(new PoseAlign(drivetrain, true).unless(j.dRB));
+        j.dRB.whileTrue(new PoseAlign(drivetrain, false).unless(j.dLB)); 
 
  
         
@@ -297,13 +300,22 @@ public class RobotContainer {
         // j.oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
         // j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
         // j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+        Trigger oRT = new Trigger(() -> j.operator.getRawAxis(3) > 0.1);
+        Trigger oLT = new Trigger(() -> j.operator.getRawAxis(2) > 0.1);
 
+<<<<<<< Updated upstream
         //j.XboxRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oLTNew.whileTrue(new InstantCommand(() -> algae.outtake()));
         oLTNew.whileFalse(new InstantCommand(() -> algae.stop()));
         oRTNew.whileFalse(new InstantCommand(() -> algae.stop()));
         j.XboxLT.whileFalse(new InstantCommand(() -> algae.stop()));
+=======
+        oRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
+        oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
+        oRT.whileFalse(new InstantCommand(() -> algae.stop()));
+        oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+>>>>>>> Stashed changes
 
         //algae macro
         // j.oY.whileTrue(new AlgaeL3(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
@@ -314,10 +326,10 @@ public class RobotContainer {
         //normal coral intake
         // j.oA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
         // j.oB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
-        // j.dRT.whileTrue(new InstantCommand(() -> coral.switchIntake()).unless(j.dLT));
+        j.dRT.whileTrue(new InstantCommand(() -> coral.switchIntake()).unless(j.dLT)); //COMMENT
         // j.oA.whileFalse(new InstantCommand(() -> coral.stop()));
         // j.oB.whileFalse(new InstantCommand(() -> coral.stop()));
-        // j.dRT.whileFalse(new InstantCommand(() -> coral.stop()).unless(j.oA));
+        j.dRT.whileFalse(new InstantCommand(() -> coral.stop()).unless(j.oA)); //COMMENT
         j.XboxA.whileTrue(new InstantCommand(() -> coral.switchIntake())); //was: coral.switchIntake()
         j.XboxB.whileTrue(new InstantCommand( () -> coral.switchOuttake()));
         j.dRight.whileTrue(new InstantCommand(() -> coral.switchIntake()));
@@ -374,7 +386,7 @@ public class RobotContainer {
         // j.dLeft.whileTrue(new JalignLeft(drivetrain));
         // j.dRight.whileTrue(new JalignRight(drivetrain));
 
-        j.dRT.and(j.dLT).whileTrue(new PoseAlignHP(drivetrain));
+        j.dRB.and(j.dLB).whileTrue(new PoseAlignHP(drivetrain)); //CHANGED
         // j.dB.whileTrue(new PoseAlignHP(drivetrain));
         j.dPS.and(j.dShare).whileTrue(new PoseAlignToAutoStartingPt(drivetrain));
 

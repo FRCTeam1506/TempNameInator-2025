@@ -14,36 +14,41 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 /** Add your docs here. */
 public class j {
 
-    public static final XboxController driverRumble = new XboxController(2);
-    public static final PS4Controller operatorRumble = new PS4Controller(3);
-    
-  public static final PS4Controller driver = new PS4Controller(0);
-  public static final PS4Controller operator = new PS4Controller(1);
-  public static final PS4Controller test = new PS4Controller(5);
+public static final PS4Controller driver = new PS4Controller(0);
+public static final XboxController operator = new XboxController(1);
+public static final XboxController driverRumble = new XboxController(2);
+ 
 
-  public static final XboxController XboxOperator = new XboxController(1);
+// public static final XboxController driverRumble = new XboxController(2);
+// public static final PS4Controller operatorRumble = new PS4Controller(3);
+    
+//   public static final PS4Controller driver = new PS4Controller(0);
+//   public static final PS4Controller operator = new PS4Controller(1);
+public static final PS4Controller test = new PS4Controller(5);
+
+//   public static final XboxController XboxOperator = new XboxController(1);
 
 
   //Xbox operator Buttons
-  public static POVButton XboxUp = new POVButton(XboxOperator, 0);
-  public static POVButton XboxRight = new POVButton(XboxOperator, 90);
-  public static POVButton XboxDown = new POVButton(XboxOperator, 180);
-  public static POVButton XboxLeft = new POVButton(XboxOperator, 270);
+  public static POVButton XboxUp = new POVButton(operator, 0);
+  public static POVButton XboxRight = new POVButton(operator, 90);
+  public static POVButton XboxDown = new POVButton(operator, 180);
+  public static POVButton XboxLeft = new POVButton(operator, 270);
 
-  public static JoystickButton XboxA = new JoystickButton(XboxOperator, XboxController.Button.kA.value);
-  public static JoystickButton XboxB = new JoystickButton(XboxOperator, XboxController.Button.kB.value);
-  public static JoystickButton XboxX = new JoystickButton(XboxOperator, XboxController.Button.kX.value);
-  public static JoystickButton XboxY = new JoystickButton(XboxOperator, XboxController.Button.kY.value);
+  public static JoystickButton XboxA = new JoystickButton(operator, XboxController.Button.kA.value);
+  public static JoystickButton XboxB = new JoystickButton(operator, XboxController.Button.kB.value);
+  public static JoystickButton XboxX = new JoystickButton(operator, XboxController.Button.kX.value);
+  public static JoystickButton XboxY = new JoystickButton(operator, XboxController.Button.kY.value);
 
-  public static JoystickButton XboxBack = new JoystickButton(XboxOperator, XboxController.Button.kBack.value);
-  public static JoystickButton XboxLB = new JoystickButton(XboxOperator, XboxController.Button.kLeftBumper.value);
-  public static JoystickButton XboxLeftStick = new JoystickButton(XboxOperator, XboxController.Button.kLeftStick.value);
-  public static JoystickButton XboxRB = new JoystickButton(XboxOperator, XboxController.Button.kRightBumper.value);
-  public static JoystickButton XboxRightStick = new JoystickButton(XboxOperator, XboxController.Button.kRightStick.value);
-  public static JoystickButton XboxStart = new JoystickButton(XboxOperator, XboxController.Button.kStart.value);
+  public static JoystickButton XboxBack = new JoystickButton(operator, XboxController.Button.kBack.value);
+  public static JoystickButton XboxLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+  public static JoystickButton XboxLeftStick = new JoystickButton(operator, XboxController.Button.kLeftStick.value);
+  public static JoystickButton XboxRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  public static JoystickButton XboxRightStick = new JoystickButton(operator, XboxController.Button.kRightStick.value);
+  public static JoystickButton XboxStart = new JoystickButton(operator, XboxController.Button.kStart.value);
 
-  public static JoystickButton XboxRT = new JoystickButton(XboxOperator, XboxController.Axis.kRightTrigger.value);
-  public static JoystickButton XboxLT = new JoystickButton(XboxOperator, XboxController.Axis.kLeftTrigger.value);
+  public static JoystickButton XboxRT = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+  public static JoystickButton XboxLT = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
 
   // buttons
   public static JoystickButton dA = new JoystickButton(driver, PS4Controller.Button.kCross.value);

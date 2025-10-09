@@ -21,7 +21,7 @@ public class Rumble1 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelDeadlineGroup(new WaitCommand(.1), new RepeatCommand(new InstantCommand(() -> j.driverRumble.setRumble(RumbleType.kBothRumble, 1))), new RepeatCommand(new InstantCommand(() -> j.operatorRumble.setRumble(RumbleType.kBothRumble, 1)))),
+      new ParallelDeadlineGroup(new WaitCommand(.1), new RepeatCommand(new InstantCommand(() -> j.driverRumble.setRumble(RumbleType.kBothRumble,1))), new RepeatCommand(new InstantCommand(() -> j.operator.setRumble(RumbleType.kBothRumble, 1)))),
       new InstantCommand(() -> j.driverRumble.setRumble(RumbleType.kBothRumble, 0))
     );
   }

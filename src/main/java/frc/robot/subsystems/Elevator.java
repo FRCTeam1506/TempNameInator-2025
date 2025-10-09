@@ -18,7 +18,7 @@ import frc.robot.Constants.ElevatorConstants.ElevatorLevel;
 
 
 public class Elevator extends SubsystemBase {
-  public static boolean elevatorManual;
+  public static boolean elevatorManual = false;
 
   public static int autoScorePos;
 
