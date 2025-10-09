@@ -8,6 +8,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -89,7 +91,6 @@ public class autoScore extends Command {
    * @param left true if aligning to left side, false if aligning to right side
    */
   public autoScore(CommandSwerveDrivetrain drivetrain, boolean left, Elevator elevator, Coral coral) {
-
     this.drivetrain = drivetrain;
     this.timer = new Timer();
     this.elevator = elevator;
@@ -99,10 +100,7 @@ public class autoScore extends Command {
 
     request = new SwerveRequest.ApplyRobotSpeeds();
     this.left = left;
-
-
   }
-  
 
   /**
    * This method is invoked once when this command is scheduled. It resets all the PID controllers
@@ -113,7 +111,6 @@ public class autoScore extends Command {
    */
   @Override
   public void initialize() {
-    
 
     isFinished = false;
 
@@ -122,6 +119,7 @@ public class autoScore extends Command {
     holonomicDriveController.setTolerance(new Pose2d(0.02, 0.02, Rotation2d.fromDegrees(1.5)));
 
     startPos = drivetrain.getState().Pose;
+
     int id = (int) drivetrain.getTag();
     if(id == -1){
       id = 6;
@@ -144,9 +142,7 @@ public class autoScore extends Command {
    * method.
    */
   @Override
-  public void execute() { 
-    auto = Elevator.elevatorManual;
-    int id2 = (int) drivetrain.getTag();
+  public void execute() {
    elevatorPos = Elevator.autoScorePos;
     running = true;
 
@@ -159,6 +155,7 @@ public class autoScore extends Command {
 
     if (id2 < 9 && currPose2d.getX() - goalPose.getX() < 0.25 || id2 > 8 && currPose2d.getX() - goalPose.getX() > -0.25 ) {
 
+>>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
       if (elevatorPos == 4) {
         elevator.elevatorL4();
         if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {
@@ -198,7 +195,6 @@ public class autoScore extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    //elevator.elevatorGround();
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
     running = false;
   }
