@@ -279,11 +279,12 @@ public class RobotContainer {
         // j.oR3.onTrue(new InstantCommand(() -> algae.gripperUp())).onFalse(new InstantCommand(() -> algae.stopVertical()));
         // j.oL3.onTrue(new InstantCommand(() -> algae.gripperDown())).onFalse(new InstantCommand(() -> algae.stopVertical()));
 
-        Trigger oRTNew = new Trigger(() -> j.operator.getRawAxis(4) > 0.1);
+        Trigger oRTNew = new Trigger(() -> j.operator.getRawAxis(3) > 0.1);
+        Trigger oLTNew = new Trigger(() -> j.operator.getRawAxis(2) > 0.1);
 
         // j.oLT.whileTrue(new InstantCommand(() -> algae.verticalScore()).alongWith(new InstantCommand(() -> algae.intake()))).whileFalse(new InstantCommand(() -> algae.verticalHome()).andThen(new InstantCommand(() -> algae.stopIntake())));
         // j.oRT.whileTrue(new InstantCommand(() -> algae.verticalBarge())).onFalse(new InstantCommand(() -> algae.outtake()));
-        // // oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.2))));
+        // oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.gripperUp(-j.operator.getRawAxis(4) * 0.2))));
         // // j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
         // j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
 
@@ -297,9 +298,11 @@ public class RobotContainer {
         // j.oRT.whileFalse(new InstantCommand(() -> algae.stop()));
         // j.oLT.whileFalse(new InstantCommand(() -> algae.stop()));
 
-        j.XboxRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
-        j.XboxLT.whileTrue(new InstantCommand(() -> algae.outtake()));
-        j.XboxRT.whileFalse(new InstantCommand(() -> algae.stop()));
+        //j.XboxRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
+        oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
+        oLTNew.whileTrue(new InstantCommand(() -> algae.outtake()));
+        oLTNew.whileFalse(new InstantCommand(() -> algae.stop()));
+        oRTNew.whileFalse(new InstantCommand(() -> algae.stop()));
         j.XboxLT.whileFalse(new InstantCommand(() -> algae.stop()));
 
         //algae macro
