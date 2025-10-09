@@ -306,6 +306,7 @@ public class RobotContainer {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         //j.XboxRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oLTNew.whileTrue(new InstantCommand(() -> algae.outtake()));
@@ -317,12 +318,17 @@ public class RobotContainer {
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         oRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
         oRT.whileFalse(new InstantCommand(() -> algae.stop()));
         oLT.whileFalse(new InstantCommand(() -> algae.stop()));
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
