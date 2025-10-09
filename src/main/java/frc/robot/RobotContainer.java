@@ -304,6 +304,7 @@ public class RobotContainer {
         Trigger oLT = new Trigger(() -> j.operator.getRawAxis(2) > 0.1);
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         //j.XboxRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oLTNew.whileTrue(new InstantCommand(() -> algae.outtake()));
@@ -311,10 +312,15 @@ public class RobotContainer {
         oRTNew.whileFalse(new InstantCommand(() -> algae.stop()));
         j.XboxLT.whileFalse(new InstantCommand(() -> algae.stop()));
 =======
+=======
+>>>>>>> Stashed changes
         oRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
         oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
         oRT.whileFalse(new InstantCommand(() -> algae.stop()));
         oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
         //algae macro

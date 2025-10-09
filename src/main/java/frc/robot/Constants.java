@@ -47,7 +47,11 @@ public class Constants {
         public static final double L4Pos = 85.2; //87 prev, 87.5 //87 good auto, not teleop //85.85 too high somehow
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         public static final double ELEVATOR_SPEED = 0.45; //0.2
+=======
+        public static final double ELEVATOR_SPEED = 0.25; //0.2
+>>>>>>> Stashed changes
 =======
         public static final double ELEVATOR_SPEED = 0.25; //0.2
 >>>>>>> Stashed changes
