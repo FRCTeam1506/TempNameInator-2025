@@ -48,7 +48,11 @@ public class Constants {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         public static final double ELEVATOR_SPEED = 0.45; //0.2
+=======
+        public static final double ELEVATOR_SPEED = 0.25; //0.2
+>>>>>>> Stashed changes
 =======
         public static final double ELEVATOR_SPEED = 0.25; //0.2
 >>>>>>> Stashed changes
