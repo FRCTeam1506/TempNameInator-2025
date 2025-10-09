@@ -153,9 +153,8 @@ public class autoScore extends Command {
 
     if (auto == true) {
 
-    if (id2 < 9 && currPose2d.getX() - goalPose.getX() < 0.25 || id2 > 8 && currPose2d.getX() - goalPose.getX() > -0.25 ) {
+        if (id2 < 9 && currPose2d.getX() - goalPose.getX() < 0.25 || id2 > 8 && currPose2d.getX() - goalPose.getX() > -0.25 ) {
 
->>>>>>> parent of 018d848 (PoseAlignBargeAnywhere & AutoScore UPDATES)
       if (elevatorPos == 4) {
         elevator.elevatorL4();
         if (Constants.ElevatorConstants.L4Pos - elevator.getPosition() < 1) {

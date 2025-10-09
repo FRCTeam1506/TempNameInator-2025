@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.commands.autoScore;
+//import frc.robot.commands.autoScore;
 import frc.robot.commands.controllers.Rumble1;
 import frc.robot.commands.controllers.RumbleUntimed;
 import frc.robot.commands.macros.AlgaeL2;
