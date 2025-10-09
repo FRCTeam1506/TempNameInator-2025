@@ -304,6 +304,7 @@ public class RobotContainer {
         oLTNew.whileFalse(new InstantCommand(() -> algae.stop()));
         oRTNew.whileFalse(new InstantCommand(() -> algae.stop()));
         j.XboxLT.whileFalse(new InstantCommand(() -> algae.stop()));
+        
 
         //algae macro
         // j.oY.whileTrue(new AlgaeL3(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
