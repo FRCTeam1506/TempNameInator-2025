@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
@@ -94,6 +95,7 @@ public class PoseAlign extends Command {
     startPos = drivetrain.getState().Pose;
 
     int id = (int) drivetrain.getTag();
+
     if(id == -1){
       id = 6;
       isFinished = true;
@@ -116,12 +118,15 @@ public class PoseAlign extends Command {
    */
   @Override
   public void execute() {
+    int id = (int) drivetrain.getTag();
     running = true;
 
     Pose2d currPose2d = drivetrain.getState().Pose;
     ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, goalPose, 0, goalPose.getRotation());
 
     drivetrain.setControl(request.withSpeeds(chassisSpeeds));
+    System.out.println(CommandSwerveDrivetrain.tagPoseAndymarkMap.get(id));
+    
   }
 
   @Override

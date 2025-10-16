@@ -49,12 +49,12 @@ public class PoseAlignHPAuto extends Command {
       new PIDController(
           SwerveConstants.driveKP,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD * 1.1); //was * 1, tried 1.25 but didn't work.
+          SwerveConstants.driveKD * 1); //was * 1, tried 1.25 but didn't work. Also used 1.1
   private final PIDController yController =
       new PIDController(
           SwerveConstants.driveKP,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD * 1.1);
+          SwerveConstants.driveKD * 1);
 
   ProfiledPIDController thetaController = new ProfiledPIDController(SwerveConstants.alignKP * 4, SwerveConstants.alignKI, SwerveConstants.alignKD, new Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 
