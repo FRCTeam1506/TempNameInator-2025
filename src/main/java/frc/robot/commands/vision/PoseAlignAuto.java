@@ -43,14 +43,14 @@ public class PoseAlignAuto extends Command {
 
   private final PIDController xController =
       new PIDController(
-          SwerveConstants.driveKP,
+          SwerveConstants.driveKP, // * 1.4?
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD);
+          SwerveConstants.driveKD * 1.25); // * 1.25? * 1?
   private final PIDController yController =
       new PIDController(
           SwerveConstants.driveKP,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD);
+          SwerveConstants.driveKD * 1.25);
 
   ProfiledPIDController thetaController = new ProfiledPIDController(SwerveConstants.alignKP * 4, SwerveConstants.alignKI, SwerveConstants.alignKD, new Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 

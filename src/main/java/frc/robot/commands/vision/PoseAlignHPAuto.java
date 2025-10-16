@@ -43,18 +43,18 @@ public class PoseAlignHPAuto extends Command {
   private boolean running = false;
   private Timer timer;
   double closeVelocityBoost = 0.0;
-  double timeout = 0.9; //used to be 1.3, lowered at states to save time
+  double timeout = 1; //used to be 1.3 than 0.9, lowered at states to save time than increased.
 
   private final PIDController xController =
       new PIDController(
           SwerveConstants.driveKP,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD);
+          SwerveConstants.driveKD * 1.1); //was * 1, tried 1.25 but didn't work.
   private final PIDController yController =
       new PIDController(
           SwerveConstants.driveKP,
           SwerveConstants.driveKI,
-          SwerveConstants.driveKD);
+          SwerveConstants.driveKD * 1.1);
 
   ProfiledPIDController thetaController = new ProfiledPIDController(SwerveConstants.alignKP * 4, SwerveConstants.alignKI, SwerveConstants.alignKD, new Constraints(SwerveConstants.tMaxVelocity, SwerveConstants.tMaxAccel));
 

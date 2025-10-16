@@ -303,10 +303,10 @@ public class RobotContainer {
         Trigger oRT = new Trigger(() -> j.operator.getRawAxis(3) > 0.1);
         Trigger oLT = new Trigger(() -> j.operator.getRawAxis(2) > 0.1);
 
-        oRT.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
-        oLT.whileTrue(new InstantCommand(() -> algae.outtake()));
-        oRT.whileFalse(new InstantCommand(() -> algae.stop()));
-        oLT.whileFalse(new InstantCommand(() -> algae.stop()));
+        oRTNew.whileTrue(new RepeatCommand(new InstantCommand(() -> algae.intake())));
+        oLTNew.whileTrue(new InstantCommand(() -> algae.outtake()));
+        oRTNew.whileFalse(new InstantCommand(() -> algae.stop()));
+        oLTNew.whileFalse(new InstantCommand(() -> algae.stop()));
 
         //algae macro
         // j.oY.whileTrue(new AlgaeL3(algae, elevator)).onFalse(new InstantCommand(() -> elevator.elevatorStop()));
